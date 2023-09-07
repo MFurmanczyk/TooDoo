@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -44,9 +45,9 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
-    val hilt_version = "2.44"
+    val hilt_version = "2.48"
     implementation("com.google.dagger:hilt-android:$hilt_version")
-    ksp("com.google.dagger:hilt-android-compiler:$hilt_version")
+    ksp("com.google.dagger:hilt-compiler:$hilt_version")
 
     //test dependencies
     testImplementation("junit:junit:4.13.2")
