@@ -31,6 +31,6 @@ interface StepDao {
     suspend fun deleteStep(step: Step)
 
     @Delete
-    suspend fun deleteSteps(vararg step: Step)
+    suspend fun deleteSteps(vararg steps: Step)
 
 }
