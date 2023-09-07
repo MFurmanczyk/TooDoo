@@ -10,7 +10,7 @@ data class TaskWithSteps(
     @Embedded val task: Task,
     @Relation(
         parentColumn = "id",
-        entityColumn = "taskId"
+        entityColumn = "task_id"
     )
     val steps: List<Step>
 )
