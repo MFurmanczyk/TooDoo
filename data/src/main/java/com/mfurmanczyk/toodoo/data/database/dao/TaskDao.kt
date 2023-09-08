@@ -34,7 +34,7 @@ interface TaskDao {
     fun getTasksAfterDate(date: LocalDate): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE due_date = :date")
-    fun getTasksAtDate(date: LocalDate): Flow<List<Task>>
+    fun getTasksByDate(date: LocalDate): Flow<List<Task>>
 
     @Transaction
     @Query("SELECT * FROM tasks")

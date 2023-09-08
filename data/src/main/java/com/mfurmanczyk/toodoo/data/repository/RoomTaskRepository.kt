@@ -20,7 +20,7 @@ class RoomTaskRepository @Inject constructor(private val dao: TaskDao): TaskRepo
 
     override fun getTasksAfterDate(date: LocalDate): Flow<List<Task>> = dao.getTasksAfterDate(date)
 
-    override fun getTasksAtDate(date: LocalDate): Flow<List<Task>> = dao.getTasksAtDate(date)
+    override fun getTasksByDate(date: LocalDate): Flow<List<Task>> = dao.getTasksByDate(date)
 
     override fun getAllTasksWithSteps(): Flow<List<TaskWithSteps>> = dao.getAllTasksWithSteps()
 

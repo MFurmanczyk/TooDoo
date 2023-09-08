@@ -42,7 +42,7 @@ interface TaskRepository {
     /**
      * Returns all tasks with [Task.dueDate] equals given [date] from datasource.
      */
-    fun getTasksAtDate(date: LocalDate): Flow<List<Task>>
+    fun getTasksByDate(date: LocalDate): Flow<List<Task>>
 
     /**
      * Returns all [Task]s with associated [Step]s. Wrapped in [TaskWithSteps] data class.
