@@ -76,6 +76,39 @@ internal sealed interface TestData {
             isDone = true
         )
 
+        val task_7_insert = Task(
+            id = 7,
+            categoryId = 1,
+            name = "Test_7",
+            description = "Test_desc_7",
+            createdOn = LocalDateTime.of(2012, 1, 1, 12, 0, 0),
+            completedOn = LocalDateTime.of(2012, 1, 2, 12, 0, 0),
+            dueDate = LocalDate.of(2012, 1, 3),
+            isDone = false
+        )
+
+        val task_6_duplicate = Task(
+            id = 6,
+            categoryId = 1,
+            name = "Test_6_duplicate",
+            description = "Test_desc_6",
+            createdOn = LocalDateTime.of(2012, 1, 1, 12, 0, 0),
+            completedOn = LocalDateTime.of(2012, 1, 2, 12, 0, 0),
+            dueDate = LocalDate.of(2012, 1, 3),
+            isDone = false
+        )
+
+        val task_6_update = Task(
+            id = 6,
+            categoryId = 1,
+            name = "Test_6_update",
+            description = "Test_desc_6",
+            createdOn = LocalDateTime.of(2012, 1, 1, 12, 0, 0),
+            completedOn = LocalDateTime.of(2012, 1, 2, 12, 0, 0),
+            dueDate = LocalDate.of(2012, 1, 3),
+            isDone = false
+        )
+
         val tasks = listOf(task_1, task_2, task_3, task_4, task_5, task_6)
     }
 
