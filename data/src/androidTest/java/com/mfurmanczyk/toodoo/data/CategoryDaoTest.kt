@@ -67,7 +67,7 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readAllTasksFromDb_returnsTwoRows() {
+    fun readAllCategoriesFromDb_returnsTwoRows() {
 
         runBlocking {
             val categories = dao.getAllCategories().first()
