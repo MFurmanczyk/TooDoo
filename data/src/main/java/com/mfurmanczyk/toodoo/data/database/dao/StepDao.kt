@@ -16,7 +16,7 @@ interface StepDao {
     fun getAllSteps(): Flow<List<Step>>
 
     @Query("SELECT * FROM steps WHERE id = :id")
-    fun getStepById(id: Long): Flow<Step>
+    fun getStepById(id: Long): Flow<Step?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertStep(step: Step)
