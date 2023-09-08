@@ -1,7 +1,6 @@
 package com.mfurmanczyk.toodoo.data.repository
 
 import com.mfurmanczyk.toodoo.data.database.dao.TaskDao
-import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.TaskWithSteps
 import kotlinx.coroutines.flow.Flow
@@ -11,9 +10,9 @@ import javax.inject.Inject
 class RoomTaskRepository @Inject constructor(private val dao: TaskDao): TaskRepository {
     override fun getAllTasks(): Flow<List<Task>> = dao.getAllTasks()
 
-    override fun getTaskById(id: Long): Flow<Task> = dao.getTaskById(id)
+    override fun getAllUncategorizedTasks(): Flow<List<Task>> = dao.getAllUncategorizedTasks()
 
-    override fun getTasksByCategory(category: Category): Flow<List<Task>> = dao.getTasksByCategoryId(category.id)
+    override fun getTaskById(id: Long): Flow<Task> = dao.getTaskById(id)
 
     override fun getTasksByIsDone(isDone: Boolean): Flow<List<Task>> = dao.getTasksByIsDone(isDone)
 
@@ -22,6 +21,8 @@ class RoomTaskRepository @Inject constructor(private val dao: TaskDao): TaskRepo
     override fun getTasksAfterDate(date: LocalDate): Flow<List<Task>> = dao.getTasksAfterDate(date)
 
     override fun getTasksAtDate(date: LocalDate): Flow<List<Task>> = dao.getTasksAtDate(date)
+
+    override fun getAllTasksWithSteps(): Flow<List<TaskWithSteps>> = dao.getAllTasksWithSteps()
 
     override fun getTaskWithSteps(task: Task): Flow<TaskWithSteps> = dao.getTaskWithStepsById(task.id)
 

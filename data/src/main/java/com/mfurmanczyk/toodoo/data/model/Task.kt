@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 )
 data class Task(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @ColumnInfo(name = "category_id") val categoryId: Long = 0,
+    @ColumnInfo(name = "category_id") val categoryId: Long? = null,
     val name: String,
     val description: String?,
     @ColumnInfo(name = "created_on") val createdOn: LocalDateTime,

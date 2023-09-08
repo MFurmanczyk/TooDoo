@@ -1,7 +1,6 @@
 package com.mfurmanczyk.toodoo.data.repository
 
 import com.mfurmanczyk.toodoo.data.model.Step
-import com.mfurmanczyk.toodoo.data.model.Task
 import kotlinx.coroutines.flow.Flow
 
 interface StepRepository {
@@ -15,11 +14,6 @@ interface StepRepository {
      * Returns [Step] with given [id] from datasource.
      */
     fun getStepById(id: Long): Flow<Step>
-
-    /**
-     * Returns all steps for given [task] from datasource.
-     */
-    fun getStepsByTask(task: Task): Flow<List<Step>>
 
     /**
      * Adds [step] to datasource.

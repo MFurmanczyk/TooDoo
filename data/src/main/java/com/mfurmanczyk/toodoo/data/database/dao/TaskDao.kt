@@ -18,11 +18,11 @@ interface TaskDao {
     @Query("SELECT * FROM tasks")
     fun getAllTasks(): Flow<List<Task>>
 
+    @Query("SELECT * FROM tasks WHERE category_id IS NULL")
+    fun getAllUncategorizedTasks(): Flow<List<Task>>
+
     @Query("SELECT * FROM tasks WHERE id = :id")
     fun getTaskById(id: Long): Flow<Task>
-
-    @Query("SELECT * FROM tasks WHERE category_id = :categoryId")
-    fun getTasksByCategoryId(categoryId: Long): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE is_done = :isDone")
     fun getTasksByIsDone(isDone: Boolean): Flow<List<Task>>
@@ -35,6 +35,10 @@ interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE due_date = :date")
     fun getTasksAtDate(date: LocalDate): Flow<List<Task>>
+
+    @Transaction
+    @Query("SELECT * FROM tasks")
+    fun getAllTasksWithSteps(): Flow<List<TaskWithSteps>>
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE id = :id")

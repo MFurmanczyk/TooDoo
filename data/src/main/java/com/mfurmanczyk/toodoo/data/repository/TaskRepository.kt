@@ -1,6 +1,5 @@
 package com.mfurmanczyk.toodoo.data.repository
 
-import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.TaskWithSteps
@@ -15,14 +14,15 @@ interface TaskRepository {
     fun getAllTasks(): Flow<List<Task>>
 
     /**
+     * Returns all tasks that have no category assigned from datasource.
+     */
+    fun getAllUncategorizedTasks(): Flow<List<Task>>
+
+    /**
      * Returns single task with given [id] from datasource.
      */
     fun getTaskById(id: Long): Flow<Task>
 
-    /**
-     * Returns all tasks for given [category] from datasource.
-     */
-    fun getTasksByCategory(category: Category): Flow<List<Task>>
 
     /**
      * Returns all tasks with given [isDone] parameter from datasource.
@@ -43,6 +43,11 @@ interface TaskRepository {
      * Returns all tasks with [Task.dueDate] equals given [date] from datasource.
      */
     fun getTasksAtDate(date: LocalDate): Flow<List<Task>>
+
+    /**
+     * Returns all [Task]s with associated [Step]s. Wrapped in [TaskWithSteps] data class.
+     */
+    fun getAllTasksWithSteps(): Flow<List<TaskWithSteps>>
 
     /**
      * Returns [Task] with all associated [Step]s. Wrapped in [TaskWithSteps] data class.
