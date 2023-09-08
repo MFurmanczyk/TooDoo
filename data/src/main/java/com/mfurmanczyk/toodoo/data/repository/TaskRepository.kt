@@ -21,7 +21,7 @@ interface TaskRepository {
     /**
      * Returns single task with given [id] from datasource.
      */
-    fun getTaskById(id: Long): Flow<Task>
+    fun getTaskById(id: Long): Flow<Task?>
 
 
     /**
@@ -52,7 +52,7 @@ interface TaskRepository {
     /**
      * Returns [Task] with all associated [Step]s. Wrapped in [TaskWithSteps] data class.
      */
-    fun getTaskWithSteps(task: Task): Flow<TaskWithSteps>
+    fun getTaskWithSteps(task: Task): Flow<TaskWithSteps?>
 
     /**
      * Adds [task] to datasource.

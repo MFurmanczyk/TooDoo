@@ -13,7 +13,7 @@ interface StepRepository {
     /**
      * Returns [Step] with given [id] from datasource.
      */
-    fun getStepById(id: Long): Flow<Step>
+    fun getStepById(id: Long): Flow<Step?>
 
     /**
      * Adds [step] to datasource.

@@ -18,7 +18,7 @@ interface CategoryDao {
     fun getAllCategories(): Flow<List<Category>>
 
     @Query("SELECT * FROM categories WHERE id = :id")
-    fun getCategoryById(id: Long): Flow<Category>
+    fun getCategoryById(id: Long): Flow<Category?>
 
     @Transaction
     @Query("SELECT * FROM categories")
@@ -26,7 +26,7 @@ interface CategoryDao {
 
     @Transaction
     @Query("SELECT * FROM categories WHERE id = :id")
-    fun getCategoryWithTasksById(id: Long): Flow<CategoryWithTasks>
+    fun getCategoryWithTasksById(id: Long): Flow<CategoryWithTasks?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCategory(category: Category)

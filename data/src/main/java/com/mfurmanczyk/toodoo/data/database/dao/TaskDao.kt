@@ -22,7 +22,7 @@ interface TaskDao {
     fun getAllUncategorizedTasks(): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE id = :id")
-    fun getTaskById(id: Long): Flow<Task>
+    fun getTaskById(id: Long): Flow<Task?>
 
     @Query("SELECT * FROM tasks WHERE is_done = :isDone")
     fun getTasksByIsDone(isDone: Boolean): Flow<List<Task>>
@@ -42,7 +42,7 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM tasks WHERE id = :id")
-    fun getTaskWithStepsById(id: Long): Flow<TaskWithSteps>
+    fun getTaskWithStepsById(id: Long): Flow<TaskWithSteps?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTask(task: Task)

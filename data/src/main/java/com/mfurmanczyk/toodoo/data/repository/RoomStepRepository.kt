@@ -8,7 +8,7 @@ import javax.inject.Inject
 class RoomStepRepository @Inject constructor(private val dao: StepDao): StepRepository {
     override fun getAllSteps(): Flow<List<Step>> = dao.getAllSteps()
 
-    override fun getStepById(id: Long): Flow<Step> = dao.getStepById(id)
+    override fun getStepById(id: Long): Flow<Step?> = dao.getStepById(id)
 
     override suspend fun addStep(step: Step) = dao.insertStep(step)
 

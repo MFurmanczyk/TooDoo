@@ -117,10 +117,10 @@ class CategoryDaoTest {
         runBlocking {
             val categoryWithTasks = dao.getCategoryWithTasksById(2).first()
 
-            assertTrue(categoryWithTasks.tasks.size == 4)
-            assertEquals(TestData.CategoryData.categories[1], categoryWithTasks.category)
-            assertEquals(TestData.TaskData.tasks[1], categoryWithTasks.tasks[0])
-            assertEquals(TestData.TaskData.tasks[4], categoryWithTasks.tasks[3])
+            assertTrue(categoryWithTasks?.tasks?.size == 4)
+            assertEquals(TestData.CategoryData.categories[1], categoryWithTasks?.category)
+            assertEquals(TestData.TaskData.tasks[1], categoryWithTasks?.tasks?.get(0))
+            assertEquals(TestData.TaskData.tasks[4], categoryWithTasks?.tasks?.get(3))
         }
     }
 
