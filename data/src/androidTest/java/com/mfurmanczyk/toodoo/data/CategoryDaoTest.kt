@@ -184,19 +184,19 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertDuplicateCategory_lastElementAsFirstInserted() {
+    fun insertDuplicateCategory_lastElementAsFirstInsertedTask() {
         runBlocking {
             var categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInserted: size pre insert - ${categories.size}")
+            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInsertedTask: size pre insert - ${categories.size}")
 
             dao.insertCategory(TestData.CategoryData.category_3_insert)
             dao.insertCategory(TestData.CategoryData.category_3_duplicate)
 
             categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInserted: size post insert - ${categories.size}")
-            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInserted: inserted category - ${categories.last().name}")
+            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInsertedTask: size post insert - ${categories.size}")
+            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInsertedTask: inserted category - ${categories.last().name}")
 
             assertEquals(TestData.CategoryData.category_3_insert.copy(id = 3), categories.last())
             assertTrue(categories.size == 3)
