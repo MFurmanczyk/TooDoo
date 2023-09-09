@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.data.test
+package com.mfurmanczyk.toodoo.data.fakedata
 
 import android.graphics.Color
 import com.mfurmanczyk.toodoo.data.model.Category

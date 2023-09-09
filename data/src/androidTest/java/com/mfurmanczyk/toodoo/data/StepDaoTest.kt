@@ -7,7 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mfurmanczyk.toodoo.data.database.TooDooDatabase
 import com.mfurmanczyk.toodoo.data.database.dao.StepDao
-import com.mfurmanczyk.toodoo.data.test.TestData
+import com.mfurmanczyk.toodoo.data.fakedata.TestData
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertNull
