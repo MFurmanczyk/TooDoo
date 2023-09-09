@@ -10,7 +10,6 @@ import androidx.room.Update
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.TaskWithSteps
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
 
 @Dao
 interface TaskDao {
@@ -23,18 +22,6 @@ interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE id = :id")
     fun getTaskById(id: Long): Flow<Task?>
-
-    @Query("SELECT * FROM tasks WHERE is_done = :isDone")
-    fun getTasksByIsDone(isDone: Boolean): Flow<List<Task>>
-
-    @Query("SELECT * FROM tasks WHERE due_date < :date")
-    fun getTasksBeforeDate(date: LocalDate): Flow<List<Task>>
-
-    @Query("SELECT * FROM tasks WHERE due_date > :date")
-    fun getTasksAfterDate(date: LocalDate): Flow<List<Task>>
-
-    @Query("SELECT * FROM tasks WHERE due_date = :date")
-    fun getTasksByDate(date: LocalDate): Flow<List<Task>>
 
     @Transaction
     @Query("SELECT * FROM tasks")

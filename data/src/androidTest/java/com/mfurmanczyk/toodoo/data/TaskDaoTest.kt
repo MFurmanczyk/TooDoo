@@ -19,7 +19,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.IOException
-import java.time.LocalDate
 
 private const val TAG = "TaskDaoTest"
 
@@ -123,96 +122,6 @@ class TaskDaoTest {
             else Log.i(TAG, "readNonexistentTask_returnsNull: element - name: ${task.name}")
 
             assertNull(task)
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun readTasksByIsDoneTrue_returnsThreeRows() {
-        runBlocking {
-            val tasks = dao.getTasksByIsDone(true).first()
-
-            Log.i(TAG, "readTasksByIsDoneTrue_returnsThreeRows: rows - ${tasks.size}")
-
-            assertTrue(tasks.size == 3)
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun readTasksBeforeDate_2010_returnsTwoRows_firstElementCorrect() {
-        runBlocking {
-            val tasks = dao.getTasksBeforeDate(LocalDate.of(2010, 1, 1)).first()
-
-            Log.i(TAG, "readTasksBeforeDate_2010_returnsTwoRows_firstElementCorrect: rows - ${tasks.size}")
-            Log.i(TAG, "readTasksBeforeDate_2010_returnsTwoRows_firstElementCorrect: firstElement - name: ${tasks.first().name}")
-
-            assertTrue(tasks.size == 2)
-            assertEquals(TestData.TaskData.tasks[4], tasks.first())
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun readTasksBeforeDate_2008_returnsEmptyList() {
-        runBlocking {
-            val tasks = dao.getTasksBeforeDate(LocalDate.of(2008, 1, 1)).first()
-
-            Log.i(TAG, "readTasksBeforeDate_2008_returnsTwoRows: rows - ${tasks.size}")
-
-            assertTrue(tasks.isEmpty())
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun readTasksAfterDate_2010_returnsFourRows_firstElementCorrect() {
-        runBlocking {
-            val tasks = dao.getTasksAfterDate(LocalDate.of(2010, 1, 1)).first()
-
-            Log.i(TAG, "readTasksAfterDate_2010_returnsFourRows_firstElementCorrect: rows - ${tasks.size}")
-            Log.i(TAG, "readTasksAfterDate_2010_returnsFourRows_firstElementCorrect: firstElement - name: ${tasks.first().name}")
-
-            assertTrue(tasks.size == 4)
-            assertEquals(TestData.TaskData.tasks.first(), tasks.first())
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun readTasksAfterDate_2012_returnsEmptyList() {
-        runBlocking {
-            val tasks = dao.getTasksAfterDate(LocalDate.of(2012, 1, 1)).first()
-
-            Log.i(TAG, "readTasksAfterDate_2012_returnsEmptyList: rows - ${tasks.size}")
-
-            assertTrue(tasks.isEmpty())
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun readTasksAtDate_2010_returnsTwoRows_firstElementCorrect() {
-        runBlocking {
-            val tasks = dao.getTasksByDate(LocalDate.of(2010, 1,3)).first()
-
-            Log.i(TAG, "readTasksAtDate_2010_returnsTwoRows_firstElementCorrect: rows - ${tasks.size}")
-            Log.i(TAG, "readTasksAtDate_2010_returnsTwoRows_firstElementCorrect: firstElement - name: ${tasks.first().name}")
-
-            assertTrue(tasks.size == 2)
-            assertEquals(TestData.TaskData.tasks.first(), tasks.first())
-        }
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun readTasksAtDate_badDate_returnsEmptyList() {
-        runBlocking {
-            val tasks = dao.getTasksByDate(LocalDate.of(2014, 1,1)).first()
-
-            Log.i(TAG, "readTasksAtDate_2010_returnsTwoRows_firstElementCorrect: rows - ${tasks.size}")
-
-            assertTrue(tasks.isEmpty())
         }
     }
 

@@ -4,7 +4,6 @@ import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.TaskWithSteps
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
 
 interface TaskRepository {
 
@@ -22,27 +21,6 @@ interface TaskRepository {
      * Returns single task with given [id] from datasource.
      */
     fun getTaskById(id: Long): Flow<Task?>
-
-
-    /**
-     * Returns all tasks with given [isDone] parameter from datasource.
-     */
-    fun getTasksByIsDone(isDone: Boolean): Flow<List<Task>>
-
-    /**
-     * Returns all tasks with [Task.dueDate] before given [date] from datasource.
-     */
-    fun getTasksBeforeDate(date: LocalDate): Flow<List<Task>>
-
-    /**
-     * Returns all tasks with [Task.dueDate] after given [date] from datasource.
-     */
-    fun getTasksAfterDate(date: LocalDate): Flow<List<Task>>
-
-    /**
-     * Returns all tasks with [Task.dueDate] equals given [date] from datasource.
-     */
-    fun getTasksByDate(date: LocalDate): Flow<List<Task>>
 
     /**
      * Returns all [Task]s with associated [Step]s. Wrapped in [TaskWithSteps] data class.
