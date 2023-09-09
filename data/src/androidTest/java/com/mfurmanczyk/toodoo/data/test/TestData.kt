@@ -186,6 +186,30 @@ internal sealed interface TestData {
             isDone = false
         )
 
+        val step_10_insert = Step(
+            id = 10,
+            taskId = 4,
+            description = "test_step_10",
+            createdOn = LocalDateTime.of(2011, 1, 1, 12, 0, 0),
+            isDone = true
+        )
+
+        val step_8_duplicate = Step(
+            id = 8,
+            taskId = 2,
+            description = "test_step_8_duplicate",
+            createdOn = LocalDateTime.of(2011, 1, 1, 12, 0, 0),
+            isDone = false
+        )
+
+        val step_2_update = Step(
+            id = 2,
+            taskId = 1,
+            description = "test_step_2_update",
+            createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+            isDone = true
+        )
+
         val steps = listOf(step_1, step_2, step_3, step_4, step_5, step_6, step_7, step_8, step_9)
     }
 
