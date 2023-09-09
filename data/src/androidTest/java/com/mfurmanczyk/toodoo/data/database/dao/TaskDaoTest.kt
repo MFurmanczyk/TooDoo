@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.data
+package com.mfurmanczyk.toodoo.data.database.dao
 
 import android.content.Context
 import android.util.Log
@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mfurmanczyk.toodoo.data.database.TooDooDatabase
-import com.mfurmanczyk.toodoo.data.database.dao.TaskDao
 import com.mfurmanczyk.toodoo.data.fakedata.TestData
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
@@ -23,7 +22,7 @@ import java.io.IOException
 private const val TAG = "TaskDaoTest"
 
 @RunWith(AndroidJUnit4::class)
-class TaskDaoTest {
+internal class TaskDaoTest {
 
     private lateinit var database: TooDooDatabase
     private lateinit var dao: TaskDao
