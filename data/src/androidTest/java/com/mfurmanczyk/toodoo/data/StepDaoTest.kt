@@ -71,11 +71,11 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readAllSteps_returnsNineRows() {
+    fun getAllSteps_readAllSteps_returnsNineRows() {
         runBlocking {
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "readAllSteps_returnsNineRows: rows - ${steps.size}")
+            Log.i(TAG, "getAllSteps_readAllSteps_returnsNineRows: rows - ${steps.size}")
 
             assertTrue(steps.size == 9)
         }
@@ -83,11 +83,11 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readFirstStepById_returnsCorrectStep() {
+    fun getStepById_readFirstStepById_returnsCorrectStep() {
         runBlocking {
             val step = dao.getStepById(1).first()
 
-            Log.i(TAG, "readFirstStepById_returnsCorrectStep: step description - ${step?.description}")
+            Log.i(TAG, "getStepById_readFirstStepById_returnsCorrectStep: step description - ${step?.description}")
 
             assertEquals(TestData.StepData.steps.first(), step)
         }
@@ -95,12 +95,12 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readNonexistentTask_returnsNull() {
+    fun getStepById_readNonexistentTask_returnsNull() {
         runBlocking {
             val step = dao.getStepById(10).first()
 
-            if(step == null) Log.i(TAG, "readNonexistentTask_returnsNull: step is null")
-            else Log.i(TAG, "readNonexistentTask_returnsNull: step description - ${step.description}")
+            if(step == null) Log.i(TAG, "getStepById_readNonexistentTask_returnsNull: step is null")
+            else Log.i(TAG, "getStepById_readNonexistentTask_returnsNull: step description - ${step.description}")
 
             assertNull(step)
         }
@@ -108,13 +108,13 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertNewStep_returnsTenRows_lastRowAsInsertedStep() {
+    fun insertStep_insertNewStep_returnsTenRows_lastRowAsInsertedStep() {
         runBlocking {
             dao.insertStep(TestData.StepData.step_10_insert)
 
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "insertNewStep_returnsTenRows_lastRowAsInsertedStep: rows - ${steps.size}")
+            Log.i(TAG, "insertStep_insertNewStep_returnsTenRows_lastRowAsInsertedStep: rows - ${steps.size}")
 
             assertTrue(steps.size == 10)
             assertEquals(TestData.StepData.step_10_insert, steps.last())
@@ -123,13 +123,13 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertDuplicateStep_returnsNineRows_taskNotInserted() {
+    fun insertStep_insertDuplicateStep_returnsNineRows_taskNotInserted() {
         runBlocking {
             dao.insertStep(TestData.StepData.step_8_duplicate)
 
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "insertDuplicateStep_returnsNineRows_taskNotInserted: rows - ${steps.size}")
+            Log.i(TAG, "insertStep_insertDuplicateStep_returnsNineRows_taskNotInserted: rows - ${steps.size}")
 
             assertTrue(steps.size == 9)
             assertFalse(steps.contains(TestData.StepData.step_8_duplicate))
@@ -138,13 +138,13 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun updateSecondStep_returnsNineRows_stepUpdated() {
+    fun updateStep_updateSecondStep_returnsNineRows_stepUpdated() {
         runBlocking {
             dao.updateStep(TestData.StepData.step_2_update)
 
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "updateSecondStep_returnsNineRows_stepUpdated: rows - ${steps.size}")
+            Log.i(TAG, "updateStep_updateSecondStep_returnsNineRows_stepUpdated: rows - ${steps.size}")
 
             assertTrue(steps.size == 9)
             assertTrue(steps.contains(TestData.StepData.step_2_update))
@@ -153,13 +153,13 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun updateNonexistentStep_returnsNineRows_nothingHappens() {
+    fun updateStep_updateNonexistentStep_returnsNineRows_nothingHappens() {
         runBlocking {
             dao.updateStep(TestData.StepData.step_10_insert)
 
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "updateNonexistentStep_returnsNineRows_nothingHappens: rows - ${steps.size}")
+            Log.i(TAG, "updateStep_updateNonexistentStep_returnsNineRows_nothingHappens: rows - ${steps.size}")
 
             assertTrue(steps.size == 9)
             assertFalse(steps.contains(TestData.StepData.step_10_insert))
@@ -168,14 +168,14 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteFirstTask_returnsSevenRows_removesFirstTwoSteps() {
+    fun relation_deleteFirstTask_returnsSevenRows_removesFirstTwoSteps() {
         runBlocking {
             val taskDao = database.taskDao()
             taskDao.deleteTasks(TestData.TaskData.tasks.first())
 
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "deleteFirstTask_returnsSevenRows_removesFirstTwoSteps: rows - ${steps.size}")
+            Log.i(TAG, "relation_deleteFirstTask_returnsSevenRows_removesFirstTwoSteps: rows - ${steps.size}")
 
             assertTrue(steps.size == 7)
             assertFalse(steps.containsAll(listOf(TestData.StepData.steps[0], TestData.StepData.steps[1])))
@@ -184,13 +184,13 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteFirstStep_returnsEightRows_stepDeleted() {
+    fun deleteStep_deleteFirstStep_returnsEightRows_stepDeleted() {
         runBlocking {
             dao.deleteStep(TestData.StepData.steps.first())
 
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "deleteFirstStep_returnsEightRows_stepDeleted: rows - ${steps.size}")
+            Log.i(TAG, "deleteStep_deleteFirstStep_returnsEightRows_stepDeleted: rows - ${steps.size}")
 
             assertFalse(steps.contains(TestData.StepData.steps.first()))
             assertTrue(steps.size == 8)
@@ -199,13 +199,13 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteNonexistentStep_returnsNineRows_noRowsDeleted() {
+    fun deleteStep_deleteNonexistentStep_returnsNineRows_noRowsDeleted() {
         runBlocking {
             dao.deleteStep(TestData.StepData.step_10_insert)
             
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "deleteNonexistentStep_returnsNineRows_noRowsDeleted: rows - ${steps.size}")
+            Log.i(TAG, "deleteStep_deleteNonexistentStep_returnsNineRows_noRowsDeleted: rows - ${steps.size}")
             
             assertTrue(steps.size == 9)
         }
@@ -213,13 +213,13 @@ class StepDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteFirstTwoSteps_returnsSevenRows_firstTwoRowsDeleted() {
+    fun deleteSteps_deleteFirstTwoSteps_returnsSevenRows_firstTwoRowsDeleted() {
         runBlocking {
             dao.deleteSteps(TestData.StepData.steps[0], TestData.StepData.steps[1])
 
             val steps = dao.getAllSteps().first()
 
-            Log.i(TAG, "deleteFirstTwoSteps_returnsSevenRows_firstTwoRowsDeleted: rows - ${steps.size}")
+            Log.i(TAG, "deleteSteps_deleteFirstTwoSteps_returnsSevenRows_firstTwoRowsDeleted: rows - ${steps.size}")
 
             assertFalse(steps.containsAll(listOf(TestData.StepData.steps[0], TestData.StepData.steps[1])))
         }

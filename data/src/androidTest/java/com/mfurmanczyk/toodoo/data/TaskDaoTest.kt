@@ -72,13 +72,13 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readAllTasks_returnsSixRows_firstAndLastTaskCorrect() {
+    fun getAllTasks_returnsSixRows_firstAndLastTaskCorrect() {
         runBlocking {
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "readAllTasks_returnsSixRows_firstAndLastTaskCorrect: rows - ${tasks.size}")
-            Log.i(TAG, "readAllTasks_returnsSixRows_firstAndLastTaskCorrect: firstElement - name: ${tasks.first().name}")
-            Log.i(TAG, "readAllTasks_returnsSixRows_firstAndLastTaskCorrect: lastElement - name: ${tasks.last().name}")
+            Log.i(TAG, "getAllTasks_returnsSixRows_firstAndLastTaskCorrect: rows - ${tasks.size}")
+            Log.i(TAG, "getAllTasks_returnsSixRows_firstAndLastTaskCorrect: firstElement - name: ${tasks.first().name}")
+            Log.i(TAG, "getAllTasks_returnsSixRows_firstAndLastTaskCorrect: lastElement - name: ${tasks.last().name}")
 
             assertTrue(tasks.size == 6)
             assertEquals(TestData.TaskData.tasks[0], tasks.first())
@@ -88,12 +88,12 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readAllUncategorizedTasks_returnsOneRow_elementCorrect() {
+    fun getAllUncategorizedTasks_returnsOneRow_elementCorrect() {
         runBlocking {
             val tasks = dao.getAllUncategorizedTasks().first()
 
-            Log.i(TAG, "readAllUncategorizedTasks_returnsOneRow_elementCorrect: rows - ${tasks.size}")
-            Log.i(TAG, "readAllUncategorizedTasks_returnsOneRow_elementCorrect: element - name: ${tasks.first().name}")
+            Log.i(TAG, "getAllUncategorizedTasks_returnsOneRow_elementCorrect: rows - ${tasks.size}")
+            Log.i(TAG, "getAllUncategorizedTasks_returnsOneRow_elementCorrect: element - name: ${tasks.first().name}")
 
             assertTrue(tasks.size == 1)
             assertEquals(TestData.TaskData.tasks[5], tasks.first())
@@ -102,11 +102,11 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readFirstTaskById_returnsCorrectTask() {
+    fun getTaskById_readFirstTaskById_returnsCorrectTask() {
         runBlocking {
             val task = dao.getTaskById(1).first()
 
-            Log.i(TAG, "readFirstTaskById_returnsCorrectTask: element - name: ${task?.name}")
+            Log.i(TAG, "getTaskById_readFirstTaskById_returnsCorrectTask: element - name: ${task?.name}")
 
             assertEquals(TestData.TaskData.tasks.first(), task)
         }
@@ -114,12 +114,12 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readNonexistentTask_returnsNull() {
+    fun getTaskById_readNonexistentTask_returnsNull() {
         runBlocking {
             val task = dao.getTaskById(7).first()
 
-            if(task == null) Log.i(TAG, "readNonexistentTask_returnsNull: element - null")
-            else Log.i(TAG, "readNonexistentTask_returnsNull: element - name: ${task.name}")
+            if(task == null) Log.i(TAG, "getTaskById_readNonexistentTask_returnsNull: element - null")
+            else Log.i(TAG, "getTaskById_readNonexistentTask_returnsNull: element - name: ${task.name}")
 
             assertNull(task)
         }
@@ -127,12 +127,12 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readAllTasksWithSteps_returnsSixRows_firstTaskWithTwoSteps() {
+    fun getAllTasksWithSteps_returnsSixRows_firstTaskWithTwoSteps() {
         runBlocking {
             val tasksWithSteps = dao.getAllTasksWithSteps().first()
 
-            Log.i(TAG, "readAllTasksWithSteps_returnsSixRows_firstTaskWithTwoSteps: size - ${tasksWithSteps.size}")
-            Log.i(TAG, "readAllTasksWithSteps_returnsSixRows_firstTaskWithTwoSteps: steps in first task - ${tasksWithSteps.first().steps.size}")
+            Log.i(TAG, "getAllTasksWithSteps_returnsSixRows_firstTaskWithTwoSteps: size - ${tasksWithSteps.size}")
+            Log.i(TAG, "getAllTasksWithSteps_returnsSixRows_firstTaskWithTwoSteps: steps in first task - ${tasksWithSteps.first().steps.size}")
 
             assertTrue(tasksWithSteps.size == 6)
             assertTrue(tasksWithSteps.first().steps.size == 2)
@@ -141,12 +141,12 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readSecondTaskWithSteps_returnsTaskWithThreeSteps() {
+    fun getTaskWithStepsById_readSecondTaskWithSteps_returnsTaskWithThreeSteps() {
         runBlocking {
             val taskWithSteps = dao.getTaskWithStepsById(2).first()
 
-            Log.i(TAG, "readSecondTaskWithSteps_returnsTaskWithThreeSteps: task name - ${taskWithSteps?.task?.name}")
-            Log.i(TAG, "readSecondTaskWithSteps_returnsTaskWithThreeSteps: step rows - ${taskWithSteps?.steps?.size}")
+            Log.i(TAG, "getTaskWithStepsById_readSecondTaskWithSteps_returnsTaskWithThreeSteps: task name - ${taskWithSteps?.task?.name}")
+            Log.i(TAG, "getTaskWithStepsById_readSecondTaskWithSteps_returnsTaskWithThreeSteps: step rows - ${taskWithSteps?.steps?.size}")
 
             assertTrue((taskWithSteps?.steps?.size ?: 0) == 3)
             assertEquals(TestData.TaskData.tasks[1], taskWithSteps?.task)
@@ -155,12 +155,12 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readNonexistentTaskWithSteps_returnsNull() {
+    fun getTaskWithStepsById_readNonexistentTaskWithSteps_returnsNull() {
         runBlocking {
             val taskWithSteps = dao.getTaskWithStepsById(7).first()
 
-            if(taskWithSteps == null) Log.i(TAG, "readNonexistentTaskWithSteps_returnsNull: null")
-            else Log.i(TAG, "readNonexistentTaskWithSteps_returnsNull: task name - ${taskWithSteps.task.name}")
+            if(taskWithSteps == null) Log.i(TAG, "getTaskWithStepsById_readNonexistentTaskWithSteps_returnsNull: null")
+            else Log.i(TAG, "getTaskWithStepsById_readNonexistentTaskWithSteps_returnsNull: task name - ${taskWithSteps.task.name}")
 
             assertNull(taskWithSteps)
         }
@@ -168,15 +168,15 @@ class TaskDaoTest {
 
     @Test
     @Throws
-    fun deleteFirstCategory_foreignKeyInFirstTaskNull() {
+    fun relation_deleteFirstCategory_foreignKeyInFirstTaskNull() {
         runBlocking {
             val categoryDao = database.categoryDao()
             categoryDao.deleteCategory(TestData.CategoryData.categories.first())
 
             val task = dao.getTaskById(1).first()
 
-            if(task?.categoryId == null) Log.i(TAG, "deleteFirstCategory_foreignKeyInFirstTaskNull: category is null")
-            else Log.i(TAG, "deleteFirstCategory_foreignKeyInFirstTaskNull: category_id - ${task.categoryId}")
+            if(task?.categoryId == null) Log.i(TAG, "relation_deleteFirstCategory_foreignKeyInFirstTaskNull: category is null")
+            else Log.i(TAG, "relation_deleteFirstCategory_foreignKeyInFirstTaskNull: category_id - ${task.categoryId}")
 
             assertNull(task?.categoryId)
         }
@@ -184,14 +184,14 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertNewTask_returnsSeverRows_lastElementAsNewTask() {
+    fun insertTask_insertNewTask_returnsSeverRows_lastElementAsNewTask() {
         runBlocking {
             dao.insertTask(TestData.TaskData.task_7_insert)
 
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "insertNewTask_returnsSeverRows_lastElementAsNewTask: rows - ${tasks.size}")
-            Log.i(TAG, "insertNewTask_returnsSeverRows_lastElementAsNewTask: lastElement - name: ${tasks.last().name}")
+            Log.i(TAG, "insertTask_insertNewTask_returnsSeverRows_lastElementAsNewTask: rows - ${tasks.size}")
+            Log.i(TAG, "insertTask_insertNewTask_returnsSeverRows_lastElementAsNewTask: lastElement - name: ${tasks.last().name}")
 
             assertTrue(tasks.size == 7)
             assertEquals(TestData.TaskData.task_7_insert, tasks.last())
@@ -200,13 +200,13 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertDuplicatedTask_returnsSixRows_noNewRowInserted() {
+    fun insertTask_insertDuplicatedTask_returnsSixRows_noNewRowInserted() {
         runBlocking {
             dao.insertTask(TestData.TaskData.task_6_duplicate)
             
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "insertDuplicatedTask_returnsSixRows_nothingHappens: rows - ${tasks.size}")
+            Log.i(TAG, "insertTask_insertDuplicatedTask_returnsSixRows_noNewRowInserted: rows - ${tasks.size}")
 
             assertFalse(tasks.contains(TestData.TaskData.task_6_duplicate))
         }
@@ -214,13 +214,13 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun updateSixthTask_updateSuccessful() {
+    fun updateTask_updateSixthTask_updateSuccessful() {
         runBlocking {
             dao.updateTask(TestData.TaskData.task_6_update)
 
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "updateSixthTask_updateSuccessful: updated task - name: ${tasks[5].name}")
+            Log.i(TAG, "updateTask_updateSixthTask_updateSuccessful: updated task - name: ${tasks[5].name}")
 
             assertTrue(tasks.contains(TestData.TaskData.task_6_update))
         }
@@ -228,13 +228,13 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun updateNonexistentTask_nothingHappens() {
+    fun updateTask_updateNonexistentTask_nothingHappens() {
         runBlocking {
             dao.updateTask(TestData.TaskData.task_7_insert)
 
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "updateNonexistentTask_nothingHappens: rows - ${tasks.size}")
+            Log.i(TAG, "updateTask_updateNonexistentTask_nothingHappens: rows - ${tasks.size}")
 
             assertFalse(tasks.contains(TestData.TaskData.task_7_insert))
         }
@@ -242,14 +242,14 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteFirstTask_returnsFiveRowsWithoutFirstTask() {
+    fun deleteTask_deleteFirstTask_returnsFiveRowsWithoutFirstTask() {
         runBlocking {
             dao.deleteTask(TestData.TaskData.tasks.first())
 
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "deleteFirstTask_returnsFiveRowsWithoutFirstTask: rows - ${tasks.size}")
-            Log.i(TAG, "deleteFirstTask_returnsFiveRowsWithoutFirstTask: firstElement - name: ${tasks.first().name}")
+            Log.i(TAG, "deleteTask_deleteFirstTask_returnsFiveRowsWithoutFirstTask: rows - ${tasks.size}")
+            Log.i(TAG, "deleteTask_deleteFirstTask_returnsFiveRowsWithoutFirstTask: firstElement - name: ${tasks.first().name}")
 
             assertTrue(tasks.size == 5)
             assertFalse(tasks.contains(TestData.TaskData.tasks.first()))
@@ -259,13 +259,13 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteNonexistentTask_nothingHappens() {
+    fun deleteTask_deleteNonexistentTask_nothingHappens() {
         runBlocking {
             dao.deleteTask(TestData.TaskData.task_7_insert)
 
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "deleteNonexistentTask_nothingHappens: rows - ${tasks.size}")
+            Log.i(TAG, "deleteTask_deleteNonexistentTask_nothingHappens: rows - ${tasks.size}")
 
             assertEquals(tasks, TestData.TaskData.tasks)
         }
@@ -273,13 +273,13 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteTwoTasks_returnsFourRows_deletesFirstAndLastTask() {
+    fun deleteTasks_deleteTwoTasks_returnsFourRows_deletesFirstAndLastTask() {
         runBlocking {
             dao.deleteTasks(TestData.TaskData.tasks.first(), TestData.TaskData.tasks.last())
 
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "deleteTwoTasks_returnsFourRows_deletesFirstAndLastTask: rows - ${tasks.size}")
+            Log.i(TAG, "deleteTasks_deleteTwoTasks_returnsFourRows_deletesFirstAndLastTask: rows - ${tasks.size}")
 
             assertTrue(tasks.size == 4)
             assertFalse(tasks.contains(TestData.TaskData.tasks.first()))
@@ -289,13 +289,13 @@ class TaskDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteTwoTasks_returnsFiveRows_deletesFirstAndNonexistentTasks() {
+    fun deleteTasks_deleteTwoTasks_returnsFiveRows_deletesFirstAndNonexistentTasks() {
         runBlocking {
             dao.deleteTasks(TestData.TaskData.tasks.first(), TestData.TaskData.task_7_insert)
 
             val tasks = dao.getAllTasks().first()
 
-            Log.i(TAG, "deleteTwoTasks_returnsFiveRows_deletesFirstAndNonexistentTasks: rows - ${tasks.size}")
+            Log.i(TAG, "deleteTasks_deleteTwoTasks_returnsFiveRows_deletesFirstAndNonexistentTasks: rows - ${tasks.size}")
 
             assertTrue(tasks.size == 5)
             assertFalse(tasks.contains(TestData.TaskData.tasks.first()))

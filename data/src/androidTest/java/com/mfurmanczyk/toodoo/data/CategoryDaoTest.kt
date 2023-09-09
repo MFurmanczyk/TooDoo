@@ -70,14 +70,14 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readAllCategoriesFromDb_returnsTwoRows() {
+    fun getAllCategories_readAllCategoriesFromDb_returnsTwoRows() {
 
         runBlocking {
             val categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "readAllCategoriesFromDb_returnsTwoRows: rows - ${categories.size}")
-            Log.i(TAG, "readAllCategoriesFromDb_returnsTwoRows: firstElement - name: ${categories[0].name}")
-            Log.i(TAG, "readAllCategoriesFromDb_returnsTwoRows: secondElement - name: ${categories[1].name}")
+            Log.i(TAG, "getAllCategories_readAllCategoriesFromDb_returnsTwoRows: rows - ${categories.size}")
+            Log.i(TAG, "getAllCategories_readAllCategoriesFromDb_returnsTwoRows: firstElement - name: ${categories[0].name}")
+            Log.i(TAG, "getAllCategories_readAllCategoriesFromDb_returnsTwoRows: secondElement - name: ${categories[1].name}")
 
             assertEquals(TestData.CategoryData.categories[0], categories[0])
             assertEquals(TestData.CategoryData.categories[1], categories[1])
@@ -87,11 +87,11 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readFirstCategoryFromDb_returnsOneRow() {
+    fun getCategoryById_readFirstCategoryFromDb_returnsOneRow() {
         runBlocking {
             val category = dao.getCategoryById(1).first()
 
-            Log.i(TAG, "readFirstCategoryFromDb_returnsOneRow: element - name: ${category?.name}")
+            Log.i(TAG, "getCategoryById_readFirstCategoryFromDb_returnsOneRow: element - name: ${category?.name}")
 
             assertEquals(TestData.CategoryData.categories[0], category)
         }
@@ -99,12 +99,12 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readNonexistentCategoryFromDb_returnsNull() {
+    fun getCategoryById_readNonexistentCategoryFromDb_returnsNull() {
         runBlocking {
             val category = dao.getCategoryById(3).first()
             
-            if(category == null) Log.i(TAG, "readNonexistentCategoryFromDb_returnsNull: null")
-            else Log.i(TAG, "readNonexistentCategoryFromDb_returnsNull: element - name: ${category.name}")
+            if(category == null) Log.i(TAG, "getCategoryById_readNonexistentCategoryFromDb_returnsNull: null")
+            else Log.i(TAG, "getCategoryById_readNonexistentCategoryFromDb_returnsNull: element - name: ${category.name}")
 
             assertNull(category)
         }
@@ -112,14 +112,14 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask() {
+    fun getAllCategoriesWithTasks_readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask() {
         runBlocking {
             val categoriesWithTasks = dao.getAllCategoriesWithTasks().first()
 
-            Log.i(TAG, "readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: rows - ${categoriesWithTasks.size}")
-            Log.i(TAG, "readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: associated tasks in first category - ${categoriesWithTasks[0].tasks.size}")
-            Log.i(TAG, "readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: first category - name: ${categoriesWithTasks[0].category.name}")
-            Log.i(TAG, "readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: first task - name: ${categoriesWithTasks[0].tasks[0].name}")
+            Log.i(TAG, "getAllCategoriesWithTasks_readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: rows - ${categoriesWithTasks.size}")
+            Log.i(TAG, "getAllCategoriesWithTasks_readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: associated tasks in first category - ${categoriesWithTasks[0].tasks.size}")
+            Log.i(TAG, "getAllCategoriesWithTasks_readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: first category - name: ${categoriesWithTasks[0].category.name}")
+            Log.i(TAG, "getAllCategoriesWithTasks_readAllCategoriesWithTasks_returnsTwoRows_firstCategoryWithOneTask: first task - name: ${categoriesWithTasks[0].tasks[0].name}")
             
             assertTrue(categoriesWithTasks.size == 2)
             assertTrue(categoriesWithTasks[0].tasks.size == 1)
@@ -130,14 +130,14 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect() {
+    fun getCategoryWithTasksById_readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect() {
         runBlocking {
             val categoryWithTasks = dao.getCategoryWithTasksById(2).first()
             
-            Log.i(TAG, "readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: associated tasks in first category - ${categoryWithTasks?.tasks?.size}")
-            Log.i(TAG, "readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: first category - name: ${categoryWithTasks?.category?.name}")
-            Log.i(TAG, "readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: first task - name: ${categoryWithTasks?.tasks?.first()?.name}")
-            Log.i(TAG, "readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: last task - name: ${categoryWithTasks?.tasks?.last()?.name}")
+            Log.i(TAG, "getCategoryWithTasksById_readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: associated tasks in first category - ${categoryWithTasks?.tasks?.size}")
+            Log.i(TAG, "getCategoryWithTasksById_readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: first category - name: ${categoryWithTasks?.category?.name}")
+            Log.i(TAG, "getCategoryWithTasksById_readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: first task - name: ${categoryWithTasks?.tasks?.first()?.name}")
+            Log.i(TAG, "getCategoryWithTasksById_readSecondCategoryWithTasks_categoryWithFourTasks_firstAndLastTaskCorrect: last task - name: ${categoryWithTasks?.tasks?.last()?.name}")
             
             assertTrue(categoryWithTasks?.tasks?.size == 4)
             assertEquals(TestData.CategoryData.categories[1], categoryWithTasks?.category)
@@ -148,14 +148,14 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun readNonexistentCategoryWithTasks_returnsNull() {
+    fun getCategoryWithTasksById_readNonexistentCategoryWithTasks_returnsNull() {
         runBlocking {
             val categoryWithTasks = dao.getCategoryWithTasksById(3).first()
 
             if(categoryWithTasks == null) Log.i(TAG, "readNonexistentCategoryWithTasks_returnsNull: is null")
             else {
-                Log.i(TAG, "readNonexistentCategoryWithTasks_returnsNull: category - name: ${categoryWithTasks.category.name}")
-                Log.i(TAG, "readNonexistentCategoryWithTasks_returnsNull: category - tasks: ${categoryWithTasks.tasks.size}")
+                Log.i(TAG, "getCategoryWithTasksById_readNonexistentCategoryWithTasks_returnsNull: category - name: ${categoryWithTasks.category.name}")
+                Log.i(TAG, "getCategoryWithTasksById_readNonexistentCategoryWithTasks_returnsNull: category - tasks: ${categoryWithTasks.tasks.size}")
             }
 
             assertNull(categoryWithTasks)
@@ -164,18 +164,18 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertNewCategory_lastElementAsNewCategory() {
+    fun insertCategory_insertNewCategory_lastElementAsNewCategory() {
         runBlocking {
             var categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "insertNewCategory_lastElementAsNewCategory: size pre insert - ${categories.size}")
+            Log.i(TAG, "insertCategory_insertNewCategory_lastElementAsNewCategory: size pre insert - ${categories.size}")
             
             dao.insertCategory(TestData.CategoryData.category_3_insert)
 
             categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "insertNewCategory_lastElementAsNewCategory: size post insert - ${categories.size}")
-            Log.i(TAG, "insertNewCategory_lastElementAsNewCategory: inserted category - ${categories.last().name}")
+            Log.i(TAG, "insertCategory_insertNewCategory_lastElementAsNewCategory: size post insert - ${categories.size}")
+            Log.i(TAG, "insertCategory_insertNewCategory_lastElementAsNewCategory: inserted category - ${categories.last().name}")
 
             assertEquals(TestData.CategoryData.category_3_insert.copy(id = 3), categories.last())
             assertTrue(categories.size == 3)
@@ -184,19 +184,19 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun insertDuplicateCategory_lastElementAsFirstInsertedTask() {
+    fun insertCategory_insertDuplicateCategory_lastElementAsFirstInsertedTask() {
         runBlocking {
             var categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInsertedTask: size pre insert - ${categories.size}")
+            Log.i(TAG, "insertCategory_insertDuplicateCategory_lastElementAsFirstInsertedTask: size pre insert - ${categories.size}")
 
             dao.insertCategory(TestData.CategoryData.category_3_insert)
             dao.insertCategory(TestData.CategoryData.category_3_duplicate)
 
             categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInsertedTask: size post insert - ${categories.size}")
-            Log.i(TAG, "insertDuplicateCategory_lastElementAsFirstInsertedTask: inserted category - ${categories.last().name}")
+            Log.i(TAG, "insertCategory_insertDuplicateCategory_lastElementAsFirstInsertedTask: size post insert - ${categories.size}")
+            Log.i(TAG, "insertCategory_insertDuplicateCategory_lastElementAsFirstInsertedTask: inserted category - ${categories.last().name}")
 
             assertEquals(TestData.CategoryData.category_3_insert.copy(id = 3), categories.last())
             assertTrue(categories.size == 3)
@@ -205,17 +205,17 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun updateSecondCategory_updateSuccessful() {
+    fun updateCategory_updateSecondCategory_updateSuccessful() {
         runBlocking {
             var category = dao.getCategoryById(2).first()
 
-            Log.i(TAG, "updateSecondCategory_updateSuccessful: pre update - name: ${category?.name}")
+            Log.i(TAG, "updateCategory_updateSecondCategory_updateSuccessful: pre update - name: ${category?.name}")
 
             dao.updateCategory(TestData.CategoryData.category_2_update)
 
             category = dao.getCategoryById(2).first()
 
-            Log.i(TAG, "updateSecondCategory_updateSuccessful: post update - name: ${category?.name}")
+            Log.i(TAG, "updateCategory_updateSecondCategory_updateSuccessful: post update - name: ${category?.name}")
 
             assertEquals(TestData.CategoryData.category_2_update, category)
         }
@@ -223,15 +223,15 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun updateNonexistentCategory_nothingHappens() {
+    fun updateCategory_updateNonexistentCategory_nothingHappens() {
         runBlocking {
             dao.updateCategory(TestData.CategoryData.category_3_insert)
 
             val categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "updateNonexistentCategory_nothingHappens: rows - ${categories.size}")
-            Log.i(TAG, "updateNonexistentCategory_nothingHappens: firstElement - name: ${categories[0].name}")
-            Log.i(TAG, "updateNonexistentCategory_nothingHappens: lastElement - name: ${categories[1].name}")
+            Log.i(TAG, "updateCategory_updateNonexistentCategory_nothingHappens: rows - ${categories.size}")
+            Log.i(TAG, "updateCategory_updateNonexistentCategory_nothingHappens: firstElement - name: ${categories[0].name}")
+            Log.i(TAG, "updateCategory_updateNonexistentCategory_nothingHappens: lastElement - name: ${categories[1].name}")
 
 
             assertTrue(categories.size == 2)
@@ -242,18 +242,18 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteFirstCategory_returnsOnlySecondCategory() {
+    fun deleteCategory_deleteFirstCategory_returnsOnlySecondCategory() {
         runBlocking {
             var categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteFirstCategory_returnsOnlySecondCategory: pre delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategory_deleteFirstCategory_returnsOnlySecondCategory: pre delete - size: ${categories.size}")
 
             dao.deleteCategory(TestData.CategoryData.categories[0])
 
             categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteFirstCategory_returnsOnlySecondCategory: post delete - size: ${categories.size}")
-            Log.i(TAG, "deleteFirstCategory_returnsOnlySecondCategory: firstElement - name: ${categories[0].name}")
+            Log.i(TAG, "deleteCategory_deleteFirstCategory_returnsOnlySecondCategory: post delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategory_deleteFirstCategory_returnsOnlySecondCategory: firstElement - name: ${categories[0].name}")
 
             assertTrue(categories.size == 1)
             assertEquals(TestData.CategoryData.categories[1], categories[0])
@@ -262,17 +262,17 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteNonexistentCategory_nothingHappens() {
+    fun deleteCategory_deleteNonexistentCategory_nothingHappens() {
         runBlocking {
             var categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteNonexistentCategory_nothingHappens: pre delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategory_deleteNonexistentCategory_nothingHappens: pre delete - size: ${categories.size}")
 
             dao.deleteCategory(TestData.CategoryData.category_3_insert)
 
             categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteNonexistentCategory_nothingHappens: post delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategory_deleteNonexistentCategory_nothingHappens: post delete - size: ${categories.size}")
 
             assertTrue(categories.size == 2)
             assertEquals(TestData.CategoryData.categories[0], categories[0])
@@ -282,17 +282,17 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteAllCategories_returnsEmptyList() {
+    fun deleteCategories_deleteAllCategories_returnsEmptyList() {
         runBlocking {
             var categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteAllCategories_returnsEmptyList: pre delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategories_deleteAllCategories_returnsEmptyList: pre delete - size: ${categories.size}")
 
             dao.deleteCategories(TestData.CategoryData.categories[0], TestData.CategoryData.categories[1])
 
             categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteAllCategories_returnsEmptyList: post delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategories_deleteAllCategories_returnsEmptyList: post delete - size: ${categories.size}")
 
             assertTrue(categories.isEmpty())
         }
@@ -300,17 +300,17 @@ class CategoryDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteMultipleCategories_nonexistentAndFirstCategory_returnsListWithSecondCategory() {
+    fun deleteCategories_deleteMultipleCategories_nonexistentAndFirstCategory_returnsListWithSecondCategory() {
         runBlocking {
             var categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteMultipleCategories_nonexistentAndFirstCategory_returnsListWithSecondCategory: pre delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategories_deleteMultipleCategories_nonexistentAndFirstCategory_returnsListWithSecondCategory: pre delete - size: ${categories.size}")
 
             dao.deleteCategories(TestData.CategoryData.categories[0], TestData.CategoryData.category_3_insert)
 
             categories = dao.getAllCategories().first()
 
-            Log.i(TAG, "deleteMultipleCategories_nonexistentAndFirstCategory_returnsListWithSecondCategory: post delete - size: ${categories.size}")
+            Log.i(TAG, "deleteCategories_deleteMultipleCategories_nonexistentAndFirstCategory_returnsListWithSecondCategory: post delete - size: ${categories.size}")
 
             assertTrue(categories.size == 1)
             assertEquals(TestData.CategoryData.categories[1], categories[0])
