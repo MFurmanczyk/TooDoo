@@ -211,14 +211,6 @@ internal open class TestData {
             isDone = true
         )
 
-        val step_8_duplicate = Step(
-            id = 8,
-            taskId = 2,
-            description = "test_step_8_duplicate",
-            createdOn = LocalDateTime.of(2011, 1, 1, 12, 0, 0),
-            isDone = false
-        )
-
         val step_2_update = Step(
             id = 2,
             taskId = 1,
@@ -227,7 +219,27 @@ internal open class TestData {
             isDone = true
         )
 
-        val steps = listOf(step_1, step_2, step_3, step_4, step_5, step_6, step_7, step_8, step_9)
+        val steps = mutableListOf(step_1, step_2, step_3, step_4, step_5, step_6, step_7, step_8, step_9)
+        fun first() = step_1
+        fun last() = step_9
+
+        fun addStep() {
+            steps.add(step_10_insert)
+        }
+
+        fun updateStep() {
+            Collections.replaceAll(steps, step_2, step_2_update)
+        }
+
+        fun deleteFirst() {
+            steps.removeFirst()
+        }
+
+        fun deleteFirstAndLast() {
+            steps.removeFirst()
+            steps.removeLast()
+        }
+
     }
 
     class CategoryData {
@@ -246,12 +258,6 @@ internal open class TestData {
 
         val category_3_insert = Category(
             name = "category_3",
-            color = Color()
-        )
-
-        val category_3_duplicate = Category(
-            id = 3,
-            name = "category_3_duplicate",
             color = Color()
         )
 
