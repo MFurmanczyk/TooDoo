@@ -147,7 +147,7 @@ class RoomTaskRepositoryTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteTask_removeFirstTask_taskRemoved() {
+    fun removeTask_removeFirstTask_taskRemoved() {
         runBlocking {
             repository.removeTask(dataSource.taskData.tasks.first())
 
@@ -162,7 +162,7 @@ class RoomTaskRepositoryTest {
 
     @Test
     @Throws(Exception::class)
-    fun deleteTasks_removeFirstAndLastTask_tasksRemoved() {
+    fun removeTasks_removeFirstAndLastTask_tasksRemoved() {
         runBlocking {
             repository.removeTasks(dataSource.taskData.tasks.first(), dataSource.taskData.tasks.last())
 
