@@ -43,7 +43,7 @@ class RoomStepRepositoryTest {
 
     @Test
     @Throws(Exception::class)
-    fun getAllSteps_returnsNineRows_firstAndLastStepCorrect() {
+    fun getAllSteps_returnsNineSteps_firstAndLastStepCorrect() {
         runBlocking {
             val steps = repository.getAllSteps().first()
 
