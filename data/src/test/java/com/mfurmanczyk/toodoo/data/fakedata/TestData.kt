@@ -4,6 +4,7 @@ import android.graphics.Color
 import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.data.model.Task
+import com.mfurmanczyk.toodoo.data.model.relationship.CategoryWithTasks
 import com.mfurmanczyk.toodoo.data.model.relationship.TaskWithSteps
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -15,6 +16,7 @@ internal open class TestData {
     val stepData = StepData()
     val categoryData = CategoryData()
     val tasksWithStepsData = TasksWithStepsData()
+    val categoriesWithTasksData = CategoriesWithTasksData()
 
     class TaskData {
 
@@ -219,7 +221,9 @@ internal open class TestData {
             isDone = true
         )
 
-        val steps = mutableListOf(step_1, step_2, step_3, step_4, step_5, step_6, step_7, step_8, step_9)
+        val steps =
+            mutableListOf(step_1, step_2, step_3, step_4, step_5, step_6, step_7, step_8, step_9)
+
         fun first() = step_1
         fun last() = step_9
 
@@ -267,7 +271,28 @@ internal open class TestData {
             color = Color()
         )
 
-        val categories = listOf(category_1, category_2)
+        val categories = mutableListOf(category_1, category_2)
+
+        fun first() = category_1
+        fun last() = category_2
+
+        fun addCategory() {
+            categories.add(category_3_insert)
+        }
+
+        fun updateCategory() {
+            Collections.replaceAll(categories, category_2, category_2_update)
+        }
+
+        fun deleteFirst() {
+            categories.removeFirst()
+        }
+
+        fun deleteFirstAndLast() {
+            categories.removeFirst()
+            categories.removeLast()
+        }
+
     }
 
     class TasksWithStepsData {
@@ -337,6 +362,76 @@ internal open class TestData {
                         taskId = 2,
                         description = "test_step_5",
                         createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+                        isDone = true
+                    )
+                )
+            )
+        )
+    }
+
+    class CategoriesWithTasksData {
+        val categoriesWithTasks = listOf(
+            CategoryWithTasks(
+                category = Category(
+                    id = 1,
+                    name = "category_1",
+                    color = Color()
+                ),
+                tasks = listOf(
+                    Task(
+                        id = 1,
+                        categoryId = 1,
+                        name = "Test_1",
+                        description = null,
+                        createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+                        completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
+                        dueDate = LocalDate.of(2010, 1, 3),
+                        isDone = false
+                    )
+                )
+            ),
+            CategoryWithTasks(
+                category = Category(
+                    id = 2,
+                    name = "category_2",
+                    color = Color()
+                ),
+                tasks = listOf(
+                    Task(
+                        id = 2,
+                        categoryId = 2,
+                        name = "Test_2",
+                        description = null,
+                        createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+                        completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
+                        dueDate = LocalDate.of(2010, 1, 3),
+                        isDone = false
+                    ), Task(
+                        id = 3,
+                        categoryId = 2,
+                        name = "Test_3",
+                        description = "Test_desc",
+                        createdOn = LocalDateTime.of(2011, 1, 1, 12, 0, 0),
+                        completedOn = LocalDateTime.of(2011, 1, 2, 12, 0, 0),
+                        dueDate = LocalDate.of(2011, 1, 3),
+                        isDone = false
+                    ), Task(
+                        id = 4,
+                        categoryId = 2,
+                        name = "Test_4",
+                        description = "Test_desc_4",
+                        createdOn = LocalDateTime.of(2011, 1, 1, 12, 0, 0),
+                        completedOn = LocalDateTime.of(2011, 1, 2, 12, 0, 0),
+                        dueDate = LocalDate.of(2011, 1, 3),
+                        isDone = true
+                    ), Task(
+                        id = 5,
+                        categoryId = 2,
+                        name = "Test_5",
+                        description = "Test_desc_5",
+                        createdOn = LocalDateTime.of(2009, 1, 1, 12, 0, 0),
+                        completedOn = LocalDateTime.of(2009, 1, 2, 12, 0, 0),
+                        dueDate = LocalDate.of(2009, 1, 3),
                         isDone = true
                     )
                 )
