@@ -11,12 +11,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mfurmanczyk.toodoo.preferences.keys.PreferencesProperties
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -24,32 +27,31 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class DataStorePreferencesRepositoryTests {
 
-    private val testDispatcher: TestDispatcher = StandardTestDispatcher()
-    private val testScope: TestScope = TestScope(testDispatcher)
-    private val context: Context = ApplicationProvider.getApplicationContext()
+    @get:Rule val folder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+    private val testScope: TestScope = TestScope(testDispatcher + Job())
+
     private val dataStorePreferences: DataStore<Preferences> = PreferenceDataStoreFactory.create(
         scope = testScope,
-        produceFile = { context.preferencesDataStoreFile("TEST") }
+        produceFile = { folder.newFile("test.preferences_pb") }
     )
 
     private val repository = DataStorePreferencesRepository(dataStorePreferences)
 
-    @Before
-    fun setup() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
     @Test
     @Throws(Exception::class)
     fun getUserName_returnsCorrectName() {
-        testScope.runTest {
+        runTest {
 
             val expected = "Test name"
 
@@ -66,7 +68,7 @@ class DataStorePreferencesRepositoryTests {
     @Test
     @Throws(Exception::class)
     fun getUserName_returnsNull() {
-        testScope.runTest {
+        runTest {
             val actual = repository.getUserName().first()
 
             assertNull(actual)
@@ -76,7 +78,7 @@ class DataStorePreferencesRepositoryTests {
     @Test
     @Throws(Exception::class)
     fun setUserName_userNameSetCorrectly() {
-        testScope.runTest {
+        runTest {
             val expected = "Test name"
 
             repository.setUserName(expected)
@@ -87,16 +89,5 @@ class DataStorePreferencesRepositoryTests {
 
             assertEquals(expected, actual)
         }
-    }
-
-    @After
-    fun cleanUp() {
-        Dispatchers.resetMain()
-        testScope.runTest {
-            dataStorePreferences.edit {
-                it.clear()
-            }
-        }
-        testScope.cancel()
     }
 }
