@@ -49,7 +49,7 @@ class DataStorePreferencesRepositoryTests {
     @Test
     @Throws(Exception::class)
     fun getUserName_returnsCorrectName() {
-        runTest {
+        testScope.runTest {
 
             val expected = "Test name"
 
@@ -66,7 +66,7 @@ class DataStorePreferencesRepositoryTests {
     @Test
     @Throws(Exception::class)
     fun getUserName_returnsNull() {
-        runTest {
+        testScope.runTest {
             val actual = repository.getUserName().first()
 
             assertNull(actual)
@@ -76,7 +76,7 @@ class DataStorePreferencesRepositoryTests {
     @Test
     @Throws(Exception::class)
     fun setUserName_userNameSetCorrectly() {
-        runTest {
+        testScope.runTest {
             val expected = "Test name"
 
             repository.setUserName(expected)
