@@ -21,12 +21,12 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class DataStorePreferencesRepositoryTests {
 
     @get:Rule val folder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
     private val testScope: TestScope = TestScope(testDispatcher + Job())
 
