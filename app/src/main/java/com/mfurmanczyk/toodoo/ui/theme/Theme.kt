@@ -1,4 +1,4 @@
-package com.mfurmanczyk.todo.ui.theme
+package com.mfurmanczyk.toodoo.ui.theme
 
 import android.app.Activity
 import android.os.Build

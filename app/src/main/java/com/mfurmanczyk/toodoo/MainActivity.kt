@@ -1,9 +1,9 @@
-package com.mfurmanczyk.todo
+package com.mfurmanczyk.toodoo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.mfurmanczyk.todo.ui.theme.TooDooTheme
+import com.mfurmanczyk.toodoo.ui.theme.TooDooTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
