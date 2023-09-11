@@ -1,6 +1,7 @@
 package com.mfurmanczyk.toodoo.data.database.converter
 
 import androidx.room.TypeConverter
+import java.time.DateTimeException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -14,6 +15,7 @@ class LocalDateConverter {
      * Converts [timestamp] of type [Long] to [LocalDate].
      */
     @TypeConverter
+    @Throws(DateTimeException::class)
     fun fromTimestamp(timestamp: Long?) = timestamp?.let { LocalDate.ofEpochDay(it) }
 
     /**
@@ -33,6 +35,7 @@ class LocalDateTimeConverter {
      * Converts [timestamp] of type [Long] to [LocalDateTime].
      */
     @TypeConverter
+    @Throws(DateTimeException::class)
     fun fromTimestamp(timestamp: Long?) = timestamp?.let { LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC) }
 
     /**
