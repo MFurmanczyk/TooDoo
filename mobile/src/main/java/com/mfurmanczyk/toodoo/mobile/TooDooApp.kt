@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.mobile.screen
+package com.mfurmanczyk.toodoo.mobile
 
 import android.util.Log
 import android.widget.Toast
@@ -9,11 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mfurmanczyk.toodoo.mobile.exception.InvalidUsernameException
+import com.mfurmanczyk.toodoo.mobile.screen.WelcomeScreen
 import com.mfurmanczyk.toodoo.mobile.util.ContentType
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
 import com.mfurmanczyk.toodoo.mobile.viewmodel.TooDooAppViewModel
 import com.mfurmanczyk.toodoo.mobile.viewmodel.WelcomeScreenViewModel
-import com.mfurmanczyk.toodoo.preferences.InvalidUsernameException
 
 private const val TAG = "TooDooApp"
 
