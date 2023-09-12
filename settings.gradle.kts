@@ -17,3 +17,4 @@ rootProject.name = "TooDoo"
 include(":app")
 include(":data")
 include(":preferences")
+include(":mobile")
