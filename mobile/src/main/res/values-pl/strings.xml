@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_screen_question">Jak masz na imię?</string>
+    <string name="name">Imię</string>
+</resources>
