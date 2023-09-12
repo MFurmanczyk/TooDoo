@@ -38,6 +38,9 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -61,6 +64,10 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:$hilt_version")
 
     testImplementation("junit:junit:4.13.2")
+
+    val coroutine_version = "1.7.3"
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.09.00"))

@@ -24,7 +24,7 @@ class TooDooAppViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.getUsername().collect() { username ->
+            repository.getUsername().collect { username ->
 
                 Log.i(TAG, "username: ${username.toString()}")
 

@@ -29,16 +29,6 @@ class WelcomeScreenViewModel @Inject constructor(
     )
     val uiState = _uiState.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            preferencesRepository.getUsername().collect { username ->
-                _uiState.update {
-                    it.copy(username = username)
-                }
-            }
-        }
-    }
-
     fun updateUsername(username: String) {
         _uiState.update {
             if(username.isBlank()) it.copy(username = null)
@@ -59,4 +49,4 @@ class WelcomeScreenViewModel @Inject constructor(
 
 }
 
-fun WelcomeScreenUIState.isValid() = this.username != null
+fun WelcomeScreenUIState.isValid() = !this.username.isNullOrBlank()
