@@ -18,7 +18,7 @@ class DataStorePreferencesRepository @Inject constructor(
     private val preferencesDataStore: DataStore<Preferences>
 ) : PreferencesRepository {
 
-    override suspend fun getUserName(): Flow<String?> = preferencesDataStore.data
+    override suspend fun getUsername(): Flow<String?> = preferencesDataStore.data
         .catch {exception ->
             if(exception is IOException) {
                 Log.e(TAG, "Error reading preferences", exception)
@@ -30,9 +30,9 @@ class DataStorePreferencesRepository @Inject constructor(
         preferences[PreferencesProperties.Keys.USERNAME]
     }
 
-    override suspend fun setUserName(userName: String) {
+    override suspend fun setUsername(username: String) {
         preferencesDataStore.edit { preferences ->
-            preferences[PreferencesProperties.Keys.USERNAME] = userName
+            preferences[PreferencesProperties.Keys.USERNAME] = username
         }
     }
 }

@@ -48,7 +48,7 @@ class DataStorePreferencesRepositoryTests {
                 preferences[PreferencesProperties.Keys.USERNAME] = expected
             }
 
-            val actual = repository.getUserName().first()
+            val actual = repository.getUsername().first()
 
             assertEquals(expected, actual)
         }
@@ -58,7 +58,7 @@ class DataStorePreferencesRepositoryTests {
     @Throws(Exception::class)
     fun getUserName_returnsNull() {
         runTest {
-            val actual = repository.getUserName().first()
+            val actual = repository.getUsername().first()
 
             assertNull(actual)
         }
@@ -70,7 +70,7 @@ class DataStorePreferencesRepositoryTests {
         runTest {
             val expected = "Test name"
 
-            repository.setUserName(expected)
+            repository.setUsername(expected)
 
             val actual = dataStorePreferences.data.map {
                 it[PreferencesProperties.Keys.USERNAME]

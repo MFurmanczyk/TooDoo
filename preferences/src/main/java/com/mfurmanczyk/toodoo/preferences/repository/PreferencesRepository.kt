@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {
 
-    suspend fun getUserName() : Flow<String?>
+    suspend fun getUsername() : Flow<String?>
 
-    suspend fun setUserName(userName: String)
+    suspend fun setUsername(username: String)
 
 }
