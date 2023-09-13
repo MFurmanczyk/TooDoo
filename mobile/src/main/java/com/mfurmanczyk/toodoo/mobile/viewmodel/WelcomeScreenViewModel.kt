@@ -3,7 +3,7 @@ package com.mfurmanczyk.toodoo.mobile.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mfurmanczyk.toodoo.mobile.exception.InvalidUsernameException
+import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidUsernameException
 import com.mfurmanczyk.toodoo.preferences.di.annotation.DataStorePreferences
 import com.mfurmanczyk.toodoo.preferences.repository.PreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

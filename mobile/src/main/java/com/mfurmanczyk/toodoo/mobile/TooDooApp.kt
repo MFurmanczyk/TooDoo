@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mfurmanczyk.toodoo.mobile.exception.InvalidUsernameException
-import com.mfurmanczyk.toodoo.mobile.screen.WelcomeScreen
+import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
+import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidUsernameException
 import com.mfurmanczyk.toodoo.mobile.util.ContentType
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
 import com.mfurmanczyk.toodoo.mobile.viewmodel.TooDooAppViewModel
@@ -49,5 +49,7 @@ fun TooDooApp(
             },
             modifier = modifier
         )
+    } else {
+
     }
 }

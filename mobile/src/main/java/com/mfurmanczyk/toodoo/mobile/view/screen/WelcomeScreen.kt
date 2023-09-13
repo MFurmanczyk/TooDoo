@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.mobile.screen
+package com.mfurmanczyk.toodoo.mobile.view.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,8 +26,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.mfurmanczyk.toodoo.mobile.R
-import com.mfurmanczyk.toodoo.mobile.screen.theme.TooDooTheme
-import com.mfurmanczyk.toodoo.mobile.screen.theme.spacing
+import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
+import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.WelcomeScreenUIState
 import com.mfurmanczyk.toodoo.mobile.viewmodel.isValid
 

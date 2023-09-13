@@ -18,6 +18,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
 import com.mfurmanczyk.toodoo.mobile.R
+import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
 import com.mfurmanczyk.toodoo.mobile.viewmodel.WelcomeScreenUIState
 import org.junit.Assert.assertEquals
 import org.junit.Rule

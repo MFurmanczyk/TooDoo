@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.mobile.screen.theme
+package com.mfurmanczyk.toodoo.mobile.view.screen.theme
 
 import android.app.Activity
 import android.os.Build

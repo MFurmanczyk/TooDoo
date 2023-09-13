@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.mobile.screen.theme
+package com.mfurmanczyk.toodoo.mobile.view.screen.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
