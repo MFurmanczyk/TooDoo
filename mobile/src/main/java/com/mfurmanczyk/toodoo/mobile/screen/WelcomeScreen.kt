@@ -19,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -48,7 +50,10 @@ fun WelcomeScreen(
         ) {
             Text(
                 text = stringResource(R.string.welcome_screen_question),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.semantics {
+                    contentDescription = "Welcome screen question"
+                }
             )
             OutlinedTextField(
                 value = uiState.username ?: "",
@@ -64,13 +69,19 @@ fun WelcomeScreen(
                 ),
                 keyboardActions = KeyboardActions(
                     onGo = {
-                        onSaveClick()
+                        if(uiState.isValid()) onSaveClick()
                     }
-                )
+                ),
+                modifier = Modifier.semantics {
+                    contentDescription = "Username input field"
+                }
             )
             OutlinedIconButton(
                 enabled = uiState.isValid(),
-                onClick = onSaveClick
+                onClick = onSaveClick,
+                modifier = Modifier.semantics {
+                    contentDescription = "Button"
+                }
             ) {
                 Icon(
                     imageVector = Icons.TwoTone.ArrowForward,
