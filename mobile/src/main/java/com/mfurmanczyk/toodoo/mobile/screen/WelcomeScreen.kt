@@ -22,11 +22,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.mfurmanczyk.toodoo.mobile.R
+import com.mfurmanczyk.toodoo.mobile.screen.theme.TooDooTheme
+import com.mfurmanczyk.toodoo.mobile.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.WelcomeScreenUIState
 import com.mfurmanczyk.toodoo.mobile.viewmodel.isValid
-import com.mfurmanczyk.toodoo.ui.theme.TooDooTheme
 
 @Composable
 fun WelcomeScreen(
@@ -40,7 +40,7 @@ fun WelcomeScreen(
         modifier = modifier.fillMaxSize()
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium, Alignment.CenterVertically),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
