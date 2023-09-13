@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import com.mfurmanczyk.toodoo.mobile.TooDooApp
 import com.mfurmanczyk.toodoo.mobile.util.ContentType
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
-import com.mfurmanczyk.toodoo.ui.theme.TooDooTheme
+import com.mfurmanczyk.toodoo.mobile.screen.theme.TooDooTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
