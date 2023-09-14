@@ -7,6 +7,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -95,30 +97,43 @@ fun TooDooApp(
                         secondActionContent = {
                             Icon(imageVector = Icons.TwoTone.AddCircle, contentDescription = null)
                         }
-                    ) {
+                        ) {
                         val rotation by animateFloatAsState(targetValue = if (actionButtonState.isExpanded()) 45f else 0f)
                         Icon(imageVector = Icons.TwoTone.Add, contentDescription = null, modifier = Modifier.rotate(rotation))
                     }
                 }
             },
             topBar = {
-                     TopAppBar(title = { Text(text = "Hello, user!") })
+                     TopAppBar(title = { Text(text = "Hello, user!") }) //TODO: customisable text, back button, disappearing icons
             },
             bottomBar = {
-                NavigationBar {
-
-
+                AnimatedVisibility(
+                    visible = selectedItem != 3,
+                    enter = slideInVertically(
+                        animationSpec = tween(150)
+                    ) {
+                        2 * it
+                      },
+                    exit = slideOutVertically(
+                        animationSpec = tween(150)
+                    ) {
+                        2 * it
+                    }
+                ) {
                     NavigationBar {
-                        items.forEachIndexed { index, item ->
-                            NavigationBarItem(
-                                icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
-                                label = { Text(item) },
-                                selected = selectedItem == index,
-                                onClick = {
-                                    selectedItem = index
-                                    actionButtonState.collapse()
-                                }
-                            )
+
+                        NavigationBar {
+                            items.forEachIndexed { index, item ->
+                                NavigationBarItem(
+                                    icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
+                                    label = { Text(item) },
+                                    selected = selectedItem == index,
+                                    onClick = {
+                                        selectedItem = index
+                                        actionButtonState.collapse()
+                                    }
+                                )
+                            }
                         }
                     }
                 }
