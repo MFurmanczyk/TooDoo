@@ -8,7 +8,7 @@ import androidx.room.Entity
  * because compose Color is an inline class that is not support by room yet.
  */
 @Entity
-data class Color (
+data class ColorHolder (
     @IntRange(from = 0, to = 255) val alpha: Int,
     @IntRange(from = 0, to = 255) val red: Int,
     @IntRange(from = 0, to = 255) val green: Int,

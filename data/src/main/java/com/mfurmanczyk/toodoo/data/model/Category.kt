@@ -9,5 +9,5 @@ data class Category(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String,
     @Embedded
-    val color: Color
+    val color: ColorHolder
 )

@@ -1,7 +1,7 @@
 package com.mfurmanczyk.toodoo.data.fakedata
 
 import com.mfurmanczyk.toodoo.data.model.Category
-import com.mfurmanczyk.toodoo.data.model.Color
+import com.mfurmanczyk.toodoo.data.model.ColorHolder
 import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.data.model.Task
 import java.time.LocalDate
@@ -218,30 +218,30 @@ internal sealed interface TestData {
         private val category_1 = Category(
             id = 1,
             name = "category_1",
-            color = Color(255, 255, 255, 255)
+            color = ColorHolder(255, 255, 255, 255)
         )
 
         private val category_2 = Category(
             id = 2,
             name = "category_2",
-            color = Color(255, 255, 0, 0)
+            color = ColorHolder(255, 255, 0, 0)
         )
 
         val category_3_insert = Category(
             name = "category_3",
-            color = Color(255, 0, 255, 255)
+            color = ColorHolder(255, 0, 255, 255)
         )
 
         val category_3_duplicate = Category(
             id = 3,
             name = "category_3_duplicate",
-            color = Color(255, 0, 255, 0)
+            color = ColorHolder(255, 0, 255, 0)
         )
 
         val category_2_update = Category(
             id = 2,
             name = "category_2_update",
-            color = Color(255, 0, 255, 0)
+            color = ColorHolder(255, 0, 255, 0)
         )
 
         val categories = listOf(category_1, category_2)
