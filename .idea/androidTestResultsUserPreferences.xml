@@ -393,6 +393,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-900745138">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-863893219">
           <value>
             <AndroidTestResultsTableState>
@@ -446,6 +459,19 @@
           </value>
         </entry>
         <entry key="-608650768">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="-595985634">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -822,6 +848,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="950020957">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="1040339336">
           <value>
             <AndroidTestResultsTableState>
@@ -939,6 +978,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="1565973942">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="1707178611">
           <value>
             <AndroidTestResultsTableState>
@@ -966,6 +1018,19 @@
           </value>
         </entry>
         <entry key="1744376762">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1826418760">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -1044,6 +1109,19 @@
           </value>
         </entry>
         <entry key="1963371779">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Resizable_Experimental_API_34" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="2059238048">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
