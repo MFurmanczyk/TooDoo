@@ -1,7 +1,7 @@
 package com.mfurmanczyk.toodoo.data.fakedata
 
-import android.graphics.Color
 import com.mfurmanczyk.toodoo.data.model.Category
+import com.mfurmanczyk.toodoo.data.model.ColorHolder
 import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.CategoryWithTasks
@@ -251,24 +251,24 @@ internal open class TestData {
         private val category_1 = Category(
             id = 1,
             name = "category_1",
-            color = Color()
+            color = ColorHolder(255, 255, 0, 123)
         )
 
         private val category_2 = Category(
             id = 2,
             name = "category_2",
-            color = Color()
+            color = ColorHolder(255, 255, 0, 123)
         )
 
         val category_3_insert = Category(
             name = "category_3",
-            color = Color()
+            color = ColorHolder(255, 255, 0, 123)
         )
 
         val category_2_update = Category(
             id = 2,
             name = "category_2_update",
-            color = Color()
+            color = ColorHolder(255, 255, 0, 123)
         )
 
         val categories = mutableListOf(category_1, category_2)
@@ -375,7 +375,7 @@ internal open class TestData {
                 category = Category(
                     id = 1,
                     name = "category_1",
-                    color = Color()
+                    color = ColorHolder(255, 255, 255, 0)
                 ),
                 tasks = listOf(
                     Task(
@@ -394,7 +394,7 @@ internal open class TestData {
                 category = Category(
                     id = 2,
                     name = "category_2",
-                    color = Color()
+                    color = ColorHolder(255, 255, 0, 255)
                 ),
                 tasks = listOf(
                     Task(
