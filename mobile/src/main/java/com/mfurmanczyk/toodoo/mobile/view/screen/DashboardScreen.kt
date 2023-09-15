@@ -32,6 +32,7 @@ import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.ColorHolder
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.CategoryWithTasks
+import com.mfurmanczyk.toodoo.mobile.util.getCompletedTasksRatio
 import com.mfurmanczyk.toodoo.mobile.util.toColorHolder
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
@@ -44,7 +45,11 @@ import java.time.LocalDateTime
 @Composable
 fun DashboardScreen(
     uiState: DashboardScreenUIState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCategoryClick: (Category) -> Unit = {},
+    onAddCategoryClick: () -> Unit = {},
+    onTaskClick: (Task) -> Unit = {},
+    onTaskCheckedChanged: (Task, Boolean) -> Unit = {_, _ -> }
 ) {
     Surface(
         modifier = modifier.fillMaxSize()
@@ -68,10 +73,14 @@ fun DashboardScreen(
                     horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
                 ) {
                     items(uiState.categoryList) {
-                        CategoryTile(onClick = { /*TODO*/ }, category = it.category, progress = 0.75f)
+                        CategoryTile(
+                            onClick = onCategoryClick,
+                            category = it.category,
+                            progress = it.getCompletedTasksRatio()
+                        )
                     }
                     item {
-                        AddCategoryTile(onClick = { /*TODO*/ })
+                        AddCategoryTile(onClick = onAddCategoryClick)
                     }
                 }
             }
@@ -88,12 +97,8 @@ fun DashboardScreen(
                 items(uiState.todayTasks) {
                     TaskTile(
                         modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small),
-                        onClick = {
-
-                        },
-                        onCheckboxClick = { _, _ ->
-
-                        },
+                        onClick = onTaskClick,
+                        onCheckboxClick = onTaskCheckedChanged,
                         task = it
                     )
                 }
