@@ -26,12 +26,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.ColorHolder
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.CategoryWithTasks
+import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.getCompletedTasksRatio
 import com.mfurmanczyk.toodoo.mobile.util.toColorHolder
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
@@ -61,7 +63,7 @@ fun DashboardScreen(
             stickyHeader {
                 Surface(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = "CATEGORIES",
+                        text = stringResource(R.string.categories).uppercase(),
                         style = MaterialTheme.typography.labelMedium,
                         modifier = Modifier.padding(start = MaterialTheme.spacing.small)
                     )
@@ -87,7 +89,7 @@ fun DashboardScreen(
             stickyHeader {
                 Surface(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = "TODAY'S TASKS",
+                        text = stringResource(R.string.today_tasks).uppercase(),
                         style = MaterialTheme.typography.labelMedium,
                         modifier = Modifier.padding(start = MaterialTheme.spacing.small)
                     )
@@ -218,7 +220,7 @@ fun KudosTile(
         modifier = modifier.fillMaxSize()
     ) {
         Icon(imageVector = Icons.TwoTone.ThumbUp, contentDescription = null, tint = MaterialTheme.colorScheme.surfaceTint)
-        Text(text = "Thumbs up! You are up to date.", color = MaterialTheme.colorScheme.surfaceTint)
+        Text(text = stringResource(R.string.kudos), color = MaterialTheme.colorScheme.surfaceTint)
     }
 }
 @Preview
