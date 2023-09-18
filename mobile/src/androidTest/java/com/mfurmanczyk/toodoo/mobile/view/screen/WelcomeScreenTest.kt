@@ -11,9 +11,13 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isNotFocusable
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
@@ -45,9 +49,8 @@ class WelcomeScreenTest {
                 }
             )
         }
-        rule.onNodeWithContentDescription("Welcome screen question")
+        rule.onNodeWithText(rule.activity.getString(R.string.welcome_screen_question))
             .assertIsDisplayed()
-            .assert(hasText(rule.activity.getString(R.string.welcome_screen_question)))
     }
 
     @Test
@@ -68,10 +71,10 @@ class WelcomeScreenTest {
             )
         }
 
-        rule.onNodeWithContentDescription("Username input field")
+        rule.onNode(hasText(rule.activity.getString(R.string.name)))
             .performClick()
 
-        rule.onNodeWithContentDescription("Username input field")
+        rule.onNode(hasText(rule.activity.getString(R.string.name)))
             .assertIsDisplayed()
             .assertIsEnabled()
             .assertIsFocused()
@@ -97,11 +100,10 @@ class WelcomeScreenTest {
 
         val input = "TEST"
 
-        rule.onNodeWithContentDescription("Username input field")
-            .performClick()
+        rule.onNodeWithText(rule.activity.getString(R.string.name))
             .performTextInput(input)
 
-        rule.onNodeWithContentDescription("Username input field")
+        rule.onNodeWithText(rule.activity.getString(R.string.name))
             .assert(hasText(input))
             .assertIsDisplayed()
             .assertIsEnabled()
@@ -126,7 +128,7 @@ class WelcomeScreenTest {
             )
         }
 
-        rule.onNodeWithContentDescription("Button")
+        rule.onNodeWithTag(BUTTON_TEST_TAG)
             .assertIsDisplayed()
             .assertIsNotEnabled()
     }
@@ -152,13 +154,13 @@ class WelcomeScreenTest {
 
         val blankString = " "
 
-        rule.onNodeWithContentDescription("Username input field")
+        rule.onNodeWithText(rule.activity.getString(R.string.name))
             .performTextInput(blankString)
 
-        rule.onNodeWithContentDescription("Username input field")
+        rule.onNodeWithText(rule.activity.getString(R.string.name))
             .assert(hasText(blankString))
 
-        rule.onNodeWithContentDescription("Button")
+        rule.onNodeWithTag(BUTTON_TEST_TAG)
             .assertIsDisplayed()
             .assertIsNotEnabled()
     }
@@ -184,13 +186,13 @@ class WelcomeScreenTest {
 
         val input = "TEST"
 
-        rule.onNodeWithContentDescription("Username input field")
+        rule.onNodeWithText(rule.activity.getString(R.string.name))
             .performTextInput(input)
 
-        rule.onNodeWithContentDescription("Username input field")
+        rule.onNodeWithText(rule.activity.getString(R.string.name))
             .assert(hasText(input))
 
-        rule.onNodeWithContentDescription("Button")
+        rule.onNodeWithTag(BUTTON_TEST_TAG)
             .assertIsDisplayed()
             .assertIsEnabled()
     }
@@ -216,7 +218,7 @@ class WelcomeScreenTest {
             )
         }
 
-        rule.onNodeWithContentDescription("Button").performClick()
+        rule.onNode(hasClickAction() and hasTestTag("save button")).performClick()
 
         assertEquals(0, counterState)
     }
@@ -242,10 +244,10 @@ class WelcomeScreenTest {
         }
 
         val input = " "
-        rule.onNodeWithContentDescription("Username input field").performTextInput(input)
-        rule.onNodeWithContentDescription("Username input field").assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
 
-        rule.onNodeWithContentDescription("Button").performClick()
+        rule.onNode(hasClickAction() and isNotFocusable()).performClick()
 
         assertEquals(0, counterState)
     }
@@ -253,6 +255,7 @@ class WelcomeScreenTest {
     @Test
     @Throws(Exception::class)
     fun welcomeScreen_saveButton_performClick_usernameCorrect_clickPerformed() {
+
         var counterState by mutableIntStateOf(0)
 
         rule.setContent {
@@ -271,10 +274,10 @@ class WelcomeScreenTest {
         }
 
         val input = "TEST"
-        rule.onNodeWithContentDescription("Username input field").performTextInput(input)
-        rule.onNodeWithContentDescription("Username input field").assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
 
-        rule.onNodeWithContentDescription("Button").performClick()
+        rule.onNode(hasClickAction() and hasTestTag("save button")).performClick()
 
         assertEquals(1, counterState)
     }
@@ -299,7 +302,7 @@ class WelcomeScreenTest {
             )
         }
 
-        rule.onNodeWithContentDescription("Username input field").performImeAction()
+        rule.onNode(hasText(rule.activity.getString(R.string.name))).performImeAction()
         assertEquals(0, counterState)
     }
 
@@ -324,9 +327,9 @@ class WelcomeScreenTest {
         }
 
         val input = " "
-        rule.onNodeWithContentDescription("Username input field").performTextInput(input)
-        rule.onNodeWithContentDescription("Username input field").assert(hasText(input))
-        rule.onNodeWithContentDescription("Username input field").performImeAction()
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).performImeAction()
         assertEquals(0, counterState)
     }
 
@@ -351,9 +354,9 @@ class WelcomeScreenTest {
         }
 
         val input = "TEST"
-        rule.onNodeWithContentDescription("Username input field").performTextInput(input)
-        rule.onNodeWithContentDescription("Username input field").assert(hasText(input))
-        rule.onNodeWithContentDescription("Username input field").performImeAction()
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.name)).performImeAction()
         assertEquals(1, counterState)
     }
 }

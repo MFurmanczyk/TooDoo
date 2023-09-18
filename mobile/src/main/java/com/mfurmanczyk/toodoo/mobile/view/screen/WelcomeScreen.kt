@@ -19,8 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -31,6 +31,7 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.WelcomeScreenUIState
 import com.mfurmanczyk.toodoo.mobile.viewmodel.isValid
 
+const val BUTTON_TEST_TAG = "save button"
 @Composable
 fun WelcomeScreen(
     uiState: WelcomeScreenUIState,
@@ -50,10 +51,7 @@ fun WelcomeScreen(
         ) {
             Text(
                 text = stringResource(R.string.welcome_screen_question),
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.semantics {
-                    contentDescription = "Welcome screen question"
-                }
+                style = MaterialTheme.typography.headlineSmall
             )
             OutlinedTextField(
                 value = uiState.username ?: "",
@@ -71,17 +69,15 @@ fun WelcomeScreen(
                     onGo = {
                         if(uiState.isValid()) onSaveClick()
                     }
-                ),
-                modifier = Modifier.semantics {
-                    contentDescription = "Username input field"
-                }
+                )
             )
             OutlinedIconButton(
+                modifier = Modifier
+                    .semantics {
+                        testTag = BUTTON_TEST_TAG
+                    },
                 enabled = uiState.isValid(),
-                onClick = onSaveClick,
-                modifier = Modifier.semantics {
-                    contentDescription = "Button"
-                }
+                onClick = onSaveClick
             ) {
                 Icon(
                     imageVector = Icons.TwoTone.ArrowForward,
