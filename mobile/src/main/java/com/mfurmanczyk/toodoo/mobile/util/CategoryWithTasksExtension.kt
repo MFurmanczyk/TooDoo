@@ -6,5 +6,5 @@ fun CategoryWithTasks.getCompletedTasksRatio(): Float {
     val doneTasksNum = this.tasks.filter {
         it.isDone
     }.size
-    return doneTasksNum.toFloat() / tasks.size.toFloat()
+    return if(tasks.isEmpty()) 0.toFloat() else doneTasksNum.toFloat() / tasks.size.toFloat()
 }
