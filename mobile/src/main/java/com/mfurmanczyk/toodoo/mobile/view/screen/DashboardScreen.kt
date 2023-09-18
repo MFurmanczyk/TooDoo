@@ -51,7 +51,7 @@ fun DashboardScreen(
     onCategoryClick: (Category) -> Unit = {},
     onAddCategoryClick: () -> Unit = {},
     onTaskClick: (Task) -> Unit = {},
-    onTaskCheckedChanged: (Task, Boolean) -> Unit = {_, _ -> }
+    onTaskCheckedChanged: (Task, Boolean) -> Unit = { _, _ -> }
 ) {
     Surface(
         modifier = modifier.fillMaxSize()
@@ -61,13 +61,11 @@ fun DashboardScreen(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
         ) {
             stickyHeader {
-                Surface(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = stringResource(R.string.categories).uppercase(),
-                        style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.padding(start = MaterialTheme.spacing.small)
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.categories).uppercase(),
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(start = MaterialTheme.spacing.small)
+                )
             }
             item {
                 LazyRow(
@@ -87,16 +85,14 @@ fun DashboardScreen(
                 }
             }
             stickyHeader {
-                Surface(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = stringResource(R.string.today_tasks).uppercase(),
-                        style = MaterialTheme.typography.labelMedium,
-                        modifier = Modifier.padding(start = MaterialTheme.spacing.small)
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.today_tasks).uppercase(),
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(start = MaterialTheme.spacing.small)
+                )
             }
-            if(uiState.todayTasks.isNotEmpty()) {
-                items(uiState.todayTasks) {
+            if (uiState.tasks.isNotEmpty()) {
+                items(uiState.tasks) {
                     TaskTile(
                         modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small),
                         onClick = onTaskClick,
@@ -207,7 +203,7 @@ fun TaskTile(
             Text(text = task.name)
         }
     }
-    
+
 }
 
 @Composable
@@ -219,10 +215,15 @@ fun KudosTile(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         modifier = modifier.fillMaxSize()
     ) {
-        Icon(imageVector = Icons.TwoTone.ThumbUp, contentDescription = null, tint = MaterialTheme.colorScheme.surfaceTint)
+        Icon(
+            imageVector = Icons.TwoTone.ThumbUp,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.surfaceTint
+        )
         Text(text = stringResource(R.string.kudos), color = MaterialTheme.colorScheme.surfaceTint)
     }
 }
+
 @Preview
 @Composable
 fun DashboardScreenPreview() {
@@ -237,6 +238,46 @@ fun DashboardScreenPreview() {
                             color = ColorHolder(255, 255, 255, 0)
                         ),
                         tasks = listOf(
+                            Task(
+                                id = 1,
+                                categoryId = 1,
+                                name = "Test_1",
+                                description = null,
+                                createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+                                completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
+                                dueDate = LocalDate.of(2010, 1, 3),
+                                isDone = false
+                            ),
+                            Task(
+                                id = 1,
+                                categoryId = 1,
+                                name = "Test_1",
+                                description = null,
+                                createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+                                completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
+                                dueDate = LocalDate.of(2010, 1, 3),
+                                isDone = true
+                            ),
+                            Task(
+                                id = 1,
+                                categoryId = 1,
+                                name = "Test_1",
+                                description = null,
+                                createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+                                completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
+                                dueDate = LocalDate.of(2010, 1, 3),
+                                isDone = true
+                            ),
+                            Task(
+                                id = 1,
+                                categoryId = 1,
+                                name = "Test_1",
+                                description = null,
+                                createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
+                                completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
+                                dueDate = LocalDate.of(2010, 1, 3),
+                                isDone = true
+                            ),
                             Task(
                                 id = 1,
                                 categoryId = 1,
@@ -264,7 +305,7 @@ fun DashboardScreenPreview() {
                                 createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
                                 completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
                                 dueDate = LocalDate.of(2010, 1, 3),
-                                isDone = false
+                                isDone = true
                             )
                         )
                     ),
@@ -317,24 +358,24 @@ fun DashboardScreenPreview() {
                 ),
                 listOf(
                     Task(
-                    id = 4,
-                    categoryId = 2,
-                    name = "Test_4",
-                    description = "Test_desc_4",
-                    createdOn = LocalDateTime.of(2011, 1, 1, 12, 0, 0),
-                    completedOn = LocalDateTime.of(2011, 1, 2, 12, 0, 0),
-                    dueDate = LocalDate.of(2011, 1, 3),
-                    isDone = true
-                ),
+                        id = 4,
+                        categoryId = 2,
+                        name = "Test_4",
+                        description = "Test_desc_4",
+                        createdOn = LocalDateTime.of(2011, 1, 1, 12, 0, 0),
+                        completedOn = LocalDateTime.of(2011, 1, 2, 12, 0, 0),
+                        dueDate = LocalDate.of(2011, 1, 3),
+                        isDone = true
+                    ),
                     Task(
-                    id = 5,
-                    categoryId = 2,
-                    name = "Test_5",
-                    description = "Test_desc_5",
-                    createdOn = LocalDateTime.of(2009, 1, 1, 12, 0, 0),
-                    completedOn = LocalDateTime.of(2009, 1, 2, 12, 0, 0),
-                    dueDate = LocalDate.of(2009, 1, 3),
-                    isDone = false
+                        id = 5,
+                        categoryId = 2,
+                        name = "Test_5",
+                        description = "Test_desc_5",
+                        createdOn = LocalDateTime.of(2009, 1, 1, 12, 0, 0),
+                        completedOn = LocalDateTime.of(2009, 1, 2, 12, 0, 0),
+                        dueDate = LocalDate.of(2009, 1, 3),
+                        isDone = false
                     ),
                     Task(
                         id = 5,
@@ -626,7 +667,7 @@ fun TaskTilePreview() {
             onClick = {
 
             },
-            onCheckboxClick = {_, _ ->
+            onCheckboxClick = { _, _ ->
 
             },
             task = Task(

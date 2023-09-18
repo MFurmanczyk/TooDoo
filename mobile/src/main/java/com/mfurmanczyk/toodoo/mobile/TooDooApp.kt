@@ -7,9 +7,10 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.twotone.Add
@@ -28,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -38,14 +40,17 @@ import com.mfurmanczyk.toodoo.mobile.util.ContentType
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
 import com.mfurmanczyk.toodoo.mobile.view.component.TooDooFab
 import com.mfurmanczyk.toodoo.mobile.view.component.rememberExpandableFloatingActionButtonState
+import com.mfurmanczyk.toodoo.mobile.view.screen.DashboardScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
+import com.mfurmanczyk.toodoo.mobile.viewmodel.DashboardScreenViewModel
 import com.mfurmanczyk.toodoo.mobile.viewmodel.TooDooAppViewModel
 import com.mfurmanczyk.toodoo.mobile.viewmodel.WelcomeScreenViewModel
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidUsernameException
+import kotlinx.coroutines.launch
 
 private const val TAG = "TooDooApp"
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun TooDooApp(
     navigationType: NavigationType,
@@ -55,7 +60,7 @@ fun TooDooApp(
     val viewModel: TooDooAppViewModel = viewModel()
     val shouldDisplayWelcomeScreen by viewModel.shouldDisplayWelcomeScreen.collectAsState()
 
-    if(shouldDisplayWelcomeScreen) {
+    if (shouldDisplayWelcomeScreen) {
 
         val welcomeScreenViewModel: WelcomeScreenViewModel = viewModel()
         val welcomeScreenUIState by welcomeScreenViewModel.uiState.collectAsState()
@@ -80,13 +85,18 @@ fun TooDooApp(
     } else {
 
         val actionButtonState = rememberExpandableFloatingActionButtonState()
-
         var selectedItem by remember { mutableIntStateOf(0) }
         val items = listOf("Dashboard", "Calendar", "Categories", "Settings")
+        val pagerState = rememberPagerState { items.size }
+        val animationScope = rememberCoroutineScope()
 
         Scaffold(
             floatingActionButton = {
-                AnimatedVisibility(visible = selectedItem != 3, enter = scaleIn(tween(150)), exit = scaleOut(tween(150))) {
+                AnimatedVisibility(
+                    visible = selectedItem != 3,
+                    enter = scaleIn(tween(150)),
+                    exit = scaleOut(tween(150))
+                ) {
                     TooDooFab(
                         state = actionButtonState,
                         onFirstActionClick = { /*TODO*/ },
@@ -97,44 +107,34 @@ fun TooDooApp(
                         secondActionContent = {
                             Icon(imageVector = Icons.TwoTone.AddCircle, contentDescription = null)
                         }
-                        ) {
+                    ) {
                         val rotation by animateFloatAsState(targetValue = if (actionButtonState.isExpanded()) 45f else 0f)
-                        Icon(imageVector = Icons.TwoTone.Add, contentDescription = null, modifier = Modifier.rotate(rotation))
+                        Icon(
+                            imageVector = Icons.TwoTone.Add,
+                            contentDescription = null,
+                            modifier = Modifier.rotate(rotation)
+                        )
                     }
                 }
             },
             topBar = {
-                     TopAppBar(title = { Text(text = "Hello, user!") }) //TODO: customisable text, back button, disappearing icons
+                TopAppBar(title = { Text(text = "Hello, user!") }) //TODO: customisable text, back button, disappearing icons
             },
             bottomBar = {
-                AnimatedVisibility(
-                    visible = selectedItem != 3,
-                    enter = slideInVertically(
-                        animationSpec = tween(150)
-                    ) {
-                        2 * it
-                      },
-                    exit = slideOutVertically(
-                        animationSpec = tween(150)
-                    ) {
-                        2 * it
-                    }
-                ) {
-                    NavigationBar {
-
-                        NavigationBar {
-                            items.forEachIndexed { index, item ->
-                                NavigationBarItem(
-                                    icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
-                                    label = { Text(item) },
-                                    selected = selectedItem == index,
-                                    onClick = {
-                                        selectedItem = index
-                                        actionButtonState.collapse()
-                                    }
-                                )
+                NavigationBar {
+                    items.forEachIndexed { index, item ->
+                        NavigationBarItem(
+                            icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
+                            label = { Text(item) },
+                            selected = selectedItem == index,
+                            onClick = {
+                                selectedItem = index
+                                actionButtonState.collapse()
+                                animationScope.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
                             }
-                        }
+                        )
                     }
                 }
             }
@@ -142,9 +142,28 @@ fun TooDooApp(
             Surface(
                 modifier = Modifier.padding(it)
             ) {
+                HorizontalPager(state = pagerState, userScrollEnabled = false) { page ->
+                    when (page) {
+                        0 -> {
+                            val dashboardScreenViewModel: DashboardScreenViewModel = viewModel()
+                            val dashboardScreenUIState by dashboardScreenViewModel.uiState.collectAsState()
+                            DashboardScreen(uiState = dashboardScreenUIState)
+                        }
 
+                        1 -> {
+
+                        }
+
+                        2 -> {
+
+                        }
+
+                        3 -> {
+
+                        }
+                    }
+                }
             }
         }
-
     }
 }

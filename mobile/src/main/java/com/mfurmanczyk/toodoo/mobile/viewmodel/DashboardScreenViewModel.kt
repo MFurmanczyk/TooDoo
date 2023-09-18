@@ -11,11 +11,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import java.time.LocalDate
 import javax.inject.Inject
 
 data class DashboardScreenUIState(
     val categoryList: List<CategoryWithTasks>,
-    val todayTasks: List<Task>
+    val tasks: List<Task>
 )
 
 @HiltViewModel
@@ -25,7 +26,10 @@ class DashboardScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     val uiState = categoryRepository.getAllCategoriesWithTasks().combine(taskRepository.getAllTasks()) { categories, tasks ->
-        DashboardScreenUIState(categories, tasks)
+        val todayTasks = tasks.filter {
+            it.dueDate == LocalDate.now()
+        }
+        DashboardScreenUIState(categories, todayTasks)
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),

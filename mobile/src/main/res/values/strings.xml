@@ -5,4 +5,5 @@
     <string name="kudos" translatable="false">Thumbs up! You are up to date.</string>
     <string name="categories" translatable="false">Categories</string>
     <string name="today_tasks" translatable="false">Today\'s tasks</string>
+    <string name="save_button" translatable="false">Save button</string>
 </resources>
