@@ -1,8 +1,8 @@
 package com.mfurmanczyk.toodoo.mobile.viewmodel
 
-import com.mfurmanczyk.toodoo.mobile.exception.InvalidUsernameException
 import com.mfurmanczyk.toodoo.mobile.fakedata.FakePreferencesRepository
 import com.mfurmanczyk.toodoo.mobile.rule.MainDispatcherRule
+import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidUsernameException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
