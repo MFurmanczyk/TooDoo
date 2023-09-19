@@ -82,85 +82,100 @@ fun TooDooApp(
             },
             modifier = modifier
         )
-    } else {
+    }
+    else {
 
-        val actionButtonState = rememberExpandableFloatingActionButtonState()
-        var selectedItem by remember { mutableIntStateOf(0) }
-        val items = listOf("Dashboard", "Calendar", "Categories", "Settings")
-        val pagerState = rememberPagerState { items.size }
-        val animationScope = rememberCoroutineScope()
+        SinglePaneScreen()
+    }
+}
 
-        Scaffold(
-            floatingActionButton = {
-                AnimatedVisibility(
-                    visible = selectedItem != 3,
-                    enter = scaleIn(tween(150)),
-                    exit = scaleOut(tween(150))
-                ) {
-                    TooDooFab(
-                        state = actionButtonState,
-                        onFirstActionClick = { /*TODO*/ },
-                        onSecondActionClick = { /*TODO*/ },
-                        firstActionContent = {
-                            Icon(imageVector = Icons.TwoTone.DateRange, contentDescription = null)
-                        },
-                        secondActionContent = {
-                            Icon(imageVector = Icons.TwoTone.AddCircle, contentDescription = null)
-                        }
-                    ) {
-                        val rotation by animateFloatAsState(targetValue = if (actionButtonState.isExpanded()) 45f else 0f)
-                        Icon(
-                            imageVector = Icons.TwoTone.Add,
-                            contentDescription = null,
-                            modifier = Modifier.rotate(rotation)
-                        )
+@Composable
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+private fun SinglePaneScreen() {
+
+    val actionButtonState = rememberExpandableFloatingActionButtonState()
+    var selectedItem by remember { mutableIntStateOf(0) }
+    val items = listOf("Dashboard", "Calendar", "Categories", "Settings")
+    val pagerState = rememberPagerState { items.size }
+    val animationScope = rememberCoroutineScope()
+
+    Scaffold(
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = selectedItem != 3,
+                enter = scaleIn(tween(150)),
+                exit = scaleOut(tween(150))
+            ) {
+                TooDooFab(
+                    state = actionButtonState,
+                    onFirstActionClick = { /*TODO*/ },
+                    onSecondActionClick = { /*TODO*/ },
+                    firstActionContent = {
+                        Icon(imageVector = Icons.TwoTone.DateRange, contentDescription = null)
+                    },
+                    secondActionContent = {
+                        Icon(imageVector = Icons.TwoTone.AddCircle, contentDescription = null)
                     }
+                ) {
+                    val rotation by animateFloatAsState(targetValue = if (actionButtonState.isExpanded()) 45f else 0f)
+                    Icon(
+                        imageVector = Icons.TwoTone.Add,
+                        contentDescription = null,
+                        modifier = Modifier.rotate(rotation)
+                    )
                 }
-            },
-            topBar = {
-                TopAppBar(title = { Text(text = "Hello, user!") }) //TODO: customisable text, back button, disappearing icons
-            },
-            bottomBar = {
-                NavigationBar {
-                    items.forEachIndexed { index, item ->
-                        NavigationBarItem(
-                            icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
-                            label = { Text(item) },
-                            selected = selectedItem == index,
-                            onClick = {
-                                selectedItem = index
-                                actionButtonState.collapse()
-                                animationScope.launch {
-                                    pagerState.animateScrollToPage(index)
-                                }
+            }
+        },
+        topBar = {
+            TopAppBar(title = { Text(text = "Hello, user!") }) //TODO: customisable text, back button, disappearing icons
+        },
+        bottomBar = {
+            NavigationBar {
+                items.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
+                        label = { Text(item) },
+                        selected = selectedItem == index,
+                        onClick = {
+                            selectedItem = index
+                            actionButtonState.collapse()
+
+                            animationScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    ) {
+        Surface(
+            modifier = Modifier.padding(it)
+        ) {
+            HorizontalPager(state = pagerState, userScrollEnabled = false) { page ->
+                when (page) {
+                    0 -> {
+                        val dashboardScreenViewModel: DashboardScreenViewModel = viewModel()
+                        val dashboardScreenUIState by dashboardScreenViewModel.uiState.collectAsState()
+                        DashboardScreen(
+                            uiState = dashboardScreenUIState,
+                            onTaskCheckedChanged = { task, checked ->
+                                val updatedTask = task.copy(isDone = checked)
+                                dashboardScreenViewModel.updateTask(updatedTask)
                             }
                         )
                     }
-                }
-            }
-        ) {
-            Surface(
-                modifier = Modifier.padding(it)
-            ) {
-                HorizontalPager(state = pagerState, userScrollEnabled = false) { page ->
-                    when (page) {
-                        0 -> {
-                            val dashboardScreenViewModel: DashboardScreenViewModel = viewModel()
-                            val dashboardScreenUIState by dashboardScreenViewModel.uiState.collectAsState()
-                            DashboardScreen(uiState = dashboardScreenUIState)
-                        }
 
-                        1 -> {
+                    1 -> {
 
-                        }
+                    }
 
-                        2 -> {
+                    2 -> {
 
-                        }
+                    }
 
-                        3 -> {
+                    3 -> {
 
-                        }
                     }
                 }
             }

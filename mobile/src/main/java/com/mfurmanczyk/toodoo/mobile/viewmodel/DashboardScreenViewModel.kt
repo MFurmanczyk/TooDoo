@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -35,6 +36,12 @@ class DashboardScreenViewModel @Inject constructor(
         SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
         DashboardScreenUIState(listOf(), listOf())
     )
+
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            taskRepository.updateTask(task)
+        }
+    }
 
     companion object {
         val TIMEOUT_MILLIS = 5000L
