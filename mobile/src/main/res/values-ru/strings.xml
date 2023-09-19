@@ -2,4 +2,8 @@
 <resources>
     <string name="welcome_screen_question">Как тебя зовут?</string>
     <string name="name">Имя</string>
+    <string name="kudos">Хорошая работа! Вы в курсе!</string>
+    <string name="categories">Категории</string>
+    <string name="today_tasks">Сегодняшние задачи</string>
+    <string name="hello">Привет,</string>
 </resources>

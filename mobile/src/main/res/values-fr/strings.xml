@@ -2,4 +2,8 @@
 <resources>
     <string name="welcome_screen_question">Quel est ton nom?</string>
     <string name="name">Nom</string>
+    <string name="kudos">Bon travail! Vous êtes à jour!</string>
+    <string name="categories">Catégories</string>
+    <string name="today_tasks">Pour aujourd\'hui</string>
+    <string name="hello">"Salut, "</string>
 </resources>

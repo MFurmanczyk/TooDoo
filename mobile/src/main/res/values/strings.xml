@@ -2,8 +2,9 @@
 <resources>
     <string name="welcome_screen_question">What is your name?</string>
     <string name="name">Name</string>
-    <string name="kudos" translatable="false">Thumbs up! You are up to date.</string>
-    <string name="categories" translatable="false">Categories</string>
-    <string name="today_tasks" translatable="false">Today\'s tasks</string>
+    <string name="kudos">Thumbs up! You are up to date.</string>
+    <string name="categories">Categories</string>
+    <string name="today_tasks">Today\'s tasks</string>
     <string name="save_button" translatable="false">Save button</string>
+    <string name="hello">"Hello, "</string>
 </resources>
