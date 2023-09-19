@@ -1,11 +1,12 @@
 package com.mfurmanczyk.toodoo.mobile.viewmodel
 
+import com.mfurmanczyk.toodoo.mobile.fakedata.FakeDataSource
 import com.mfurmanczyk.toodoo.mobile.fakedata.FakePreferencesRepository
 import com.mfurmanczyk.toodoo.mobile.rule.MainDispatcherRule
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidUsernameException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -21,14 +22,15 @@ class WelcomeScreenViewModelTest {
 
     @ExperimentalCoroutinesApi
     @get:Rule
-    val mainDispatcherRule = MainDispatcherRule(UnconfinedTestDispatcher())
+    val mainDispatcherRule = MainDispatcherRule(StandardTestDispatcher())
 
     private lateinit var repository: FakePreferencesRepository
     private lateinit var viewModel: WelcomeScreenViewModel
 
     @Before
     fun setup() {
-        repository =  FakePreferencesRepository()
+        val dataSource = FakeDataSource()
+        repository =  FakePreferencesRepository(dataSource)
         viewModel = WelcomeScreenViewModel(repository)
     }
 
@@ -93,7 +95,7 @@ class WelcomeScreenViewModelTest {
 
     @Test
     @Throws(Exception::class)
-    fun saveUsername_savingEmptyStringAsUsername_throwsInvalidUserNameException() {
+    fun saveUsername_savingEmptyStringAsUsername_throwsInvalidUsernameException() {
         runTest {
             assertThrows(InvalidUsernameException::class.java) {
                 viewModel.updateUsername(FakePreferencesRepository.EMPTY_STRING)
