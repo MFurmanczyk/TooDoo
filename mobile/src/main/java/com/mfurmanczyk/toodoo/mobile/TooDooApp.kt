@@ -15,15 +15,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.AddCircle
+import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material.icons.twotone.DateRange
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mfurmanczyk.toodoo.mobile.util.ContentType
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
@@ -50,7 +53,6 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "TooDooApp"
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun TooDooApp(
     navigationType: NavigationType,
@@ -58,9 +60,9 @@ fun TooDooApp(
     modifier: Modifier = Modifier
 ) {
     val viewModel: TooDooAppViewModel = viewModel()
-    val shouldDisplayWelcomeScreen by viewModel.shouldDisplayWelcomeScreen.collectAsState()
+    val tooDooAppState by viewModel.state.collectAsState()
 
-    if (shouldDisplayWelcomeScreen) {
+    if (tooDooAppState.shouldDisplayWelcomeScreen) {
 
         val welcomeScreenViewModel: WelcomeScreenViewModel = viewModel()
         val welcomeScreenUIState by welcomeScreenViewModel.uiState.collectAsState()
@@ -84,22 +86,25 @@ fun TooDooApp(
         )
     }
     else {
-
-        SinglePaneScreen()
+        SinglePaneScreen(username = tooDooAppState.username)
     }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
-private fun SinglePaneScreen() {
+private fun SinglePaneScreen(
+    username: String,
+    modifier: Modifier = Modifier
+) {
 
     val actionButtonState = rememberExpandableFloatingActionButtonState()
     var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("Dashboard", "Calendar", "Categories", "Settings")
-    val pagerState = rememberPagerState { items.size }
+    val navigationDestinations = listOf("Dashboard", "Calendar", "Categories", "Settings")
+    val pagerState = rememberPagerState { navigationDestinations.size }
     val animationScope = rememberCoroutineScope()
 
     Scaffold(
+        modifier = modifier,
         floatingActionButton = {
             AnimatedVisibility(
                 visible = selectedItem != 3,
@@ -127,11 +132,35 @@ private fun SinglePaneScreen() {
             }
         },
         topBar = {
-            TopAppBar(title = { Text(text = "Hello, user!") }) //TODO: customisable text, back button, disappearing icons
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(if(selectedItem == 0) stringResource(R.string.hello) + username else navigationDestinations[selectedItem] )
+                },
+                navigationIcon = {
+                    AnimatedVisibility(
+                        visible = selectedItem != 0,
+                        enter = scaleIn(tween(150)),
+                        exit = scaleOut(tween(150))
+                    ) {
+                        IconButton(
+                            onClick = {
+                                selectedItem = 0
+                                animationScope.launch {
+                                    pagerState.animateScrollToPage(selectedItem)
+                                }
+                            }
+                        ) {
+                            Icon(imageVector = Icons.TwoTone.ArrowBack, contentDescription = null)
+                        }
+
+                    }
+
+                }
+            )
         },
         bottomBar = {
             NavigationBar {
-                items.forEachIndexed { index, item ->
+                navigationDestinations.forEachIndexed { index, item ->
                     NavigationBarItem(
                         icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
                         label = { Text(item) },
@@ -141,7 +170,7 @@ private fun SinglePaneScreen() {
                             actionButtonState.collapse()
 
                             animationScope.launch {
-                                pagerState.animateScrollToPage(index)
+                                pagerState.animateScrollToPage(selectedItem)
                             }
                         }
                     )
