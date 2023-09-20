@@ -10,7 +10,7 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.SettingsScreen
 open class NavigationDestination(
     val displayedTitle: String,
     val route: String,
-    val navigationIcon: ImageVector
+    val navigationIcon: ImageVector? = null
 )
 
 fun getDestinationLists(context: Context) = listOf(

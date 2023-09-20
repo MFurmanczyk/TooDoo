@@ -67,7 +67,7 @@ fun WelcomeScreen(
                 ),
                 keyboardActions = KeyboardActions(
                     onGo = {
-                        if(uiState.isValid()) onSaveClick()
+                        onSaveClick()
                     }
                 )
             )

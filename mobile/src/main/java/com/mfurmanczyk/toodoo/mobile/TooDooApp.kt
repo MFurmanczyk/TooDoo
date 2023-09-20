@@ -15,6 +15,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.AddTask
+import androidx.compose.material.icons.twotone.Android
 import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material.icons.twotone.BookmarkAdd
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -186,7 +187,7 @@ private fun BottonNavigationScreen(
             NavigationBar {
                 navigationDestinations.forEachIndexed { index, item ->
                     NavigationBarItem(
-                        icon = { Icon(item.navigationIcon, contentDescription = item.displayedTitle) },
+                        icon = { Icon(item.navigationIcon ?: Icons.TwoTone.Android, contentDescription = item.displayedTitle) },
                         label = { Text(item.displayedTitle) },
                         selected = currentDestination == index,
                         onClick = {
