@@ -98,7 +98,7 @@ fun TooDooApp(
 
         when(navigationType) {
 
-            NavigationType.BOTTOM_NAV -> BottonNavigationScreen(
+            NavigationType.BOTTOM_NAV -> BottomNavigationScreen(
                 username = tooDooAppState.username,
                 currentDestination = currentDestination,
                 navigationDestinations = navigationDestinations,
@@ -121,7 +121,7 @@ fun TooDooApp(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
-private fun BottonNavigationScreen(
+private fun BottomNavigationScreen(
     username: String,
     currentDestination: Int,
     navigationDestinations: List<NavigationDestination>,
