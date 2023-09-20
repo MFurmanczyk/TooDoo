@@ -10,4 +10,6 @@
     <string name="settings">Einstellungen</string>
     <string name="calendar">Kalender</string>
     <string name="add_new_category">Neue Kategorie hinzufügen</string>
+    <string name="new_task">Neue Aufgabe</string>
+    <string name="new_category">Neue Kategorie</string>
 </resources>
