@@ -42,7 +42,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
-import com.mfurmanczyk.toodoo.mobile.util.getDestinationLists
+import com.mfurmanczyk.toodoo.mobile.util.getPagerDestinationsList
 import com.mfurmanczyk.toodoo.mobile.view.component.ExpandableFloatingActionButtonState
 import com.mfurmanczyk.toodoo.mobile.view.component.TooDooFab
 import com.mfurmanczyk.toodoo.mobile.view.component.rememberExpandableFloatingActionButtonState
@@ -69,7 +69,6 @@ fun TooDooApp(
 
         val welcomeScreenViewModel: WelcomeScreenViewModel = viewModel()
         val welcomeScreenUIState by welcomeScreenViewModel.uiState.collectAsState()
-
         val context = LocalContext.current
         val focusManager = LocalFocusManager.current
 
@@ -91,7 +90,7 @@ fun TooDooApp(
     else {
 
         var currentDestination by rememberSaveable { mutableIntStateOf(0) }
-        val navigationDestinations = getDestinationLists(LocalContext.current)
+        val navigationDestinations = getPagerDestinationsList()
         val actionButtonState = rememberExpandableFloatingActionButtonState()
         val pagerState = rememberPagerState { navigationDestinations.size }
         val animationScope = rememberCoroutineScope()
@@ -112,7 +111,9 @@ fun TooDooApp(
                     }
                 }
             )
+
             NavigationType.NAV_RAIL -> TODO()
+
             NavigationType.NAV_DRAWER -> TODO()
         }
 
@@ -125,9 +126,9 @@ private fun BottomNavigationScreen(
     username: String,
     currentDestination: Int,
     navigationDestinations: List<NavigationDestination>,
+    modifier: Modifier = Modifier,
     actionButtonState: ExpandableFloatingActionButtonState = rememberExpandableFloatingActionButtonState(),
     pagerState: PagerState = rememberPagerState(initialPage = 1, initialPageOffsetFraction = 0f) { 4 },
-    modifier: Modifier = Modifier,
     onNavigationItemClick: (Int) -> Unit = {}
 ) {
 
@@ -162,7 +163,10 @@ private fun BottomNavigationScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(if(currentDestination == 0) stringResource(R.string.hello, username) else navigationDestinations[currentDestination].displayedTitle )
+                    Text(
+                        if(currentDestination == 0) stringResource(R.string.hello, username)
+                        else stringResource(id = navigationDestinations[currentDestination].displayedTitle)
+                    )
                 },
                 navigationIcon = {
                     AnimatedVisibility(
@@ -187,8 +191,8 @@ private fun BottomNavigationScreen(
             NavigationBar {
                 navigationDestinations.forEachIndexed { index, item ->
                     NavigationBarItem(
-                        icon = { Icon(item.navigationIcon ?: Icons.TwoTone.Android, contentDescription = item.displayedTitle) },
-                        label = { Text(item.displayedTitle) },
+                        icon = { Icon(item.navigationIcon ?: Icons.TwoTone.Android, contentDescription = stringResource(id = item.displayedTitle)) },
+                        label = { Text(stringResource(id = item.displayedTitle)) },
                         selected = currentDestination == index,
                         onClick = {
                             onNavigationItemClick(index)
@@ -204,8 +208,10 @@ private fun BottomNavigationScreen(
             HorizontalPager(state = pagerState, userScrollEnabled = false) { page ->
                 when (page) {
                     0 -> {
+
                         val dashboardScreenViewModel: DashboardScreenViewModel = viewModel()
                         val dashboardScreenUIState by dashboardScreenViewModel.uiState.collectAsState()
+
                         DashboardScreen(
                             uiState = dashboardScreenUIState,
                             onTaskCheckedChanged = { task, checked ->
@@ -214,17 +220,18 @@ private fun BottomNavigationScreen(
                             }
                         )
                     }
-
                     1 -> {
-
+                        //CalendarScreenViewModel
+                        //CalendarScreenUIState
                     }
 
                     2 -> {
-
+                        //CategoriesScreenViewModel
+                        //CategoriesScreenUIState
                     }
-
                     3 -> {
-
+                        //SettingsScreenViewModel
+                        //SettingsScreenUIState
                     }
                 }
             }

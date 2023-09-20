@@ -1,6 +1,5 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,8 +45,8 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.DashboardScreenUIState
 import java.time.LocalDate
 import java.time.LocalDateTime
-class DashboardDestination(context: Context) : NavigationDestination(
-    displayedTitle = context.getString(R.string.dashboard),
+object DashboardDestination : NavigationDestination(
+    displayedTitle = R.string.dashboard,
     route = "dashboard",
     Icons.TwoTone.Home
 )
