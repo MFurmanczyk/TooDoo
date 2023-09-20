@@ -1,5 +1,6 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
+import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
+import androidx.compose.material.icons.twotone.Home
 import androidx.compose.material.icons.twotone.ThumbUp
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mfurmanczyk.toodoo.data.model.Category
@@ -34,6 +37,7 @@ import com.mfurmanczyk.toodoo.data.model.ColorHolder
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.CategoryWithTasks
 import com.mfurmanczyk.toodoo.mobile.R
+import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.getCompletedTasksRatio
 import com.mfurmanczyk.toodoo.mobile.util.toColorHolder
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
@@ -42,6 +46,11 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.DashboardScreenUIState
 import java.time.LocalDate
 import java.time.LocalDateTime
+class DashboardDestination(context: Context) : NavigationDestination(
+    displayedTitle = context.getString(R.string.dashboard),
+    route = "dashboard",
+    Icons.TwoTone.Home
+)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -168,7 +177,10 @@ fun AddCategoryTile(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(imageVector = Icons.TwoTone.Add, contentDescription = null)
-                Text(text = "Add new category".uppercase())
+                Text(
+                    text = stringResource(R.string.add_new_category).uppercase(),
+                    textAlign = TextAlign.Center
+                )
             }
         }
     }

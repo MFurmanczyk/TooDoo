@@ -10,13 +10,13 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.twotone.Add
-import androidx.compose.material.icons.twotone.AddCircle
+import androidx.compose.material.icons.twotone.AddTask
 import androidx.compose.material.icons.twotone.ArrowBack
-import androidx.compose.material.icons.twotone.DateRange
+import androidx.compose.material.icons.twotone.BookmarkAdd
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,8 +30,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -39,8 +39,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.mfurmanczyk.toodoo.mobile.util.ContentType
+import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
+import com.mfurmanczyk.toodoo.mobile.util.getDestinationLists
+import com.mfurmanczyk.toodoo.mobile.view.component.ExpandableFloatingActionButtonState
 import com.mfurmanczyk.toodoo.mobile.view.component.TooDooFab
 import com.mfurmanczyk.toodoo.mobile.view.component.rememberExpandableFloatingActionButtonState
 import com.mfurmanczyk.toodoo.mobile.view.screen.DashboardScreen
@@ -53,10 +55,10 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "TooDooApp"
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TooDooApp(
     navigationType: NavigationType,
-    contentType: ContentType,
     modifier: Modifier = Modifier
 ) {
     val viewModel: TooDooAppViewModel = viewModel()
@@ -86,28 +88,53 @@ fun TooDooApp(
         )
     }
     else {
-        SinglePaneScreen(username = tooDooAppState.username)
+
+        var currentDestination by rememberSaveable { mutableIntStateOf(0) }
+        val navigationDestinations = getDestinationLists(LocalContext.current)
+        val actionButtonState = rememberExpandableFloatingActionButtonState()
+        val pagerState = rememberPagerState { navigationDestinations.size }
+        val animationScope = rememberCoroutineScope()
+
+        when(navigationType) {
+
+            NavigationType.BOTTOM_NAV -> BottonNavigationScreen(
+                username = tooDooAppState.username,
+                currentDestination = currentDestination,
+                navigationDestinations = navigationDestinations,
+                actionButtonState = actionButtonState,
+                pagerState = pagerState,
+                onNavigationItemClick = {
+                    currentDestination = it
+                    actionButtonState.collapse()
+                    animationScope.launch {
+                        pagerState.animateScrollToPage(it)
+                    }
+                }
+            )
+            NavigationType.NAV_RAIL -> TODO()
+            NavigationType.NAV_DRAWER -> TODO()
+        }
+
     }
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
-private fun SinglePaneScreen(
+private fun BottonNavigationScreen(
     username: String,
-    modifier: Modifier = Modifier
+    currentDestination: Int,
+    navigationDestinations: List<NavigationDestination>,
+    actionButtonState: ExpandableFloatingActionButtonState = rememberExpandableFloatingActionButtonState(),
+    pagerState: PagerState = rememberPagerState(initialPage = 1, initialPageOffsetFraction = 0f) { 4 },
+    modifier: Modifier = Modifier,
+    onNavigationItemClick: (Int) -> Unit = {}
 ) {
-
-    val actionButtonState = rememberExpandableFloatingActionButtonState()
-    var selectedItem by remember { mutableIntStateOf(0) }
-    val navigationDestinations = listOf("Dashboard", "Calendar", "Categories", "Settings")
-    val pagerState = rememberPagerState { navigationDestinations.size }
-    val animationScope = rememberCoroutineScope()
 
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
             AnimatedVisibility(
-                visible = selectedItem != 3,
+                visible = currentDestination != 3,
                 enter = scaleIn(tween(150)),
                 exit = scaleOut(tween(150))
             ) {
@@ -116,10 +143,10 @@ private fun SinglePaneScreen(
                     onFirstActionClick = { /*TODO*/ },
                     onSecondActionClick = { /*TODO*/ },
                     firstActionContent = {
-                        Icon(imageVector = Icons.TwoTone.DateRange, contentDescription = null)
+                        Icon(imageVector = Icons.TwoTone.BookmarkAdd, contentDescription = null)
                     },
                     secondActionContent = {
-                        Icon(imageVector = Icons.TwoTone.AddCircle, contentDescription = null)
+                        Icon(imageVector = Icons.TwoTone.AddTask, contentDescription = null)
                     }
                 ) {
                     val rotation by animateFloatAsState(targetValue = if (actionButtonState.isExpanded()) 45f else 0f)
@@ -134,20 +161,17 @@ private fun SinglePaneScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(if(selectedItem == 0) stringResource(R.string.hello) + username else navigationDestinations[selectedItem] )
+                    Text(if(currentDestination == 0) stringResource(R.string.hello, username) else navigationDestinations[currentDestination].displayedTitle )
                 },
                 navigationIcon = {
                     AnimatedVisibility(
-                        visible = selectedItem != 0,
+                        visible = currentDestination != 0,
                         enter = scaleIn(tween(150)),
                         exit = scaleOut(tween(150))
                     ) {
                         IconButton(
                             onClick = {
-                                selectedItem = 0
-                                animationScope.launch {
-                                    pagerState.animateScrollToPage(selectedItem)
-                                }
+                                onNavigationItemClick(0)
                             }
                         ) {
                             Icon(imageVector = Icons.TwoTone.ArrowBack, contentDescription = null)
@@ -162,16 +186,11 @@ private fun SinglePaneScreen(
             NavigationBar {
                 navigationDestinations.forEachIndexed { index, item ->
                     NavigationBarItem(
-                        icon = { Icon(Icons.Filled.Favorite, contentDescription = item) },
-                        label = { Text(item) },
-                        selected = selectedItem == index,
+                        icon = { Icon(item.navigationIcon, contentDescription = item.displayedTitle) },
+                        label = { Text(item.displayedTitle) },
+                        selected = currentDestination == index,
                         onClick = {
-                            selectedItem = index
-                            actionButtonState.collapse()
-
-                            animationScope.launch {
-                                pagerState.animateScrollToPage(selectedItem)
-                            }
+                            onNavigationItemClick(index)
                         }
                     )
                 }

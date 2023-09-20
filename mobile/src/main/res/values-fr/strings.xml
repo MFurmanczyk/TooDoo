@@ -5,5 +5,9 @@
     <string name="kudos">Bon travail! Vous êtes à jour!</string>
     <string name="categories">Catégories</string>
     <string name="today_tasks">Pour aujourd\'hui</string>
-    <string name="hello">"Salut, "</string>
+    <string name="hello">"Salut, %1$s! "</string>
+    <string name="dashboard">Start</string>
+    <string name="settings">Paramètres</string>
+    <string name="calendar">Calendrier</string>
+    <string name="add_new_category">Ajouter une nouvelle catégorie</string>
 </resources>

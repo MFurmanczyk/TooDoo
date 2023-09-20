@@ -25,7 +25,7 @@ data class Task(
     val name: String,
     val description: String?,
     @ColumnInfo(name = "created_on") val createdOn: LocalDateTime,
-    @ColumnInfo(name = "completed_on") val completedOn: LocalDateTime,
+    @ColumnInfo(name = "completed_on") val completedOn: LocalDateTime? = null,
     @ColumnInfo(name = "due_date") val dueDate: LocalDate,
     @ColumnInfo(name = "is_done") val isDone: Boolean
 )

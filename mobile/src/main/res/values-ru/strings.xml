@@ -5,5 +5,9 @@
     <string name="kudos">Хорошая работа! Вы в курсе!</string>
     <string name="categories">Категории</string>
     <string name="today_tasks">Сегодняшние задачи</string>
-    <string name="hello">Привет,</string>
+    <string name="hello">"Привет,%1$s! "</string>
+    <string name="dashboard">Старт</string>
+    <string name="settings">Параметры</string>
+    <string name="calendar">Календарь</string>
+    <string name="add_new_category">Добавить новую категорию</string>
 </resources>
