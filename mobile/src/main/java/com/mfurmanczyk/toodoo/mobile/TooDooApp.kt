@@ -506,8 +506,7 @@ private fun NavigationPagerContent(page: Int) {
             DashboardScreen(
                 uiState = dashboardScreenUIState,
                 onTaskCheckedChanged = { task, checked ->
-                    val updatedTask = task.copy(isDone = checked)
-                    dashboardScreenViewModel.updateTask(updatedTask)
+                    dashboardScreenViewModel.checkTask(task, checked)
                 }
             )
         }

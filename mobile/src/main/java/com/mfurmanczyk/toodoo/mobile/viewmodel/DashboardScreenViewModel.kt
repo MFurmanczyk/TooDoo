@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 data class DashboardScreenUIState(
@@ -37,9 +38,22 @@ class DashboardScreenViewModel @Inject constructor(
         DashboardScreenUIState(listOf(), listOf())
     )
 
-    fun updateTask(task: Task) {
+    /**
+     * Mark task completed/not completed
+     */
+    fun checkTask(task: Task, checked: Boolean) {
         viewModelScope.launch {
-            taskRepository.updateTask(task)
+            if(task.isDone) {
+                //task unchecked
+                if(!checked) {
+                    taskRepository.updateTask(task.copy(isDone = false, completedOn = null))
+                }
+            } else {
+                //task checked
+                if(checked) {
+                    taskRepository.updateTask(task.copy(isDone = true, completedOn = LocalDateTime.now()))
+                }
+            }
         }
     }
 
