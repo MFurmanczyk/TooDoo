@@ -107,7 +107,7 @@ class RoomTaskRepositoryTest {
     @Throws(Exception::class)
     fun getTaskWithSteps_getFirstTaskWithStep_taskWithTwoSteps() {
         runBlocking {
-            val taskWithSteps = repository.getTaskWithSteps(dataSource.taskData.tasks.first()).first()
+            val taskWithSteps = repository.getTaskWithStepsById(dataSource.taskData.tasks.first().id).first()
 
             Log.i(TAG, "getTaskWithSteps_getFirstTaskWithStep_taskWithTwoSteps: steps in task - ${taskWithSteps?.steps?.size}")
 

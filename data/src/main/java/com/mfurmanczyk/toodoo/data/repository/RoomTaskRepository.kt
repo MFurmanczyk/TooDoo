@@ -15,7 +15,7 @@ class RoomTaskRepository @Inject constructor(private val dao: TaskDao): TaskRepo
 
     override fun getAllTasksWithSteps(): Flow<List<TaskWithSteps>> = dao.getAllTasksWithSteps()
 
-    override fun getTaskWithSteps(task: Task): Flow<TaskWithSteps?> = dao.getTaskWithStepsById(task.id)
+    override fun getTaskWithStepsById(id: Long): Flow<TaskWithSteps?> = dao.getTaskWithStepsById(id)
 
     override suspend fun addTask(task: Task) = dao.insertTask(task)
 
