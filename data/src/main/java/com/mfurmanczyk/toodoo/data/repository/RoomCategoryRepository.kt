@@ -13,7 +13,7 @@ class RoomCategoryRepository @Inject constructor(private val dao: CategoryDao): 
 
     override fun getAllCategoriesWithTasks(): Flow<List<CategoryWithTasks>> = dao.getAllCategoriesWithTasks()
 
-    override fun getCategoryWithTask(category: Category): Flow<CategoryWithTasks?> = dao.getCategoryWithTasksById(category.id)
+    override fun getCategoryWithTaskById(id: Long): Flow<CategoryWithTasks?> = dao.getCategoryWithTasksById(id)
 
     override suspend fun addCategory(category: Category) = dao.insertCategory(category)
 

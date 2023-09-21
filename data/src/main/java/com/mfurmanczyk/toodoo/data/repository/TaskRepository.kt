@@ -30,7 +30,7 @@ interface TaskRepository {
     /**
      * Returns [Task] with all associated [Step]s. Wrapped in [TaskWithSteps] data class.
      */
-    fun getTaskWithSteps(task: Task): Flow<TaskWithSteps?>
+    fun getTaskWithStepsById(id: Long): Flow<TaskWithSteps?>
 
     /**
      * Adds [task] to datasource.

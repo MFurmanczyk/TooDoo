@@ -83,7 +83,7 @@ class RoomCategoryRepositoryTest {
     @Throws(Exception::class)
     fun getCategoryWithTasks_returnsFirstCategory_categoryWithOneTask() {
         runBlocking {
-            val categoryWithTasks = repository.getCategoryWithTask(dataSource.categoryData.categories.first()).first()
+            val categoryWithTasks = repository.getCategoryWithTaskById(dataSource.categoryData.categories.first().id).first()
 
             assertTrue(categoryWithTasks?.tasks?.size == 1)
             assertEquals(categoryWithTasks?.tasks?.first(), dataSource.taskData.tasks.first())

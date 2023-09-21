@@ -23,9 +23,9 @@ interface CategoryRepository {
     fun getAllCategoriesWithTasks(): Flow<List<CategoryWithTasks>>
 
     /**
-     * Returns all associated [Task]s for given [category]. Wrapped in [CategoryWithTasks] class.
+     * Returns all associated [Task]s for given [id]. Wrapped in [CategoryWithTasks] class.
      */
-    fun getCategoryWithTask(category: Category): Flow<CategoryWithTasks?>
+    fun getCategoryWithTaskById(id: Long): Flow<CategoryWithTasks?>
 
     /**
      * Adds [category] to datasource.
