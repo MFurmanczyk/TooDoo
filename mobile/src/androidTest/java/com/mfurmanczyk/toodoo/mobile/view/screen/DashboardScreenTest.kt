@@ -22,6 +22,7 @@ import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.ColorHolder
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.data.model.relationship.CategoryWithTasks
+import com.mfurmanczyk.toodoo.mobile.view.component.TaskTile
 import com.mfurmanczyk.toodoo.mobile.viewmodel.DashboardScreenUIState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

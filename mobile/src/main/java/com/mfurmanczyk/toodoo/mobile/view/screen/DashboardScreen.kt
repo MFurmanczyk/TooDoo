@@ -4,9 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.Home
 import androidx.compose.material.icons.twotone.ThumbUp
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +37,7 @@ import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.getCompletedTasksRatio
 import com.mfurmanczyk.toodoo.mobile.util.toColorHolder
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
+import com.mfurmanczyk.toodoo.mobile.view.component.TaskTile
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.DashboardScreenUIState
@@ -183,38 +181,6 @@ fun AddCategoryTile(
             }
         }
     }
-}
-
-@Composable
-fun TaskTile(
-    onClick: (Task) -> Unit,
-    onCheckboxClick: (Task, Boolean) -> Unit,
-    task: Task,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth(),
-        onClick = {
-            onClick(task)
-        },
-        shape = MaterialTheme.shapes.medium,
-        shadowElevation = 12.dp
-    ) {
-        Row(
-            modifier = Modifier.padding(MaterialTheme.spacing.small),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Checkbox(
-                checked = task.isDone,
-                onCheckedChange = {
-                    onCheckboxClick(task, it)
-                }
-            )
-            Text(text = task.name)
-        }
-    }
-
 }
 
 @Composable

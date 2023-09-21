@@ -505,9 +505,7 @@ private fun NavigationPagerContent(page: Int) {
 
             DashboardScreen(
                 uiState = dashboardScreenUIState,
-                onTaskCheckedChanged = { task, checked ->
-                    dashboardScreenViewModel.checkTask(task, checked)
-                }
+                onTaskCheckedChanged = dashboardScreenViewModel::checkTask
             )
         }
 
