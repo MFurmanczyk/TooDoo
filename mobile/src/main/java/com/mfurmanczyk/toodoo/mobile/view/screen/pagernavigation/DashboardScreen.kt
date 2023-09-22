@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mfurmanczyk.toodoo.data.model.Category
@@ -143,7 +144,7 @@ fun CategoryTile(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = category.name)
+            Text(text = category.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
             LinearProgressIndicator(progress = progress, color = category.color.toComposeColor())
         }
     }

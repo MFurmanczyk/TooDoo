@@ -43,6 +43,7 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.CategoryEntryViewModel
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidCategoryNameException
 import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.color.ColorPalette
 import com.vanpra.composematerialdialogs.color.colorChooser
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -70,36 +71,17 @@ fun CategoryEntryScreen(
     val uiState by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
-
     val dialogState = rememberMaterialDialogState()
-    MaterialDialog(
-        dialogState = dialogState,
-        elevation = MaterialTheme.spacing.medium,
-        border = BorderStroke(1.dp, Color.Gray),
-        autoDismiss = true,
-        buttons = {
-            negativeButton(
-                text = "Cancel"
-            )
-            positiveButton(
-                text = "Select"
-            )
-        }
-    ) {
-        colorChooser(
-            colors = ColorPalette.Primary,
-            subColors = ColorPalette.PrimarySub,
-            onColorSelected = {
-                viewModel.updateCategoryColor(it)
-            }
-        )
-    }
+
+    ColorPickerDialog(dialogState) { viewModel.updateCategoryColor(it) }
+
     Scaffold(
         modifier = modifier,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = stringResource(id = R.string.new_category))
+                    if(uiState.newEntry) Text(text = stringResource(id = R.string.new_category))
+                    else uiState.categoryName
                 },
                 actions = {
                     IconButton(
@@ -147,6 +129,33 @@ fun CategoryEntryScreen(
 }
 
 @Composable
+private fun ColorPickerDialog(
+    dialogState: MaterialDialogState,
+    onColorSelected: (Color) -> Unit
+) {
+    MaterialDialog(
+        dialogState = dialogState,
+        elevation = MaterialTheme.spacing.medium,
+        border = BorderStroke(1.dp, Color.Gray),
+        autoDismiss = true,
+        buttons = {
+            negativeButton(
+                text = "Cancel"
+            )
+            positiveButton(
+                text = "Select"
+            )
+        }
+    ) {
+        colorChooser(
+            colors = ColorPalette.Primary,
+            subColors = ColorPalette.PrimarySub,
+            onColorSelected = onColorSelected
+        )
+    }
+}
+
+@Composable
 private fun CategoryEntryScreenContent(
     categoryName: String,
     categoryColor: Color,
@@ -166,6 +175,7 @@ private fun CategoryEntryScreenContent(
         ) {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
+                maxLines = 1,
                 label = {
                     Text(text = stringResource(R.string.category_name))
                 },
