@@ -7,6 +7,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -20,6 +22,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Add
 import androidx.compose.material.icons.twotone.AddTask
@@ -60,17 +63,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
 import com.mfurmanczyk.toodoo.mobile.util.getPagerDestinationsList
 import com.mfurmanczyk.toodoo.mobile.view.component.ExpandableFloatingActionButtonState
 import com.mfurmanczyk.toodoo.mobile.view.component.TooDooFab
 import com.mfurmanczyk.toodoo.mobile.view.component.rememberExpandableFloatingActionButtonState
+import com.mfurmanczyk.toodoo.mobile.view.navigation.tooDooNavigationGraph
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
@@ -200,42 +201,39 @@ private fun BottomNavigationScreen(
     actionButtonState: ExpandableFloatingActionButtonState = rememberExpandableFloatingActionButtonState(),
     onNavigationItemClick: (Int) -> Unit = {}
 ) {
-
-    NavHost(navController = navController, startDestination = EntryDestination.route) {
-        composable(EntryDestination.route) {
-            BottomNavigationScreenContent(
-                navController,
-                modifier,
-                currentDestination,
-                actionButtonState,
-                username,
-                navigationDestinations,
-                onNavigationItemClick,
-                pagerState
-            )
-        }
-        composable(
-            route = CategoryEntryDestination.route
-            ) {
-            CategoryEntryScreen(
-                navController = navController,
-                navigationType = NavigationType.BOTTOM_NAV
-            )
-        }
-
-        composable(
-            route = CategoryEntryDestination.parametrizedRoute,
-            arguments = listOf(navArgument(CategoryEntryDestination.parameterName) { type = NavType.LongType })
-        ) {
-            CategoryEntryScreen(
-                navController = navController,
-                navigationType = NavigationType.BOTTOM_NAV
-            )
-        }
-
+    NavHost(
+        navController = navController,
+        startDestination = EntryDestination.route,
+        enterTransition = { slideInHorizontally(tween(150)) { it * 2 } },
+        exitTransition = { slideOutHorizontally(tween(150)) { it * 2 } },
+    ) {
+        tooDooNavigationGraph(
+            entryContent = {
+                BottomNavigationScreenContent(
+                    navController,
+                    modifier,
+                    currentDestination,
+                    actionButtonState,
+                    username,
+                    navigationDestinations,
+                    onNavigationItemClick,
+                    pagerState
+                )
+            },
+            newCategoryContent = {
+                CategoryEntryScreen(
+                    navController = navController,
+                    navigationType = NavigationType.BOTTOM_NAV
+                )
+            },
+            editCategoryContent = {
+                CategoryEntryScreen(
+                    navController = navController,
+                    navigationType = NavigationType.BOTTOM_NAV
+                )
+            }
+        )
     }
-
-
 }
 
 @Composable
@@ -333,7 +331,7 @@ private fun BottomNavigationScreenContent(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun NavigationRailScreen(
     navController: NavHostController,
@@ -343,6 +341,53 @@ private fun NavigationRailScreen(
     pagerState: PagerState,
     modifier: Modifier = Modifier,
     onNavigationItemClick: (Int) -> Unit = {}
+) {
+
+    NavHost(
+        navController = navController,
+        startDestination = EntryDestination.route,
+        enterTransition = { slideInHorizontally(tween(150)) { it * 2 } },
+        exitTransition = { slideOutHorizontally(tween(150)) { it * 2 } },
+    ) {
+        tooDooNavigationGraph(
+            entryContent = {
+                NavigationRailScreenContent(
+                    modifier,
+                    navController,
+                    navigationDestinations,
+                    currentDestination,
+                    onNavigationItemClick,
+                    username,
+                    pagerState
+                )
+            },
+            newCategoryContent = {
+                CategoryEntryScreen(
+                    navController = navController,
+                    navigationType = NavigationType.BOTTOM_NAV
+                )
+            },
+            editCategoryContent = {
+                CategoryEntryScreen(
+                    navController = navController,
+                    navigationType = NavigationType.BOTTOM_NAV
+                )
+            }
+        )
+    }
+
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+private fun NavigationRailScreenContent(
+    modifier: Modifier,
+    navController: NavHostController,
+    navigationDestinations: List<NavigationDestination>,
+    currentDestination: Int,
+    onNavigationItemClick: (Int) -> Unit,
+    username: String,
+    pagerState: PagerState
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -386,7 +431,10 @@ private fun NavigationRailScreen(
                     CenterAlignedTopAppBar(
                         title = {
                             Text(
-                                if (currentDestination == 0) stringResource(R.string.hello, username)
+                                if (currentDestination == 0) stringResource(
+                                    R.string.hello,
+                                    username
+                                )
                                 else stringResource(id = navigationDestinations[currentDestination].displayedTitle)
                             )
                         },
@@ -401,11 +449,12 @@ private fun NavigationRailScreen(
                                         onNavigationItemClick(0)
                                     }
                                 ) {
-                                    Icon(imageVector = Icons.TwoTone.ArrowBack, contentDescription = null)
+                                    Icon(
+                                        imageVector = Icons.TwoTone.ArrowBack,
+                                        contentDescription = null
+                                    )
                                 }
-
                             }
-
                         }
                     )
                 }
@@ -432,6 +481,7 @@ private fun NavigationDrawerScreen(
     onNavigationItemClick: (Int) -> Unit = {}
 ) {
     PermanentNavigationDrawer(
+        modifier = modifier,
         drawerContent = {
             PermanentDrawerSheet(modifier = Modifier.width(240.dp)) {
                 Spacer(Modifier.height(MaterialTheme.spacing.small))
@@ -503,8 +553,13 @@ private fun NavigationDrawerScreen(
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
-                modifier = Modifier.padding(MaterialTheme.spacing.small)
+                modifier = Modifier.padding(
+                    start = MaterialTheme.spacing.small,
+                    top = MaterialTheme.spacing.small,
+                    bottom = MaterialTheme.spacing.small
+                )
             ) {
+                //Constantly on screen
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
@@ -517,13 +572,48 @@ private fun NavigationDrawerScreen(
                         navigationType = NavigationType.NAV_DRAWER
                     )
                 }
-                Surface(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .weight(1F),
-                    color = MaterialTheme.colorScheme.surfaceVariant
-                ) {
+                //END: Constantly on screen
 
+                NavHost(
+                    navController = navController,
+                    startDestination = EntryDestination.route,
+                    enterTransition = { slideInHorizontally(tween(150)) { it * 2 } },
+                    exitTransition = { slideOutHorizontally(tween(150)) { it * 2 } },
+                    modifier = Modifier.fillMaxSize().weight(1F)
+                ) {
+                    tooDooNavigationGraph(
+                        entryContent = {
+                            Surface(color = MaterialTheme.colorScheme.surfaceVariant) {
+
+                            }
+                        },
+                        newCategoryContent = {
+                            Surface(
+                                shape = MaterialTheme.shapes.medium.copy(
+                                    topEnd = CornerSize(0.dp),
+                                    bottomEnd = CornerSize(0.dp)
+                                )
+                            ) {
+                                CategoryEntryScreen(
+                                    navController = navController,
+                                    navigationType = NavigationType.BOTTOM_NAV
+                                )
+                            }
+                        },
+                        editCategoryContent = {
+                            Surface(
+                                shape = MaterialTheme.shapes.medium.copy(
+                                    topEnd = CornerSize(0.dp),
+                                    bottomEnd = CornerSize(0.dp)
+                                )
+                            ) {
+                                CategoryEntryScreen(
+                                    navController = navController,
+                                    navigationType = NavigationType.BOTTOM_NAV
+                                )
+                            }
+                        }
+                    )
                 }
             }
         }
