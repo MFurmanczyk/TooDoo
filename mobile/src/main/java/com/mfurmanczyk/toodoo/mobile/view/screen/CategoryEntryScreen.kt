@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
@@ -53,7 +54,7 @@ object CategoryEntryDestination : NavigationDestination(
     route = "new_category"
 ) {
     const val parameterName = "categoryId"
-    private const val categoryRoute = "category"
+    private const val categoryRoute = "edit_category"
 
     val parametrizedRoute = "$categoryRoute/{$parameterName}"
     fun destinationWithParam(categoryId: Long) = "$categoryRoute/$categoryId"
@@ -100,7 +101,8 @@ fun CategoryEntryScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            navController.navigateUp()
+                            if (navigationType != NavigationType.NAV_DRAWER) navController.navigateUp()
+                            else navController.navigate(EntryDestination.route)
                         }
                     ) {
                         Icon(
@@ -123,9 +125,6 @@ fun CategoryEntryScreen(
             onCategoryNameChanged = viewModel::updateCategoryName
         )
     }
-
-
-
 }
 
 @Composable
