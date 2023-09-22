@@ -4,5 +4,5 @@ import androidx.annotation.StringRes
 
 abstract class TooDooException(
     message: String,
-    @StringRes val displayMessage: Int? = null
+    @StringRes open val displayMessage: Int? = null
 ) : Exception(message)
