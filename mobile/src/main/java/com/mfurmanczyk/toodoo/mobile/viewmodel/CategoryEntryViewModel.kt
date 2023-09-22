@@ -59,7 +59,7 @@ class CategoryEntryViewModel @Inject constructor(
             it.copy(
                 categoryName = if(categoryId == 0L) null else category.name,
                 colorHolder =  if(categoryId == 0L) Color.Blue.toColorHolder() else category.color,
-                newEntry = false
+                newEntry = categoryId == 0L
             )
         }
     }

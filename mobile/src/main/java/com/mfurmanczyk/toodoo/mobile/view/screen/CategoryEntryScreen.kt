@@ -81,7 +81,7 @@ fun CategoryEntryScreen(
             CenterAlignedTopAppBar(
                 title = {
                     if(uiState.newEntry) Text(text = stringResource(id = R.string.new_category))
-                    else uiState.categoryName
+                    else Text(uiState.categoryName ?: "")
                 },
                 actions = {
                     IconButton(
