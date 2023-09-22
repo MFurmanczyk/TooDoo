@@ -2,10 +2,10 @@ package com.mfurmanczyk.toodoo.mobile.util
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.mfurmanczyk.toodoo.mobile.view.screen.CalendarDestination
-import com.mfurmanczyk.toodoo.mobile.view.screen.CategoriesDestination
-import com.mfurmanczyk.toodoo.mobile.view.screen.DashboardDestination
-import com.mfurmanczyk.toodoo.mobile.view.screen.SettingsScreen
+import com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation.CalendarDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation.CategoriesDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation.DashboardDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation.SettingsScreen
 
 open class NavigationDestination(
     @StringRes val displayedTitle: Int,

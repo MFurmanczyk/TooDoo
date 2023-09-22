@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.mobile.view.screen
+package com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Bookmarks

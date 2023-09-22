@@ -63,6 +63,13 @@ dependencies {
     val hilt_version = "2.48"
     implementation("com.google.dagger:hilt-android:$hilt_version")
     ksp("com.google.dagger:hilt-compiler:$hilt_version")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    val nav_version = "2.7.3"
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    implementation("io.github.vanpra.compose-material-dialogs:color:0.9.0")
 
     testImplementation("junit:junit:4.13.2")
 

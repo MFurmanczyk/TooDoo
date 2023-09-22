@@ -1,4 +1,4 @@
-package com.mfurmanczyk.toodoo.mobile.view.screen
+package com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement

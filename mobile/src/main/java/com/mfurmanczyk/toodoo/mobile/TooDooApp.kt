@@ -57,15 +57,24 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
 import com.mfurmanczyk.toodoo.mobile.util.getPagerDestinationsList
 import com.mfurmanczyk.toodoo.mobile.view.component.ExpandableFloatingActionButtonState
 import com.mfurmanczyk.toodoo.mobile.view.component.TooDooFab
 import com.mfurmanczyk.toodoo.mobile.view.component.rememberExpandableFloatingActionButtonState
-import com.mfurmanczyk.toodoo.mobile.view.screen.DashboardScreen
+import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
+import com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation.DashboardScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.DashboardScreenViewModel
 import com.mfurmanczyk.toodoo.mobile.viewmodel.TooDooAppViewModel
@@ -74,6 +83,11 @@ import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidUsernameExceptio
 import kotlinx.coroutines.launch
 
 private const val TAG = "TooDooApp"
+
+data object EntryDestination : NavigationDestination(
+    displayedTitle = 0,
+    route = "entry"
+)
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -100,7 +114,7 @@ fun TooDooApp(
                     focusManager.clearFocus()
                 } catch (e: InvalidUsernameException) {
                     Log.w(TAG, "TooDooApp: ", e)
-                    Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getText(e.displayMessage), Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = modifier
@@ -112,11 +126,13 @@ fun TooDooApp(
         val actionButtonState = rememberExpandableFloatingActionButtonState()
         val pagerState = rememberPagerState { navigationDestinations.size }
         val animationScope = rememberCoroutineScope()
+        val navController = rememberNavController()
 
         when (navigationType) {
 
             NavigationType.BOTTOM_NAV -> {
                 BottomNavigationScreen(
+                    navController = navController,
                     modifier = modifier,
                     username = tooDooAppState.username,
                     currentDestination = currentDestination,
@@ -135,6 +151,7 @@ fun TooDooApp(
 
             NavigationType.NAV_RAIL -> {
                 NavigationRailScreen(
+                    navController = navController,
                     modifier = modifier,
                     username = tooDooAppState.username,
                     currentDestination = currentDestination,
@@ -152,6 +169,7 @@ fun TooDooApp(
 
             NavigationType.NAV_DRAWER -> {
                 NavigationDrawerScreen(
+                    navController = navController,
                     username = tooDooAppState.username,
                     navigationDestinations =navigationDestinations,
                     currentDestination = currentDestination,
@@ -171,8 +189,9 @@ fun TooDooApp(
 }
 
 @Composable
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 private fun BottomNavigationScreen(
+    navController: NavHostController,
     username: String,
     currentDestination: Int,
     navigationDestinations: List<NavigationDestination>,
@@ -182,6 +201,55 @@ private fun BottomNavigationScreen(
     onNavigationItemClick: (Int) -> Unit = {}
 ) {
 
+    NavHost(navController = navController, startDestination = EntryDestination.route) {
+        composable(EntryDestination.route) {
+            BottomNavigationScreenContent(
+                navController,
+                modifier,
+                currentDestination,
+                actionButtonState,
+                username,
+                navigationDestinations,
+                onNavigationItemClick,
+                pagerState
+            )
+        }
+        composable(
+            route = CategoryEntryDestination.route
+            ) {
+            CategoryEntryScreen(
+                navController = navController,
+                navigationType = NavigationType.BOTTOM_NAV
+            )
+        }
+
+        composable(
+            route = CategoryEntryDestination.parametrizedRoute,
+            arguments = listOf(navArgument(CategoryEntryDestination.parameterName) { type = NavType.LongType })
+        ) {
+            CategoryEntryScreen(
+                navController = navController,
+                navigationType = NavigationType.BOTTOM_NAV
+            )
+        }
+
+    }
+
+
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+private fun BottomNavigationScreenContent(
+    navController: NavHostController,
+    modifier: Modifier,
+    currentDestination: Int,
+    actionButtonState: ExpandableFloatingActionButtonState,
+    username: String,
+    navigationDestinations: List<NavigationDestination>,
+    onNavigationItemClick: (Int) -> Unit,
+    pagerState: PagerState
+) {
     Scaffold(
         modifier = modifier,
         floatingActionButton = {
@@ -192,7 +260,7 @@ private fun BottomNavigationScreen(
             ) {
                 TooDooFab(
                     state = actionButtonState,
-                    onFirstActionClick = { /*TODO*/ },
+                    onFirstActionClick = { navController.navigate(CategoryEntryDestination.route) },
                     onSecondActionClick = { /*TODO*/ },
                     firstActionContent = {
                         Icon(imageVector = Icons.TwoTone.BookmarkAdd, contentDescription = null)
@@ -260,7 +328,7 @@ private fun BottomNavigationScreen(
         Surface(
             modifier = Modifier.padding(it)
         ) {
-            NavigationPager(pagerState, NavigationType.BOTTOM_NAV)
+            NavigationPager(navController, pagerState, NavigationType.BOTTOM_NAV)
         }
     }
 }
@@ -268,6 +336,7 @@ private fun BottomNavigationScreen(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun NavigationRailScreen(
+    navController: NavHostController,
     username: String,
     currentDestination: Int,
     navigationDestinations: List<NavigationDestination>,
@@ -287,7 +356,7 @@ private fun NavigationRailScreen(
                         Icon(imageVector = Icons.TwoTone.AddTask, contentDescription = null)
                     }
                     Spacer(Modifier.padding(top = MaterialTheme.spacing.extraSmall))
-                    FloatingActionButton(onClick = { }) {
+                    FloatingActionButton(onClick = { navController.navigate(CategoryEntryDestination.route) }) {
                         Icon(imageVector = Icons.TwoTone.BookmarkAdd, contentDescription = null)
                     }
                 }
@@ -344,7 +413,7 @@ private fun NavigationRailScreen(
                 Surface(
                     modifier = Modifier.padding(it)
                 ) {
-                    NavigationPager(pagerState, NavigationType.BOTTOM_NAV)
+                    NavigationPager(navController, pagerState, NavigationType.BOTTOM_NAV)
                 }
             }
         }
@@ -354,6 +423,7 @@ private fun NavigationRailScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun NavigationDrawerScreen(
+    navController: NavHostController,
     username: String,
     navigationDestinations: List<NavigationDestination>,
     currentDestination: Int,
@@ -393,7 +463,9 @@ private fun NavigationDrawerScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.spacing.small),
-                    onClick = { }
+                    onClick = {
+                        navController.navigate(CategoryEntryDestination.route)
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.TwoTone.BookmarkAdd,
@@ -425,7 +497,6 @@ private fun NavigationDrawerScreen(
             }
         }
     ) {
-        /////////////
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.surfaceVariant
@@ -441,6 +512,7 @@ private fun NavigationDrawerScreen(
                     shape = MaterialTheme.shapes.medium
                 ) {
                     NavigationPager(
+                        navController = navController,
                         pagerState = pagerState,
                         navigationType = NavigationType.NAV_DRAWER
                     )
@@ -461,6 +533,7 @@ private fun NavigationDrawerScreen(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 private fun NavigationPager(
+    navController: NavHostController,
     pagerState: PagerState,
     navigationType: NavigationType,
     modifier: Modifier = Modifier
@@ -472,7 +545,7 @@ private fun NavigationPager(
                 state = pagerState,
                 userScrollEnabled = false
             ) { page ->
-                NavigationPagerContent(page)
+                NavigationPagerContent(navController, page)
             }
         }
 
@@ -482,13 +555,13 @@ private fun NavigationPager(
                 state = pagerState,
                 userScrollEnabled = false
             ) { page ->
-                NavigationPagerContent(page)
+                NavigationPagerContent(navController, page)
             }
         }
 
         NavigationType.NAV_DRAWER -> {
             VerticalPager(state = pagerState, userScrollEnabled = false) { page ->
-                NavigationPagerContent(page)
+                NavigationPagerContent(navController, page)
             }
         }
     }
@@ -496,16 +569,22 @@ private fun NavigationPager(
 }
 
 @Composable
-private fun NavigationPagerContent(page: Int) {
+private fun NavigationPagerContent(
+    navController: NavHostController,
+    page: Int
+) {
     when (page) {
         0 -> {
 
-            val dashboardScreenViewModel: DashboardScreenViewModel = viewModel()
+            val dashboardScreenViewModel: DashboardScreenViewModel = hiltViewModel()
             val dashboardScreenUIState by dashboardScreenViewModel.uiState.collectAsState()
 
             DashboardScreen(
                 uiState = dashboardScreenUIState,
-                onTaskCheckedChanged = dashboardScreenViewModel::checkTask
+                onTaskCheckedChanged = dashboardScreenViewModel::checkTask,
+                onAddCategoryClick = {
+                    navController.navigate(CategoryEntryDestination.route)
+                }
             )
         }
 
