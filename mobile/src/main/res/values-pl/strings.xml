@@ -12,4 +12,6 @@
     <string name="add_new_category">Dodaj nową kategorię</string>
     <string name="new_task">Nowe zadanie</string>
     <string name="new_category">Nowa kategoria</string>
+    <string name="category">Kategoria</string>
+    <string name="category_name_warning">Podaj nazwę kategorii!</string>
 </resources>

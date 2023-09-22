@@ -12,4 +12,6 @@
     <string name="add_new_category">Добавить новую категорию</string>
     <string name="new_task">Новое задание</string>
     <string name="new_category">Новая категория</string>
+    <string name="category">Категория</string>
+    <string name="category_name_warning">Category name cannot be empty!</string>
 </resources>

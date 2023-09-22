@@ -13,4 +13,10 @@
     <string name="add_new_category">Add new category</string>
     <string name="new_task">New task</string>
     <string name="new_category">New category</string>
+    <string name="category">Category</string>
+    <string name="category_name" translatable="false">Category name</string>
+    <string name="pick_color" translatable="false">Pick color</string>
+    <string name="tasks" translatable="false">Tasks</string>
+    <string name="category_name_warning" translatable="false">Category name cannot be empty!</string>
+    <string name="username_empty_warning" translatable="false">Username must not be empty!</string>
 </resources>

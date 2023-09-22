@@ -44,7 +44,7 @@ class WelcomeScreenViewModel @Inject constructor(
                 _uiState.value.username?.let { preferencesRepository.setUsername(it) }
             }
         }
-        else throw InvalidUsernameException("Username cannot be empty")
+        else throw InvalidUsernameException()
     }
 
 }
