@@ -72,6 +72,8 @@ import com.mfurmanczyk.toodoo.mobile.view.component.ExpandableFloatingActionButt
 import com.mfurmanczyk.toodoo.mobile.view.component.TooDooFab
 import com.mfurmanczyk.toodoo.mobile.view.component.rememberExpandableFloatingActionButtonState
 import com.mfurmanczyk.toodoo.mobile.view.navigation.tooDooNavigationGraph
+import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
@@ -231,6 +233,12 @@ private fun BottomNavigationScreen(
                     navController = navController,
                     navigationType = NavigationType.BOTTOM_NAV
                 )
+            },
+            displayCategoryContent = {
+                CategoryDisplayScreen(
+                    navController = navController,
+                    navigationType = NavigationType.BOTTOM_NAV
+                )
             }
         )
     }
@@ -364,13 +372,19 @@ private fun NavigationRailScreen(
             newCategoryContent = {
                 CategoryEntryScreen(
                     navController = navController,
-                    navigationType = NavigationType.BOTTOM_NAV
+                    navigationType = NavigationType.NAV_RAIL
                 )
             },
             editCategoryContent = {
                 CategoryEntryScreen(
                     navController = navController,
-                    navigationType = NavigationType.BOTTOM_NAV
+                    navigationType = NavigationType.NAV_RAIL
+                )
+            },
+            displayCategoryContent = {
+                CategoryDisplayScreen(
+                    navController = navController,
+                    navigationType = NavigationType.NAV_RAIL
                 )
             }
         )
@@ -579,7 +593,9 @@ private fun NavigationDrawerScreen(
                     startDestination = EntryDestination.route,
                     enterTransition = { slideInHorizontally(tween(150)) { it * 2 } },
                     exitTransition = { slideOutHorizontally(tween(150)) { it * 2 } },
-                    modifier = Modifier.fillMaxSize().weight(1F)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1F)
                 ) {
                     tooDooNavigationGraph(
                         entryContent = {
@@ -596,7 +612,7 @@ private fun NavigationDrawerScreen(
                             ) {
                                 CategoryEntryScreen(
                                     navController = navController,
-                                    navigationType = NavigationType.BOTTOM_NAV
+                                    navigationType = NavigationType.NAV_DRAWER
                                 )
                             }
                         },
@@ -609,7 +625,20 @@ private fun NavigationDrawerScreen(
                             ) {
                                 CategoryEntryScreen(
                                     navController = navController,
-                                    navigationType = NavigationType.BOTTOM_NAV
+                                    navigationType = NavigationType.NAV_DRAWER
+                                )
+                            }
+                        },
+                        displayCategoryContent = {
+                            Surface(
+                                shape = MaterialTheme.shapes.medium.copy(
+                                    topEnd = CornerSize(0.dp),
+                                    bottomEnd = CornerSize(0.dp)
+                                )
+                            ) {
+                                CategoryDisplayScreen(
+                                    navController = navController,
+                                    navigationType = NavigationType.NAV_DRAWER
                                 )
                             }
                         }
@@ -674,6 +703,9 @@ private fun NavigationPagerContent(
                 onTaskCheckedChanged = dashboardScreenViewModel::checkTask,
                 onAddCategoryClick = {
                     navController.navigate(CategoryEntryDestination.route)
+                },
+                onCategoryClick = {
+                    navController.navigate(CategoryDisplayDestination.destinationWithParam(it.id))
                 }
             )
         }

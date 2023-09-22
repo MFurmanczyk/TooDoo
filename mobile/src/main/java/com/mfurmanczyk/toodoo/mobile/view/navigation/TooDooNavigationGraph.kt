@@ -6,12 +6,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mfurmanczyk.toodoo.mobile.EntryDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
 
 fun NavGraphBuilder.tooDooNavigationGraph(
     entryContent: @Composable (() -> Unit),
     newCategoryContent: @Composable (() -> Unit),
     editCategoryContent: @Composable (() -> Unit),
+    displayCategoryContent: @Composable (() -> Unit)
 ) {
     composable(route = EntryDestination.route) {
         entryContent()
@@ -26,5 +28,12 @@ fun NavGraphBuilder.tooDooNavigationGraph(
         arguments = listOf(navArgument(CategoryEntryDestination.parameterName) { type = NavType.LongType })
     ) {
         editCategoryContent()
+    }
+
+    composable(
+        route = CategoryDisplayDestination.parametrizedRoute,
+        arguments = listOf(navArgument(CategoryDisplayDestination.parameterName) { type = NavType.LongType })
+    ) {
+        displayCategoryContent()
     }
 }

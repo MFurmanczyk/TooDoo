@@ -13,5 +13,13 @@
     <string name="new_task">Nouvelle tâche</string>
     <string name="new_category">Nouvelle catégorie</string>
     <string name="category">Catégorie</string>
-    <string name="category_name_warning">Category name cannot be empty!</string>
+    <string name="category_name">Nom de catégorie</string>
+    <string name="pick_color">Choisissez la couleur</string>
+    <string name="tasks">Tâches</string>
+    <string name="category_name_warning">Le nom de la catégorie ne peut pas être vide!</string>
+    <string name="cancel">Annuler</string>
+    <string name="confirm">Confirmer</string>
+    <string name="confirm_deletion_message">Etes-vous sûr de vouloir supprimer cette catégorie ? Le changement sera permanent !</string>
+    <string name="confirm_deletion">Confirm deletion!</string>
+    <string name="username_empty_warning">Le nom d\'utilisateur ne doit pas être vide !</string>
 </resources>

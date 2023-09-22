@@ -1,7 +1,6 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,8 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.mfurmanczyk.toodoo.mobile.EntryDestination
@@ -82,7 +81,7 @@ fun CategoryEntryScreen(
             CenterAlignedTopAppBar(
                 title = {
                     if(uiState.newEntry) Text(text = stringResource(id = R.string.new_category))
-                    else Text(uiState.categoryName ?: "")
+                    else Text(uiState.categoryName ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis)
                 },
                 actions = {
                     IconButton(
@@ -134,15 +133,16 @@ private fun ColorPickerDialog(
 ) {
     MaterialDialog(
         dialogState = dialogState,
-        elevation = MaterialTheme.spacing.medium,
-        border = BorderStroke(1.dp, Color.Gray),
+        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+        shape = MaterialTheme.shapes.large,
         autoDismiss = true,
+        elevation = MaterialTheme.spacing.default,
         buttons = {
             negativeButton(
-                text = "Cancel"
+                text = stringResource(id = R.string.cancel)
             )
             positiveButton(
-                text = "Select"
+                text = stringResource(id = R.string.confirm)
             )
         }
     ) {

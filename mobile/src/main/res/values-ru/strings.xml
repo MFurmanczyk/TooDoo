@@ -13,5 +13,13 @@
     <string name="new_task">Новое задание</string>
     <string name="new_category">Новая категория</string>
     <string name="category">Категория</string>
-    <string name="category_name_warning">Category name cannot be empty!</string>
+    <string name="category_name">Название категории</string>
+    <string name="pick_color">Выберите цвет</string>
+    <string name="tasks">Задания</string>
+    <string name="category_name_warning">Название категории не может быть пустым!</string>
+    <string name="username_empty_warning">Имя пользователя не должно быть пустым!</string>
+    <string name="confirm_deletion">Подтвердить удаление!</string>
+    <string name="confirm_deletion_message">Вы уверены, что хотите удалить эту категорию? Изменения будут постоянными!</string>
+    <string name="confirm">ОК</string>
+    <string name="cancel">Отмена</string>
 </resources>

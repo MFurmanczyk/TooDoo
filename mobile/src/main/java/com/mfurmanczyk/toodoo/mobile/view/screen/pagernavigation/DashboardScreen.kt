@@ -636,28 +636,3 @@ fun CategoryTilePreview() {
         )
     }
 }
-
-@Preview
-@Composable
-fun TaskTilePreview() {
-    TooDooTheme {
-        TaskTile(
-            onClick = {
-
-            },
-            onCheckboxClick = { _, _ ->
-
-            },
-            task = Task(
-                id = 1,
-                categoryId = 1,
-                name = "Pay rent for apartment",
-                description = null,
-                createdOn = LocalDateTime.of(2010, 1, 1, 12, 0, 0),
-                completedOn = LocalDateTime.of(2010, 1, 2, 12, 0, 0),
-                dueDate = LocalDate.of(2010, 1, 3),
-                isDone = true
-            )
-        )
-    }
-}

@@ -13,5 +13,13 @@
     <string name="new_task">New task</string>
     <string name="new_category">New category</string>
     <string name="category">Category</string>
+    <string name="category_name">Category name</string>
+    <string name="tasks">Tasks</string>
+    <string name="pick_color">Pick color</string>
     <string name="category_name_warning">Category name cannot be empty!</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_deletion_message">Are you sure want to delete this Category? Change will be permanent!</string>
+    <string name="confirm_deletion">Confirm deletion!</string>
+    <string name="username_empty_warning">Username must not be empty!</string>
 </resources>

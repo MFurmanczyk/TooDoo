@@ -13,10 +13,9 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidCategoryNameException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,21 +45,17 @@ class CategoryEntryViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        val category = categoryRepository
-            .getCategoryById(categoryId)
-            .filterNotNull()
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                Category(name = "", color = Color.Blue.toColorHolder())
-            ).value
+        viewModelScope.launch {
+            val category = categoryRepository
+                .getCategoryById(categoryId).filterNotNull().first()
 
-        _uiState.update {
-            it.copy(
-                categoryName = if(categoryId == 0L) null else category.name,
-                colorHolder =  if(categoryId == 0L) Color.Blue.toColorHolder() else category.color,
-                newEntry = categoryId == 0L
-            )
+            _uiState.update {
+                it.copy(
+                    categoryName = if (categoryId == 0L) null else category.name,
+                    colorHolder = if (categoryId == 0L) Color.Blue.toColorHolder() else category.color,
+                    newEntry = categoryId == 0L
+                )
+            }
         }
     }
 
@@ -84,14 +79,15 @@ class CategoryEntryViewModel @Inject constructor(
     fun saveCategory() {
         if (uiState.value.isValid()) {
             viewModelScope.launch {
-                categoryRepository.addCategory(uiState.value.toCategory())
+                if(_uiState.value.newEntry) {
+                    categoryRepository.addCategory(uiState.value.toCategory())
+                } else {
+                    categoryRepository.updateCategory(uiState.value.toCategory(categoryId))
+                }
             }
         } else throw InvalidCategoryNameException()
     }
 
-    companion object {
-        const val TIMEOUT_MILLIS = 5000L
-    }
 }
 
 fun CategoryEntryScreenUiState.isValid(): Boolean {
@@ -99,9 +95,10 @@ fun CategoryEntryScreenUiState.isValid(): Boolean {
 }
 
 @Throws(InvalidCategoryNameException::class)
-fun CategoryEntryScreenUiState.toCategory() : Category {
+fun CategoryEntryScreenUiState.toCategory(id: Long = 0) : Category {
     if (categoryName == null) throw InvalidCategoryNameException()
     return Category(
+        id = id,
         name = categoryName,
         color = colorHolder
     )
