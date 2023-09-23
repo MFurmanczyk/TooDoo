@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material.icons.twotone.Check
-import androidx.compose.material.icons.twotone.Close
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,10 +32,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
-import com.mfurmanczyk.toodoo.mobile.util.NavigationType
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
@@ -63,7 +60,6 @@ object CategoryEntryDestination : NavigationDestination(
 @Composable
 fun CategoryEntryScreen(
     navController: NavHostController,
-    navigationType: NavigationType,
     modifier: Modifier = Modifier
 ) {
 
@@ -100,12 +96,11 @@ fun CategoryEntryScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (navigationType != NavigationType.NAV_DRAWER) navController.navigateUp()
-                            else navController.navigate(EntryDestination.route)
+                            navController.navigateUp()
                         }
                     ) {
                         Icon(
-                            imageVector = if(navigationType != NavigationType.NAV_DRAWER) Icons.TwoTone.ArrowBack else Icons.TwoTone.Close,
+                            imageVector = Icons.TwoTone.ArrowBack,
                             contentDescription = null
                         )
                     }

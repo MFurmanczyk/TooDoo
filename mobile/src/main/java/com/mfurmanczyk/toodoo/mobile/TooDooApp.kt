@@ -225,13 +225,11 @@ private fun BottomNavigationScreen(
             newCategoryContent = {
                 CategoryEntryScreen(
                     navController = navController,
-                    navigationType = NavigationType.BOTTOM_NAV
                 )
             },
             editCategoryContent = {
                 CategoryEntryScreen(
                     navController = navController,
-                    navigationType = NavigationType.BOTTOM_NAV
                 )
             },
             displayCategoryContent = {
@@ -372,13 +370,11 @@ private fun NavigationRailScreen(
             newCategoryContent = {
                 CategoryEntryScreen(
                     navController = navController,
-                    navigationType = NavigationType.NAV_RAIL
                 )
             },
             editCategoryContent = {
                 CategoryEntryScreen(
                     navController = navController,
-                    navigationType = NavigationType.NAV_RAIL
                 )
             },
             displayCategoryContent = {
@@ -612,7 +608,6 @@ private fun NavigationDrawerScreen(
                             ) {
                                 CategoryEntryScreen(
                                     navController = navController,
-                                    navigationType = NavigationType.NAV_DRAWER
                                 )
                             }
                         },
@@ -625,7 +620,6 @@ private fun NavigationDrawerScreen(
                             ) {
                                 CategoryEntryScreen(
                                     navController = navController,
-                                    navigationType = NavigationType.NAV_DRAWER
                                 )
                             }
                         },
