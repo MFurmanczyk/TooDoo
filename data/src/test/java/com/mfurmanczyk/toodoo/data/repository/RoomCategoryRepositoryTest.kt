@@ -35,7 +35,7 @@ class RoomCategoryRepositoryTest {
             on { getCategoryById(1) } doReturn flowOf(dataSource.categoryData.categories.first())
             on { getAllCategoriesWithTasks() } doReturn flowOf(dataSource.categoriesWithTasksData.categoriesWithTasks)
             on { getCategoryWithTasksById(1) } doReturn flowOf(dataSource.categoriesWithTasksData.categoriesWithTasks.first())
-            onBlocking { insertCategory(dataSource.categoryData.category_3_insert)} doAnswer { dataSource.categoryData.addCategory() }
+            onBlocking { insertCategory(dataSource.categoryData.category_3_insert)} doAnswer {dataSource.categoryData.addCategory() }
             onBlocking { updateCategory(dataSource.categoryData.category_2_update) } doAnswer { dataSource.categoryData.updateCategory() }
             onBlocking { deleteCategory(dataSource.categoryData.categories.first()) } doAnswer { dataSource.categoryData.deleteFirst() }
             onBlocking { deleteCategories(dataSource.categoryData.categories.first(), dataSource.categoryData.categories.last()) } doAnswer { dataSource.categoryData.deleteFirstAndLast() }
@@ -49,6 +49,7 @@ class RoomCategoryRepositoryTest {
         runBlocking {
             val categories = repository.getAllCategories().first()
 
+            println(categories.size)
             assertTrue(categories.size == 2)
             assertEquals(dataSource.categoryData.categories.first(), categories.first())
             assertEquals(dataSource.categoryData.categories.last(), categories.last())

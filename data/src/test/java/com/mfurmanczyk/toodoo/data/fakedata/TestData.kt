@@ -113,8 +113,9 @@ internal open class TestData {
         fun first() = task_1
         fun last() = task_6
 
-        fun addTask() {
+        fun addTask() : Long{
             tasks.add(task_7_insert)
+            return task_7_insert.id
         }
 
         fun updateTask() {
@@ -227,8 +228,9 @@ internal open class TestData {
         fun first() = step_1
         fun last() = step_9
 
-        fun addStep() {
+        fun addStep() : Long {
             steps.add(step_10_insert)
+            return step_10_insert.id
         }
 
         fun updateStep() {
@@ -276,8 +278,9 @@ internal open class TestData {
         fun first() = category_1
         fun last() = category_2
 
-        fun addCategory() {
+        fun addCategory() : Long {
             categories.add(category_3_insert)
+            return category_3_insert.id
         }
 
         fun updateCategory() {

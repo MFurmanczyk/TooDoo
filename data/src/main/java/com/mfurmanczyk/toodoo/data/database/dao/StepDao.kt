@@ -19,7 +19,7 @@ interface StepDao {
     fun getStepById(id: Long): Flow<Step?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertStep(step: Step)
+    suspend fun insertStep(step: Step) : Long
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun updateStep(step: Step)

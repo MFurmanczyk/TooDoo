@@ -32,7 +32,7 @@ interface TaskDao {
     fun getTaskWithStepsById(id: Long): Flow<TaskWithSteps?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTask(task: Task)
+    suspend fun insertTask(task: Task) : Long
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun updateTask(task: Task)

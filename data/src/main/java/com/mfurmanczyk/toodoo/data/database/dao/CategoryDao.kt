@@ -29,7 +29,7 @@ interface CategoryDao {
     fun getCategoryWithTasksById(id: Long): Flow<CategoryWithTasks?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertCategory(category: Category)
+    suspend fun insertCategory(category: Category) : Long
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun updateCategory(category: Category)

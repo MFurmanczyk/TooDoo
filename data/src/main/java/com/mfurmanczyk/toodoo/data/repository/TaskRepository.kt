@@ -35,7 +35,7 @@ interface TaskRepository {
     /**
      * Adds [task] to datasource.
      */
-    suspend fun addTask(task: Task)
+    suspend fun addTask(task: Task) : Long
 
     /**
      * Updates [task] in datasource.

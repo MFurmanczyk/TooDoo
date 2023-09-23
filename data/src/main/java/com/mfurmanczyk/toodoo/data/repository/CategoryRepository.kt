@@ -30,7 +30,7 @@ interface CategoryRepository {
     /**
      * Adds [category] to datasource.
      */
-    suspend fun addCategory(category: Category)
+    suspend fun addCategory(category: Category) : Long
 
     /**
      * Updates [category] in datasource

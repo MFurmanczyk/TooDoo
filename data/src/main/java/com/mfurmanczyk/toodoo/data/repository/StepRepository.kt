@@ -18,7 +18,7 @@ interface StepRepository {
     /**
      * Adds [step] to datasource.
      */
-    suspend fun addStep(step: Step)
+    suspend fun addStep(step: Step) : Long
 
     /**
      * Updates [step] in datasource.
