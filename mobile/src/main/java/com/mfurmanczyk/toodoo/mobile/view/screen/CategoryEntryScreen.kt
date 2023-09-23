@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
@@ -98,7 +99,7 @@ fun CategoryEntryScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = { if(uiState.newEntry) navController.navigateUp() else viewModel.showDialog() }
+                        onClick = { if(uiState.newEntry) navController.navigate(EntryDestination.route) else viewModel.showDialog() }
                     ) {
                         Icon(
                             imageVector = if(uiState.newEntry) Icons.TwoTone.Close else Icons.TwoTone.ArrowBack,
