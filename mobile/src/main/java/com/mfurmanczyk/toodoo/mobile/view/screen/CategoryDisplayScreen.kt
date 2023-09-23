@@ -1,5 +1,6 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -102,7 +103,8 @@ fun CategoryDisplayScreen(
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(MaterialTheme.spacing.small)
+                contentPadding = PaddingValues(MaterialTheme.spacing.small),
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
             ) {
                 items(uiState.taskList) {
                     TaskTile(
