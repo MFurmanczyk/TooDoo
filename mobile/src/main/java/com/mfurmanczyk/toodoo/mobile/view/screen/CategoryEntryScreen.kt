@@ -70,7 +70,7 @@ fun CategoryEntryScreen(
     val viewModel = hiltViewModel<CategoryEntryViewModel>()
     val uiState by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
+
     val dialogState = rememberMaterialDialogState()
 
     ColorPickerDialog(dialogState) { viewModel.updateCategoryColor(it) }
@@ -84,6 +84,7 @@ fun CategoryEntryScreen(
                     else Text(uiState.categoryName ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis)
                 },
                 actions = {
+                    val context = LocalContext.current
                     IconButton(
                         onClick = {
                             try {
