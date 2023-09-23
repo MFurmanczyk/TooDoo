@@ -1,8 +1,10 @@
 package com.mfurmanczyk.toodoo.data.model
 
+import android.content.Context
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.mfurmanczyk.toodoo.data.R
 
 @Entity(tableName = "categories")
 data class Category(
@@ -12,8 +14,8 @@ data class Category(
     val color: ColorHolder
 ) {
     companion object {
-        val Uncategorized = Category(
-            name = "Uncategorized",
+        fun uncategorized(context: Context) = Category(
+            name = context.getString(R.string.uncategorized),
             color = ColorHolder(255, 88, 88, 88)
         )
     }
