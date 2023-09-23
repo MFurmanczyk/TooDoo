@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 data class DashboardScreenUIState(
     val categoryList: List<CategoryWithTasks>,
-    val tasks: List<Task>
+    val todaysTasks: List<Task>,
+    val uncategorizedTasks: List<Task>
 )
 
 @HiltViewModel
@@ -31,11 +32,15 @@ class DashboardScreenViewModel @Inject constructor(
         val todayTasks = tasks.filter {
             it.dueDate == LocalDate.now()
         }
-        DashboardScreenUIState(categories, todayTasks)
+
+        val uncategorizedTasks = tasks.filter {
+            it.categoryId == null
+        }
+        DashboardScreenUIState(categories, todayTasks, uncategorizedTasks)
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-        DashboardScreenUIState(listOf(), listOf())
+        DashboardScreenUIState(listOf(), listOf(), listOf())
     )
 
     /**

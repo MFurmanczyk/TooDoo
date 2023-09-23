@@ -1,5 +1,7 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -64,20 +67,22 @@ fun DashboardScreen(
         modifier = modifier.fillMaxSize()
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(vertical = MaterialTheme.spacing.small),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+            contentPadding = PaddingValues(vertical = MaterialTheme.spacing.small)
         ) {
             stickyHeader {
                 Text(
                     text = stringResource(R.string.categories).uppercase(),
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(start = MaterialTheme.spacing.small)
+                    modifier = Modifier
+                        .padding(start = MaterialTheme.spacing.small)
+                        .padding(bottom = MaterialTheme.spacing.small)
                 )
             }
             item {
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.small),
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+                    modifier = Modifier.padding(bottom = MaterialTheme.spacing.small)
                 ) {
                     items(uiState.categoryList) {
                         CategoryTile(
@@ -95,17 +100,27 @@ fun DashboardScreen(
                 Text(
                     text = stringResource(R.string.today_tasks).uppercase(),
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(start = MaterialTheme.spacing.small)
+                    modifier = Modifier
+                        .padding(start = MaterialTheme.spacing.small)
+                        .padding(bottom = MaterialTheme.spacing.small)
                 )
             }
-            if (uiState.tasks.isNotEmpty()) {
-                items(uiState.tasks) {
-                    TaskTile(
-                        modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small),
-                        onClick = onTaskClick,
-                        onCheckboxClick = onTaskCheckedChanged,
-                        task = it
-                    )
+            if (uiState.todaysTasks.isNotEmpty()) {
+                items(uiState.todaysTasks) { task ->
+                    AnimatedContent(
+                        targetState = !task.isDone, label = "Task done animation"
+                    ) {
+                        if(it) {
+                            TaskTile(
+                                modifier = Modifier
+                                    .padding(horizontal = MaterialTheme.spacing.small)
+                                    .padding(bottom = MaterialTheme.spacing.small),
+                                onClick = onTaskClick,
+                                onCheckboxClick = onTaskCheckedChanged,
+                                task = task
+                            )
+                        }
+                    }
                 }
             } else {
                 item {
@@ -144,8 +159,9 @@ fun CategoryTile(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.SpaceBetween
         ) {
+            val animatedProgress by animateFloatAsState(targetValue = progress, label = "progress value animation")
             Text(text = category.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            LinearProgressIndicator(progress = progress, color = category.color.toComposeColor())
+            LinearProgressIndicator(progress = animatedProgress, color = category.color.toComposeColor())
         }
     }
 }
@@ -516,7 +532,8 @@ fun DashboardScreenPreview() {
                         isDone = true
                     )
 
-                )
+                ),
+                listOf()
             )
         )
     }
@@ -614,6 +631,7 @@ fun DashboardScreenNoTasksPreview() {
                         )
                     )
                 ),
+                listOf(),
                 listOf()
             )
         )
