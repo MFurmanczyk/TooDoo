@@ -10,4 +10,11 @@ data class Category(
     val name: String,
     @Embedded
     val color: ColorHolder
-)
+) {
+    companion object {
+        val Uncategorized = Category(
+            name = "Uncategorized",
+            color = ColorHolder(255, 88, 88, 88)
+        )
+    }
+}

@@ -42,13 +42,28 @@ class CategoryDisplayViewModel @Inject constructor(
 
     val categoryId: Long = savedStateHandle[CategoryDisplayDestination.parameterName] ?: 0
 
-    val uiState = categoryRepository.getCategoryWithTaskById(categoryId).filterNotNull().map {
-        CategoryDisplayUiState(category = it.category, taskList = it.tasks)
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-        CategoryDisplayUiState(Category(name = "", color = Color.Gray.toColorHolder()), listOf())
-    )
+    val uiState = (
+            if (categoryId == 0L)
+                taskRepository.getAllUncategorizedTasks().map {
+                    CategoryDisplayUiState(
+                        category = Category.Uncategorized,
+                        taskList = it
+                    )
+                } else
+                categoryRepository.getCategoryWithTaskById(categoryId).filterNotNull().map {
+                    CategoryDisplayUiState(
+                        category = it.category,
+                        taskList = it.tasks
+                    )
+                }).stateIn(
+                        viewModelScope,
+                        SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                        CategoryDisplayUiState(
+                            Category(name = "", color = Color.Gray.toColorHolder()),
+                            listOf()
+                        )
+                )
+
 
     private val _dialogState = MutableStateFlow(CategoryDisplayDialogState(false))
     val dialogState = _dialogState.asStateFlow()

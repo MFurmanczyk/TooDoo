@@ -39,6 +39,7 @@ import com.mfurmanczyk.toodoo.data.model.relationship.CategoryWithTasks
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.getCompletedTasksRatio
+import com.mfurmanczyk.toodoo.mobile.util.progress
 import com.mfurmanczyk.toodoo.mobile.util.toColorHolder
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
 import com.mfurmanczyk.toodoo.mobile.view.component.TaskTile
@@ -90,6 +91,12 @@ fun DashboardScreen(
                             category = it.category,
                             progress = it.getCompletedTasksRatio()
                         )
+                    }
+                    item {
+                        CategoryTile(
+                            onClick = onCategoryClick,
+                            category = Category.Uncategorized,
+                            progress = uiState.uncategorizedTasks.progress())
                     }
                     item {
                         AddCategoryTile(onClick = onAddCategoryClick)

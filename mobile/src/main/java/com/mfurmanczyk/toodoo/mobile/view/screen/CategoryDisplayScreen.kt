@@ -66,20 +66,22 @@ fun CategoryDisplayScreen(
                 title = { Text(uiState.category.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
                 actions = {
                     //Edit
-                    IconButton(
-                        onClick = {
-                            navController.navigate(
-                                CategoryEntryDestination.destinationWithParam(
-                                    viewModel.categoryId
+                    if(uiState.category.id != 0L) {
+                        IconButton(
+                            onClick = {
+                                navController.navigate(
+                                    CategoryEntryDestination.destinationWithParam(
+                                        viewModel.categoryId
+                                    )
                                 )
-                            )
+                            }
+                        ) {
+                            Icon(imageVector = Icons.TwoTone.Edit, contentDescription = null)
                         }
-                    ) {
-                        Icon(imageVector = Icons.TwoTone.Edit, contentDescription = null)
-                    }
-                    //Delete
-                    IconButton(onClick = viewModel::displayDialog) {
-                        Icon(imageVector = Icons.TwoTone.Delete, contentDescription = null)
+                        //Delete
+                        IconButton(onClick = viewModel::displayDialog) {
+                            Icon(imageVector = Icons.TwoTone.Delete, contentDescription = null)
+                        }
                     }
                 },
                 navigationIcon = {
