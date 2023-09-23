@@ -1,5 +1,6 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -58,6 +59,7 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.TaskEntryUiState
 import com.mfurmanczyk.toodoo.mobile.viewmodel.TaskEntryViewModel
+import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidStepDescriptionException
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidTaskNameException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -72,6 +74,8 @@ object TaskEntryDestination : NavigationDestination(
     val parametrizedRoute = "$editTaskRoute/{$parameterName}"
     fun destinationWithParam(taskId: Long) = "$editTaskRoute/$taskId"
 }
+
+private const val TAG = "TaskEntryScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,6 +127,8 @@ fun TaskEntryScreen(
             )
         }
     ) {
+        val context = LocalContext.current
+
         TaskEntryScreenContent(
             uiState = uiState,
             onTaskNameValueChanged = viewModel::updateTaskName,
@@ -135,8 +141,14 @@ fun TaskEntryScreen(
             onStepRemoveClick = viewModel::deleteStep,
             onStepDescriptionValueChanged = viewModel::updateStepDescription,
             onStepConfirmClick = {
-                viewModel.addStep(it)
-                viewModel.switchStepEntryMode(false)
+                try {
+                    viewModel.addStep(it)
+                    viewModel.switchStepEntryMode(false)
+                } catch (e: InvalidStepDescriptionException) {
+                    Log.w(TAG, "TaskEntryScreen: ${e.message}")
+                    Toast.makeText(context, context.getText(R.string.step_description_warning), Toast.LENGTH_SHORT).show()
+                }
+
             },
             onStepCancelClick = { viewModel.switchStepEntryMode(false) },
             onAddStepClick = { viewModel.switchStepEntryMode(true) },
@@ -170,7 +182,7 @@ fun TaskEntryScreenContent(
                 InputField(
                     modifier = Modifier.fillMaxWidth(),
                     label = stringResource(R.string.task_name),
-                    value = uiState.taskName ?: "",
+                    value = uiState.taskName,
                     onValueChanged = onTaskNameValueChanged,
                     maxLines = 1,
                     singleLine = true

@@ -14,6 +14,7 @@ import com.mfurmanczyk.toodoo.data.repository.StepRepository
 import com.mfurmanczyk.toodoo.data.repository.TaskRepository
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.view.screen.TaskEntryDestination
+import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidStepDescriptionException
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidTaskNameException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -170,7 +171,9 @@ class TaskEntryViewModel @Inject constructor(
         }
     }
 
+    @Throws(InvalidStepDescriptionException::class)
     fun addStep(stepDescription: String) {
+        if(stepDescription.isBlank()) throw InvalidStepDescriptionException()
         viewModelScope.launch {
             val newStepList = _uiState.value.stepsList.toMutableList()
             val step = Step (
