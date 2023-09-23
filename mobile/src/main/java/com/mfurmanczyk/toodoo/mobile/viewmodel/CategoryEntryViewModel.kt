@@ -23,7 +23,8 @@ import javax.inject.Inject
 data class CategoryEntryScreenUiState(
     val categoryName: String? = null,
     val colorHolder: ColorHolder,
-    val newEntry: Boolean
+    val newEntry: Boolean,
+    val shouldDisplayDialog: Boolean = false
 )
 
 @HiltViewModel
@@ -72,6 +73,18 @@ class CategoryEntryViewModel @Inject constructor(
             it.copy(
                 colorHolder = newColor.toColorHolder()
             )
+        }
+    }
+
+    fun showDialog() {
+        _uiState.update {
+            it.copy(shouldDisplayDialog = true)
+        }
+    }
+
+    fun hideDialog() {
+        _uiState.update {
+            it.copy(shouldDisplayDialog = false)
         }
     }
 

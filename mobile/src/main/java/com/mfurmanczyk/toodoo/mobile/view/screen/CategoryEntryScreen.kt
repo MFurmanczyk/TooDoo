@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material.icons.twotone.Check
+import androidx.compose.material.icons.twotone.Close
+import androidx.compose.material.icons.twotone.Warning
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +37,7 @@ import androidx.navigation.NavHostController
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
+import com.mfurmanczyk.toodoo.mobile.view.component.ConfirmationDialog
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
 import com.mfurmanczyk.toodoo.mobile.viewmodel.CategoryEntryViewModel
@@ -95,12 +98,10 @@ fun CategoryEntryScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = {
-                            navController.navigateUp()
-                        }
+                        onClick = { if(uiState.newEntry) navController.navigateUp() else viewModel.showDialog() }
                     ) {
                         Icon(
-                            imageVector = Icons.TwoTone.ArrowBack,
+                            imageVector = if(uiState.newEntry) Icons.TwoTone.Close else Icons.TwoTone.ArrowBack,
                             contentDescription = null
                         )
                     }
@@ -117,6 +118,18 @@ fun CategoryEntryScreen(
                 dialogState.show()
             },
             onCategoryNameChanged = viewModel::updateCategoryName
+        )
+    }
+
+    if(uiState.shouldDisplayDialog) {
+        ConfirmationDialog(
+            onDismissRequest = viewModel::hideDialog,
+            onConfirmation = {
+                navController.navigateUp()
+            },
+            dialogTitle = "Are you sure?",
+            dialogText = "Are you sure you want to stop editing this Category?",
+            icon = Icons.TwoTone.Warning
         )
     }
 }
