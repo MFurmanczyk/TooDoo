@@ -1,6 +1,7 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -99,10 +100,14 @@ fun CategoryDisplayScreen(
             modifier = Modifier.padding(it)
         ) {
 
-            LazyColumn(contentPadding = PaddingValues(horizontal = MaterialTheme.spacing.small)) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(MaterialTheme.spacing.small)
+            ) {
                 items(uiState.taskList) {
                     TaskTile(
-                        onClick = { },
+                        modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small),
+                        onClick = { /*TODO*/ },
                         onCheckboxClick = viewModel::checkTask,
                         task = it
                     )
