@@ -2,6 +2,7 @@ package com.mfurmanczyk.toodoo.mobile.view.screen
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.scaleIn
@@ -236,28 +237,28 @@ fun TaskEntryScreenContent(
                         )
                     }
                     item {
+                        AnimatedContent(targetState = uiState.isAddingNewStep, label = "Animated input tile") {
+                            if(it) {
+                                StepEntryTile(
+                                    stepDescription = uiState.stepDescription ?: "",
+                                    onDescriptionValueChanged = onStepDescriptionValueChanged,
+                                    onConfirmClick = onStepConfirmClick,
+                                    onCancelClick = onStepCancelClick
+                                )
+                            } else {
+                                NewStepTile(
+                                    text = "Add step".uppercase(),
+                                    icon = Icons.TwoTone.Add,
+                                    onClick = onAddStepClick
+                                )
+                            }
+                        }
                         AnimatedVisibility(
                             visible = !uiState.isAddingNewStep,
                             enter = scaleIn(tween(150, 150)),
                             exit = scaleOut(tween(150, 150))
                         ) {
-                            NewStepTile(
-                                text = "Add step".uppercase(),
-                                icon = Icons.TwoTone.Add,
-                                onClick = onAddStepClick
-                            )
-                        }
-                        AnimatedVisibility(
-                            visible = uiState.isAddingNewStep,
-                            enter = scaleIn(tween(150, 150)),
-                            exit = scaleOut(tween(150, 150))
-                        ) {
-                            StepEntryTile(
-                                stepDescription = uiState.stepDescription ?: "",
-                                onDescriptionValueChanged = onStepDescriptionValueChanged,
-                                onConfirmClick = onStepConfirmClick,
-                                onCancelClick = onStepCancelClick
-                            )
+
                         }
                     }
                 }

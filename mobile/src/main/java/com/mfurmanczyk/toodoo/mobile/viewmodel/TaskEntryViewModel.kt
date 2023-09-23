@@ -12,7 +12,6 @@ import com.mfurmanczyk.toodoo.data.model.relationship.TaskWithSteps
 import com.mfurmanczyk.toodoo.data.repository.CategoryRepository
 import com.mfurmanczyk.toodoo.data.repository.StepRepository
 import com.mfurmanczyk.toodoo.data.repository.TaskRepository
-import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.view.screen.TaskEntryDestination
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidStepDescriptionException
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidTaskNameException
@@ -185,6 +184,7 @@ class TaskEntryViewModel @Inject constructor(
             newStepList.add(step)
             _uiState.update {
                 it.copy(
+                    stepDescription = null,
                     _stepsList = newStepList
                 )
             }
@@ -192,11 +192,14 @@ class TaskEntryViewModel @Inject constructor(
 
     }
 
+    @Throws(InvalidTaskNameException::class)
     fun addNewTaskWithSteps() {
-        viewModelScope.launch {
-            val taskId = addNewTask()
-            addStepsForTask(taskId)
-        }
+        if(_uiState.value.isValid()) {
+            viewModelScope.launch {
+                val taskId = addNewTask()
+                addStepsForTask(taskId)
+            }
+        } else throw InvalidTaskNameException()
     }
 
     private suspend fun addStepsForTask(taskId: Long) {
@@ -232,7 +235,7 @@ fun TaskEntryUiState.toTaskWithSteps(): TaskWithSteps {
             ),
             steps = stepsList
         )
-    } else throw InvalidTaskNameException(R.string.task_name_cannot_be_null)
+    } else throw InvalidTaskNameException()
 }
 
 fun TaskEntryUiState.isValid() =
