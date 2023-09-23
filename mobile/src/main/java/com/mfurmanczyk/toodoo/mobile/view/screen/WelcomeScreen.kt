@@ -57,7 +57,7 @@ fun WelcomeScreen(
                 value = uiState.username ?: "",
                 onValueChange = onInputFieldValueChanged,
                 label = {
-                    Text(text = stringResource(R.string.name))
+                    Text(text = stringResource(R.string.user_name))
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(

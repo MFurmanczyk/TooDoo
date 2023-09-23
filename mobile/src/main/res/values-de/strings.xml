@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome_screen_question">Wie ist dein Name?</string>
-    <string name="name">Name</string>
+    <string name="user_name">Name</string>
     <string name="kudos">Gute Arbeit! Sie sind auf dem Laufenden!</string>
     <string name="categories">Kategorien</string>
     <string name="today_tasks">Für heute</string>

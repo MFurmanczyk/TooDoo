@@ -71,10 +71,10 @@ class WelcomeScreenTest {
             )
         }
 
-        rule.onNode(hasText(rule.activity.getString(R.string.name)))
+        rule.onNode(hasText(rule.activity.getString(R.string.user_name)))
             .performClick()
 
-        rule.onNode(hasText(rule.activity.getString(R.string.name)))
+        rule.onNode(hasText(rule.activity.getString(R.string.user_name)))
             .assertIsDisplayed()
             .assertIsEnabled()
             .assertIsFocused()
@@ -100,10 +100,10 @@ class WelcomeScreenTest {
 
         val input = "TEST"
 
-        rule.onNodeWithText(rule.activity.getString(R.string.name))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name))
             .performTextInput(input)
 
-        rule.onNodeWithText(rule.activity.getString(R.string.name))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name))
             .assert(hasText(input))
             .assertIsDisplayed()
             .assertIsEnabled()
@@ -154,10 +154,10 @@ class WelcomeScreenTest {
 
         val blankString = " "
 
-        rule.onNodeWithText(rule.activity.getString(R.string.name))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name))
             .performTextInput(blankString)
 
-        rule.onNodeWithText(rule.activity.getString(R.string.name))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name))
             .assert(hasText(blankString))
 
         rule.onNodeWithTag(BUTTON_TEST_TAG)
@@ -186,10 +186,10 @@ class WelcomeScreenTest {
 
         val input = "TEST"
 
-        rule.onNodeWithText(rule.activity.getString(R.string.name))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name))
             .performTextInput(input)
 
-        rule.onNodeWithText(rule.activity.getString(R.string.name))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name))
             .assert(hasText(input))
 
         rule.onNodeWithTag(BUTTON_TEST_TAG)
@@ -244,8 +244,8 @@ class WelcomeScreenTest {
         }
 
         val input = " "
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).assert(hasText(input))
 
         rule.onNode(hasClickAction() and isNotFocusable()).performClick()
 
@@ -274,8 +274,8 @@ class WelcomeScreenTest {
         }
 
         val input = "TEST"
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).assert(hasText(input))
 
         rule.onNode(hasClickAction() and hasTestTag("save button")).performClick()
 
@@ -302,7 +302,7 @@ class WelcomeScreenTest {
             )
         }
 
-        rule.onNode(hasText(rule.activity.getString(R.string.name))).performImeAction()
+        rule.onNode(hasText(rule.activity.getString(R.string.user_name))).performImeAction()
         assertEquals(0, counterState)
     }
 
@@ -327,9 +327,9 @@ class WelcomeScreenTest {
         }
 
         val input = " "
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).performImeAction()
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).performImeAction()
         assertEquals(0, counterState)
     }
 
@@ -354,9 +354,9 @@ class WelcomeScreenTest {
         }
 
         val input = "TEST"
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).performTextInput(input)
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).assert(hasText(input))
-        rule.onNodeWithText(rule.activity.getString(R.string.name)).performImeAction()
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).performTextInput(input)
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).assert(hasText(input))
+        rule.onNodeWithText(rule.activity.getString(R.string.user_name)).performImeAction()
         assertEquals(1, counterState)
     }
 }
