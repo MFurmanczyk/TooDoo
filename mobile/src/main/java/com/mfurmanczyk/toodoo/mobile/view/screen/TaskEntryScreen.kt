@@ -3,10 +3,6 @@ package com.mfurmanczyk.toodoo.mobile.view.screen
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -92,7 +88,7 @@ fun TaskEntryScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = if(uiState.newEntry) "New task" else uiState.taskName)
+                    Text(text = if(uiState.newEntry) stringResource(id = R.string.new_task) else uiState.taskName)
                 },
                 actions = {
                     val context = LocalContext.current
@@ -204,6 +200,7 @@ fun TaskEntryScreenContent(
                 CategoryPickerDropdownMenu(
                     modifier = Modifier.fillMaxWidth(),
                     expanded = menuExpanded,
+                    label = stringResource(id = R.string.category),
                     uiState = uiState,
                     onExpandedChanged = {
                         menuExpanded = !menuExpanded
@@ -216,7 +213,7 @@ fun TaskEntryScreenContent(
 
                 InputField(
                     modifier = Modifier.fillMaxWidth(),
-                    label = "Due date",
+                    label = stringResource(R.string.due_date),
                     value = uiState.dueDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
                     onValueChanged = onDateValueChanged,
                     trailingIcon = {
@@ -226,8 +223,10 @@ fun TaskEntryScreenContent(
                     },
                     readOnly = true
                 )
-                Text(text = "Steps", style = MaterialTheme.typography.labelMedium)
-                LazyColumn {
+                Text(text = stringResource(R.string.steps), style = MaterialTheme.typography.labelMedium)
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                ) {
                     items(uiState.stepsList) {
                         StepTile(
                             step = it,
@@ -247,18 +246,11 @@ fun TaskEntryScreenContent(
                                 )
                             } else {
                                 NewStepTile(
-                                    text = "Add step".uppercase(),
+                                    text = stringResource(R.string.add_step).uppercase(),
                                     icon = Icons.TwoTone.Add,
                                     onClick = onAddStepClick
                                 )
                             }
-                        }
-                        AnimatedVisibility(
-                            visible = !uiState.isAddingNewStep,
-                            enter = scaleIn(tween(150, 150)),
-                            exit = scaleOut(tween(150, 150))
-                        ) {
-
                         }
                     }
                 }
@@ -271,6 +263,7 @@ fun TaskEntryScreenContent(
 @Composable
 fun CategoryPickerDropdownMenu(
     uiState: TaskEntryUiState,
+    label: String,
     modifier: Modifier = Modifier,
     onExpandedChanged: (Boolean) -> Unit,
     onCategorySelected: (Category) -> Unit,
@@ -285,7 +278,7 @@ fun CategoryPickerDropdownMenu(
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth(),
-            label = "Category",
+            label = label,
             value = uiState.selectedCategoryName ?: "",
             onValueChanged = { },
             maxLines = 1,
@@ -303,7 +296,7 @@ fun CategoryPickerDropdownMenu(
             if(uiState.categoryList.isEmpty()) {
                 DropdownMenuItem(
                     text = {
-                        Text(text = "No categories")
+                        Text(text = stringResource(R.string.no_categories))
                     },
                     onClick = { onExpandedChanged(false) }
                 )
@@ -340,7 +333,7 @@ fun StepEntryTile(
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 label = {
-                    Text(text = "Description")
+                    Text(text = stringResource(R.string.step_description))
                 },
                 shape = MaterialTheme.shapes.medium,
                 value = stepDescription,

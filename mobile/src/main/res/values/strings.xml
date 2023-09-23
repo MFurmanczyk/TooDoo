@@ -27,4 +27,9 @@
     <string name="task_description" translatable="false">Task description</string>
     <string name="task_name_warning" translatable="false">Task name cannot be null</string>
     <string name="step_description_warning" translatable="false">Step description cannot be empty!</string>
+    <string name="steps" translatable="false">Steps</string>
+    <string name="due_date" translatable="false">Due date</string>
+    <string name="add_step" translatable="false">Add step</string>
+    <string name="no_categories" translatable="false">No categories</string>
+    <string name="step_description" translatable="false">Description</string>
 </resources>
