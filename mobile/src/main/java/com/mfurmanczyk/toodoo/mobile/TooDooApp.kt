@@ -76,6 +76,8 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryScreen
+import com.mfurmanczyk.toodoo.mobile.view.screen.TaskEntryDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.TaskEntryScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation.DashboardScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
@@ -222,12 +224,7 @@ private fun BottomNavigationScreen(
                     pagerState
                 )
             },
-            newCategoryContent = {
-                CategoryEntryScreen(
-                    navController = navController,
-                )
-            },
-            editCategoryContent = {
+            categoryEntryContent = {
                 CategoryEntryScreen(
                     navController = navController,
                 )
@@ -237,6 +234,9 @@ private fun BottomNavigationScreen(
                     navController = navController,
                     navigationType = NavigationType.BOTTOM_NAV
                 )
+            },
+            taskEntryContent = {
+                TaskEntryScreen(navController = navController)
             }
         )
     }
@@ -265,7 +265,7 @@ private fun BottomNavigationScreenContent(
                 TooDooFab(
                     state = actionButtonState,
                     onFirstActionClick = { navController.navigate(CategoryEntryDestination.route) },
-                    onSecondActionClick = { /*TODO*/ },
+                    onSecondActionClick = { navController.navigate(TaskEntryDestination.route) },
                     firstActionContent = {
                         Icon(imageVector = Icons.TwoTone.BookmarkAdd, contentDescription = null)
                     },
@@ -367,12 +367,7 @@ private fun NavigationRailScreen(
                     pagerState
                 )
             },
-            newCategoryContent = {
-                CategoryEntryScreen(
-                    navController = navController,
-                )
-            },
-            editCategoryContent = {
+            categoryEntryContent = {
                 CategoryEntryScreen(
                     navController = navController,
                 )
@@ -382,6 +377,9 @@ private fun NavigationRailScreen(
                     navController = navController,
                     navigationType = NavigationType.NAV_RAIL
                 )
+            },
+            taskEntryContent = {
+                TaskEntryScreen(navController = navController)
             }
         )
     }
@@ -407,7 +405,7 @@ private fun NavigationRailScreenContent(
             NavigationRail(
                 header = {
                     Spacer(Modifier.padding(top = MaterialTheme.spacing.extraSmall))
-                    FloatingActionButton(onClick = { }) {
+                    FloatingActionButton(onClick = { navController.navigate(TaskEntryDestination.route)}) {
                         Icon(imageVector = Icons.TwoTone.AddTask, contentDescription = null)
                     }
                     Spacer(Modifier.padding(top = MaterialTheme.spacing.extraSmall))
@@ -508,7 +506,9 @@ private fun NavigationDrawerScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.spacing.small),
-                    onClick = { }
+                    onClick = {
+                        navController.navigate(TaskEntryDestination.route)
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.TwoTone.AddTask,
@@ -599,19 +599,7 @@ private fun NavigationDrawerScreen(
 
                             }
                         },
-                        newCategoryContent = {
-                            Surface(
-                                shape = MaterialTheme.shapes.medium.copy(
-                                    topEnd = CornerSize(0.dp),
-                                    bottomEnd = CornerSize(0.dp)
-                                )
-                            ) {
-                                CategoryEntryScreen(
-                                    navController = navController,
-                                )
-                            }
-                        },
-                        editCategoryContent = {
+                        categoryEntryContent = {
                             Surface(
                                 shape = MaterialTheme.shapes.medium.copy(
                                     topEnd = CornerSize(0.dp),
@@ -634,6 +622,16 @@ private fun NavigationDrawerScreen(
                                     navController = navController,
                                     navigationType = NavigationType.NAV_DRAWER
                                 )
+                            }
+                        },
+                        taskEntryContent = {
+                            Surface(
+                                shape = MaterialTheme.shapes.medium.copy(
+                                    topEnd = CornerSize(0.dp),
+                                    bottomEnd = CornerSize(0.dp)
+                                )
+                            ) {
+                                TaskEntryScreen(navController = navController)
                             }
                         }
                     )

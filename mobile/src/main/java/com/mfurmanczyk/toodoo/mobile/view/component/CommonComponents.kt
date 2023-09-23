@@ -4,10 +4,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.Check
+import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -18,6 +24,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
@@ -102,6 +109,71 @@ fun ConfirmationDialog(
             }
         }
     )
+}
+
+@Composable
+fun InputField(
+    label: String,
+    value: String,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    maxLines: Int = 1,
+    singleLine:Boolean = true,
+    readOnly: Boolean = false,
+    trailingIcon: @Composable (() -> Unit) = {}
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChanged,
+        label = {
+            Text(text = label)
+        },
+        maxLines = maxLines,
+        shape = MaterialTheme.shapes.medium,
+        singleLine = singleLine,
+        readOnly = readOnly,
+        trailingIcon = trailingIcon
+    )
+}
+
+@Composable
+fun StepTile(
+    step: Step,
+    onStepChecked: (Step, Boolean) -> Unit,
+    onRemoveClick: (Step) -> Unit,
+    editMode: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth(),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Row(
+            modifier = Modifier.padding(MaterialTheme.spacing.small),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if(!editMode) {
+                Checkbox(
+                    checked = step.isDone,
+                    onCheckedChange = {
+                        onStepChecked(step, it)
+                    }
+                )
+            }
+            Text(text = step.description, modifier.padding(start = if(editMode) MaterialTheme.spacing.small else MaterialTheme.spacing.default))
+            if(editMode && step.isDone) Icon(imageVector = Icons.TwoTone.Check, contentDescription = null)
+            Spacer(modifier = Modifier.weight(1F))
+            if(editMode) {
+                IconButton(
+                    onClick = { onRemoveClick(step) }
+                ) {
+                    Icon(imageVector = Icons.TwoTone.Delete, contentDescription = null)
+                }
+            }
+        }
+    }
 }
 
 @Preview
