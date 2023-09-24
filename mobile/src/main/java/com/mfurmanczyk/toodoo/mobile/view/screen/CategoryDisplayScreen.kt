@@ -1,5 +1,6 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -64,6 +65,11 @@ fun CategoryDisplayScreen(
     val viewModel = hiltViewModel<CategoryDisplayViewModel>()
     val uiState by viewModel.uiState.collectAsState()
     val dialogState by viewModel.dialogState.collectAsState()
+
+    BackHandler {
+        if (navigationType != NavigationType.NAV_DRAWER) navController.navigateUp()
+        else navController.navigate(EntryDestination.route)
+    }
 
     Scaffold(
         modifier = modifier,

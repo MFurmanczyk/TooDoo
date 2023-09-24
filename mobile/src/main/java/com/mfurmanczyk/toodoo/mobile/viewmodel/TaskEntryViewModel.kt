@@ -1,6 +1,5 @@
 package com.mfurmanczyk.toodoo.mobile.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.mfurmanczyk.toodoo.data.di.annotation.RoomDataSource
@@ -51,8 +50,6 @@ data class TaskEntryUiState(
     val stepsList: List<Step> = _stepsList
 }
 
-private const val TAG = "TaskEntryViewModel"
-
 @HiltViewModel
 class TaskEntryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -70,7 +67,6 @@ class TaskEntryViewModel @Inject constructor(
     val datePickerDialogState = _datePickerDialogState.asStateFlow()
 
     init {
-        Log.w(TAG, "Hello world! $taskId")
         viewModelScope.launch {
             refreshUiState()
         }

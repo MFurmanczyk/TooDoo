@@ -1,7 +1,9 @@
 package com.mfurmanczyk.toodoo.mobile
 
+import android.app.Activity
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -215,6 +217,7 @@ private fun BottomNavigationScreen(
     ) {
         tooDooNavigationGraph(
             entryContent = {
+
                 BottomNavigationScreenContent(
                     navController,
                     modifier,
@@ -342,7 +345,7 @@ private fun BottomNavigationScreenContent(
         Surface(
             modifier = Modifier.padding(it)
         ) {
-            NavigationPager(navController, pagerState, NavigationType.BOTTOM_NAV)
+            NavigationPager(navController, pagerState, NavigationType.BOTTOM_NAV, onBackPressed = {onNavigationItemClick(0)})
         }
     }
 }
@@ -358,7 +361,6 @@ private fun NavigationRailScreen(
     modifier: Modifier = Modifier,
     onNavigationItemClick: (Int) -> Unit = {}
 ) {
-
     NavHost(
         navController = navController,
         startDestination = EntryDestination.route,
@@ -486,7 +488,7 @@ private fun NavigationRailScreenContent(
                 Surface(
                     modifier = Modifier.padding(it)
                 ) {
-                    NavigationPager(navController, pagerState, NavigationType.BOTTOM_NAV)
+                    NavigationPager(navController, pagerState, NavigationType.BOTTOM_NAV, onBackPressed = {onNavigationItemClick(0)})
                 }
             }
         }
@@ -595,7 +597,10 @@ private fun NavigationDrawerScreen(
                     NavigationPager(
                         navController = navController,
                         pagerState = pagerState,
-                        navigationType = NavigationType.NAV_DRAWER
+                        navigationType = NavigationType.NAV_DRAWER,
+                        onBackPressed = {
+                            onNavigationItemClick(0)
+                        }
                     )
                 }
                 //END: Constantly on screen
@@ -672,7 +677,8 @@ private fun NavigationPager(
     navController: NavHostController,
     pagerState: PagerState,
     navigationType: NavigationType,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBackPressed: () -> Unit
 ) {
     when (navigationType) {
         NavigationType.BOTTOM_NAV -> {
@@ -681,7 +687,7 @@ private fun NavigationPager(
                 state = pagerState,
                 userScrollEnabled = false
             ) { page ->
-                NavigationPagerContent(navController, page)
+                NavigationPagerContent(navController, onBackPressed, page)
             }
         }
 
@@ -691,13 +697,13 @@ private fun NavigationPager(
                 state = pagerState,
                 userScrollEnabled = false
             ) { page ->
-                NavigationPagerContent(navController, page)
+                NavigationPagerContent(navController, onBackPressed, page)
             }
         }
 
         NavigationType.NAV_DRAWER -> {
             VerticalPager(state = pagerState, userScrollEnabled = false) { page ->
-                NavigationPagerContent(navController, page)
+                NavigationPagerContent(navController, onBackPressed, page)
             }
         }
     }
@@ -707,10 +713,16 @@ private fun NavigationPager(
 @Composable
 private fun NavigationPagerContent(
     navController: NavHostController,
+    onBackPressed: () -> Unit,
     page: Int
 ) {
     when (page) {
         0 -> {
+
+            val context = LocalContext.current
+            BackHandler {
+                (context as Activity).finish()
+            }
 
             val dashboardScreenViewModel: DashboardScreenViewModel = hiltViewModel()
             val dashboardScreenUIState by dashboardScreenViewModel.uiState.collectAsState()
@@ -731,16 +743,25 @@ private fun NavigationPagerContent(
         }
 
         1 -> {
+            BackHandler {
+                onBackPressed()
+            }
             //CalendarScreenViewModel
             //CalendarScreenUIState
         }
 
         2 -> {
+            BackHandler {
+                onBackPressed()
+            }
             //CategoriesScreenViewModel
             //CategoriesScreenUIState
         }
 
         3 -> {
+            BackHandler {
+                onBackPressed()
+            }
             //SettingsScreenViewModel
             //SettingsScreenUIState
         }

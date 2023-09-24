@@ -1,6 +1,7 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -76,6 +77,13 @@ fun CategoryEntryScreen(
 
     ColorPickerDialog(colorDialogState) { viewModel.updateCategoryColor(it) }
 
+    BackHandler {
+        if(uiState.newEntry)  {
+            navController.clearBackStack(CategoryEntryDestination.route)
+            navController.navigate(EntryDestination.route)
+        } else viewModel.displayDialog()
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -90,7 +98,6 @@ fun CategoryEntryScreen(
                         onClick = {
                             try {
                                 viewModel.saveCategory()
-                                navController.navigateUp()
                             } catch (e: InvalidCategoryNameException) {
                                 Toast.makeText(context, context.getText(e.displayMessage), Toast.LENGTH_SHORT).show()
                             }
@@ -101,7 +108,12 @@ fun CategoryEntryScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = { if(uiState.newEntry) navController.navigate(EntryDestination.route) else viewModel.displayDialog() }
+                        onClick = {
+                            if(uiState.newEntry)  {
+                                navController.clearBackStack(CategoryEntryDestination.route)
+                                navController.navigate(EntryDestination.route)
+                            } else viewModel.displayDialog()
+                        }
                     ) {
                         Icon(
                             imageVector = if(uiState.newEntry) Icons.TwoTone.Close else Icons.TwoTone.ArrowBack,

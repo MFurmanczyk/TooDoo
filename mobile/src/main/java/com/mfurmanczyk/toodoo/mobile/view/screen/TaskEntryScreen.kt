@@ -2,6 +2,7 @@ package com.mfurmanczyk.toodoo.mobile.view.screen
 
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -91,6 +92,12 @@ fun TaskEntryScreen(
     val dialogState by viewModel.dialogState.collectAsState()
     val datePickerDialogState by viewModel.datePickerDialogState.collectAsState()
 
+    BackHandler {
+        if(uiState.newEntry) {
+            navController.navigate(EntryDestination.route)
+        } else viewModel.displayDialog()
+    }
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -108,7 +115,9 @@ fun TaskEntryScreen(
                         onClick = {
                             try {
                                 if(uiState.newEntry) viewModel.addNewTaskWithSteps() else viewModel.updateTaskWithSteps()
-                                if(uiState.newEntry) navController.navigate(EntryDestination.route)
+                                if(uiState.newEntry) {
+                                    navController.navigate(EntryDestination.route)
+                                }
                                 else navController.navigateUp()
                             } catch (e: InvalidTaskNameException) {
                                 Toast.makeText(context, context.getText(e.displayMessage), Toast.LENGTH_SHORT).show()
@@ -119,7 +128,11 @@ fun TaskEntryScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = { if(uiState.newEntry) navController.navigate(EntryDestination.route) else viewModel.displayDialog() }
+                        onClick = {
+                            if(uiState.newEntry) {
+                                navController.navigate(EntryDestination.route)
+                            } else viewModel.displayDialog()
+                        }
                     ) {
                         Icon(
                             imageVector = if(uiState.newEntry) Icons.TwoTone.Close else Icons.TwoTone.ArrowBack,
