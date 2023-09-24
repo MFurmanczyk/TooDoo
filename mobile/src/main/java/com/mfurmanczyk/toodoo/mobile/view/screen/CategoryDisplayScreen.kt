@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
@@ -38,6 +39,7 @@ import com.mfurmanczyk.toodoo.mobile.util.NavigationType
 import com.mfurmanczyk.toodoo.mobile.view.component.ConfirmationDialog
 import com.mfurmanczyk.toodoo.mobile.view.component.TaskTile
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
+import com.mfurmanczyk.toodoo.mobile.viewmodel.CategoryDisplayUiState
 import com.mfurmanczyk.toodoo.mobile.viewmodel.CategoryDisplayViewModel
 
 object CategoryDisplayDestination : NavigationDestination(
@@ -103,36 +105,18 @@ fun CategoryDisplayScreen(
                 })
         }
     ) {
-        Surface(
-            modifier = Modifier.padding(it)
-        ) {
-            if(uiState.taskList.isEmpty()) {
-                NoTasksTile(
-                    categoryName = uiState.category.name,
-                    modifier = Modifier.fillMaxSize()
+        CategoryDisplayScreenContent(
+            uiState = uiState,
+            onTaskClick = {
+                navController.navigate(
+                    TaskDisplayDestination.destinationWithParam(
+                        it.id
+                    )
                 )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(MaterialTheme.spacing.small),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-                ) {
-                    items(uiState.taskList) { task ->
-                        TaskTile(
-                            onClick = {
-                                navController.navigate(
-                                    TaskDisplayDestination.destinationWithParam(
-                                        it.id
-                                    )
-                                )
-                            },
-                            onCheckboxClick = viewModel::checkTask,
-                            task = task
-                        )
-                    }
-                }
-            }
-        }
+            },
+            onTaskChecked = viewModel::checkTask,
+            modifier = Modifier.padding(it),
+        )
 
         if(dialogState.shouldDisplayDialog) {
             ConfirmationDialog(
@@ -146,6 +130,39 @@ fun CategoryDisplayScreen(
                 dialogText = stringResource(R.string.confirm_deletion_category),
                 icon = Icons.TwoTone.Warning
             )
+        }
+    }
+}
+
+@Composable
+private fun CategoryDisplayScreenContent(
+    uiState: CategoryDisplayUiState,
+    onTaskClick: (Task) -> Unit,
+    onTaskChecked: (Task, Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier
+    ) {
+        if (uiState.taskList.isEmpty()) {
+            NoTasksTile(
+                categoryName = uiState.category.name,
+                modifier = Modifier.fillMaxSize()
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(MaterialTheme.spacing.small),
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+            ) {
+                items(uiState.taskList) { task ->
+                    TaskTile(
+                        onClick = onTaskClick,
+                        onCheckboxClick = onTaskChecked,
+                        task = task
+                    )
+                }
+            }
         }
     }
 }

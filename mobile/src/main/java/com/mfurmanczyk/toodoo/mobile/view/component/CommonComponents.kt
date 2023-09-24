@@ -42,7 +42,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun TaskTile(
+internal fun TaskTile(
     onClick: (Task) -> Unit,
     onCheckboxClick: (Task, Boolean) -> Unit,
     task: Task,
@@ -85,7 +85,7 @@ fun TaskTile(
 }
 
 @Composable
-fun ConfirmationDialog(
+internal fun ConfirmationDialog(
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
     dialogTitle: String,
@@ -128,7 +128,7 @@ fun ConfirmationDialog(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun DatePicker(
+internal fun DatePicker(
     onEntryValueChanged: (LocalDate) -> Unit,
     onDismissRequest: () -> Unit,
     title: String,
@@ -184,7 +184,7 @@ fun DatePicker(
 }
 
 @Composable
-fun InputField(
+internal fun InputField(
     label: String,
     value: String,
     onValueChanged: (String) -> Unit,
@@ -210,7 +210,7 @@ fun InputField(
 }
 
 @Composable
-fun StepTile(
+internal fun StepTile(
     step: Step,
     onStepChecked: (Step, Boolean) -> Unit,
     onRemoveClick: (Step) -> Unit,
