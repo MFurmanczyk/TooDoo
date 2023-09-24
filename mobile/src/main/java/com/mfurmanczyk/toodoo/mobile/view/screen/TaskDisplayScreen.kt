@@ -17,6 +17,7 @@ import androidx.compose.material.icons.twotone.Check
 import androidx.compose.material.icons.twotone.Close
 import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material.icons.twotone.Edit
+import androidx.compose.material.icons.twotone.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -47,6 +48,7 @@ import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
+import com.mfurmanczyk.toodoo.mobile.view.component.ConfirmationDialog
 import com.mfurmanczyk.toodoo.mobile.view.component.StepTile
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
@@ -76,6 +78,7 @@ fun TaskDisplayScreen(
 ) {
     val viewModel = hiltViewModel<TaskDisplayViewModel>()
     val uiState by viewModel.uiState.collectAsState()
+    val dialogState by viewModel.dialogState.collectAsState()
 
     Scaffold(
         modifier = modifier,
@@ -124,6 +127,19 @@ fun TaskDisplayScreen(
             modifier = Modifier.padding(it),
         )
 
+        if(dialogState.shouldDisplayDialog) {
+            ConfirmationDialog(
+                onDismissRequest = viewModel::hideDialog,
+                onConfirmation = {
+                    viewModel.deleteTask()
+                    viewModel.hideDialog()
+                    navController.navigate(EntryDestination.route)
+                },
+                dialogTitle = stringResource(id = R.string.confirm_deletion_title),
+                dialogText = stringResource(R.string.confirm_deletion_task),
+                icon = Icons.TwoTone.Warning
+            )
+        }
     }
 }
 
