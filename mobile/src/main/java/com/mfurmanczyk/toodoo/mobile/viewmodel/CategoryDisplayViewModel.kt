@@ -40,7 +40,7 @@ class CategoryDisplayViewModel @Inject constructor(
     @RoomDataSource private val taskRepository: TaskRepository
 ) : ViewModel() {
 
-    val categoryId: Long = savedStateHandle[CategoryDisplayDestination.parameterName] ?: 0
+    private val categoryId: Long = savedStateHandle[CategoryDisplayDestination.parameterName] ?: 0
 
     val uiState = (
             if (categoryId == 0L)

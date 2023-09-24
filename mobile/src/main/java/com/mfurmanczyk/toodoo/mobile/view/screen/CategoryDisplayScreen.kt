@@ -72,7 +72,7 @@ fun CategoryDisplayScreen(
                             onClick = {
                                 navController.navigate(
                                     CategoryEntryDestination.destinationWithParam(
-                                        viewModel.categoryId
+                                        uiState.category.id
                                     )
                                 )
                             }
