@@ -76,6 +76,8 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryScreen
+import com.mfurmanczyk.toodoo.mobile.view.screen.TaskDisplayDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.TaskDisplayScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.TaskEntryDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.TaskEntryScreen
 import com.mfurmanczyk.toodoo.mobile.view.screen.WelcomeScreen
@@ -237,6 +239,12 @@ private fun BottomNavigationScreen(
             },
             taskEntryContent = {
                 TaskEntryScreen(navController = navController)
+            },
+            displayTaskContent = {
+                TaskDisplayScreen(
+                    navController = navController,
+                    navigationType = NavigationType.BOTTOM_NAV
+                )
             }
         )
     }
@@ -273,7 +281,9 @@ private fun BottomNavigationScreenContent(
                         Icon(imageVector = Icons.TwoTone.AddTask, contentDescription = null)
                     }
                 ) {
-                    val rotation by animateFloatAsState(targetValue = if (actionButtonState.isExpanded()) 45f else 0f)
+                    val rotation by animateFloatAsState(targetValue = if (actionButtonState.isExpanded()) 45f else 0f,
+                        label = "Expandable Action Button icon rotation"
+                    )
                     Icon(
                         imageVector = Icons.TwoTone.Add,
                         contentDescription = null,
@@ -380,6 +390,12 @@ private fun NavigationRailScreen(
             },
             taskEntryContent = {
                 TaskEntryScreen(navController = navController)
+            },
+            displayTaskContent = {
+                TaskDisplayScreen(
+                    navController = navController,
+                    navigationType = NavigationType.NAV_RAIL
+                )
             }
         )
     }
@@ -600,24 +616,14 @@ private fun NavigationDrawerScreen(
                             }
                         },
                         categoryEntryContent = {
-                            Surface(
-                                shape = MaterialTheme.shapes.medium.copy(
-                                    topEnd = CornerSize(0.dp),
-                                    bottomEnd = CornerSize(0.dp)
-                                )
-                            ) {
+                            RightSideSheet {
                                 CategoryEntryScreen(
                                     navController = navController,
                                 )
                             }
                         },
                         displayCategoryContent = {
-                            Surface(
-                                shape = MaterialTheme.shapes.medium.copy(
-                                    topEnd = CornerSize(0.dp),
-                                    bottomEnd = CornerSize(0.dp)
-                                )
-                            ) {
+                            RightSideSheet {
                                 CategoryDisplayScreen(
                                     navController = navController,
                                     navigationType = NavigationType.NAV_DRAWER
@@ -625,19 +631,38 @@ private fun NavigationDrawerScreen(
                             }
                         },
                         taskEntryContent = {
-                            Surface(
-                                shape = MaterialTheme.shapes.medium.copy(
-                                    topEnd = CornerSize(0.dp),
-                                    bottomEnd = CornerSize(0.dp)
-                                )
-                            ) {
+                            RightSideSheet{
                                 TaskEntryScreen(navController = navController)
+                            }
+                        },
+                        displayTaskContent =  {
+                            RightSideSheet {
+                                TaskDisplayScreen(
+                                    navController = navController,
+                                    navigationType = NavigationType.NAV_DRAWER
+                                )
                             }
                         }
                     )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun RightSideSheet(
+    modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit)
+) {
+    Surface(
+        modifier = modifier,
+        shape = MaterialTheme.shapes.medium.copy(
+            topEnd = CornerSize(0.dp),
+            bottomEnd = CornerSize(0.dp)
+        )
+    ) {
+        content()
     }
 }
 
@@ -698,6 +723,9 @@ private fun NavigationPagerContent(
                 },
                 onCategoryClick = {
                     navController.navigate(CategoryDisplayDestination.destinationWithParam(it.id))
+                },
+                onTaskClick = {
+                    navController.navigate(TaskDisplayDestination.destinationWithParam(it.id))
                 }
             )
         }

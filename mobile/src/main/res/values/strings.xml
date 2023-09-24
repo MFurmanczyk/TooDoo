@@ -33,4 +33,6 @@
     <string name="no_categories" translatable="false">No categories</string>
     <string name="step_description" translatable="false">Description</string>
     <string name="task" translatable="false">Task</string>
+    <string name="created_on" translatable="false">Created on</string>
+    <string name="completed_on" translatable="false">Completed on</string>
 </resources>

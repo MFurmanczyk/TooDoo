@@ -109,11 +109,17 @@ fun CategoryDisplayScreen(
                 contentPadding = PaddingValues(MaterialTheme.spacing.small),
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
             ) {
-                items(uiState.taskList) {
+                items(uiState.taskList) { task ->
                     TaskTile(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            navController.navigate(
+                                TaskDisplayDestination.destinationWithParam(
+                                    it.id
+                                )
+                            )
+                        },
                         onCheckboxClick = viewModel::checkTask,
-                        task = it
+                        task = task
                     )
                 }
             }

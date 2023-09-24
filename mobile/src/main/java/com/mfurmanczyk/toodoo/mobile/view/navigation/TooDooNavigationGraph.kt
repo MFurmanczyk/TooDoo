@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryDisplayDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.CategoryEntryDestination
+import com.mfurmanczyk.toodoo.mobile.view.screen.TaskDisplayDestination
 import com.mfurmanczyk.toodoo.mobile.view.screen.TaskEntryDestination
 
 fun NavGraphBuilder.tooDooNavigationGraph(
@@ -15,6 +16,7 @@ fun NavGraphBuilder.tooDooNavigationGraph(
     categoryEntryContent: @Composable (() -> Unit),
     displayCategoryContent: @Composable (() -> Unit),
     taskEntryContent: @Composable (() -> Unit),
+    displayTaskContent: @Composable (() -> Unit)
 ) {
     composable(route = EntryDestination.route) {
         entryContent()
@@ -47,5 +49,12 @@ fun NavGraphBuilder.tooDooNavigationGraph(
         arguments = listOf(navArgument(TaskEntryDestination.parameterName) { type = NavType.LongType })
     ) {
         taskEntryContent()
+    }
+
+    composable(
+        route = TaskDisplayDestination.parametrizedRoute,
+        arguments = listOf(navArgument(TaskDisplayDestination.parameterName) { type = NavType.LongType })
+    ) {
+        displayTaskContent()
     }
 }
