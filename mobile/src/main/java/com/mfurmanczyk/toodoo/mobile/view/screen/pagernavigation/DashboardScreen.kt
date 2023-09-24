@@ -96,7 +96,7 @@ fun DashboardScreen(
                     item {
                         CategoryTile(
                             onClick = onCategoryClick,
-                            category = Category.uncategorized(context = LocalContext.current),
+                            category = Category.uncategorizedCategory(context = LocalContext.current),
                             progress = uiState.uncategorizedTasks.progress())
                     }
                     item {

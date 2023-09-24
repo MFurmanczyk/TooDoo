@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -88,7 +89,11 @@ fun TaskEntryScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = if(uiState.newEntry) stringResource(id = R.string.new_task) else uiState.taskName)
+                    Text(
+                        text = if(uiState.newEntry) stringResource(id = R.string.new_task) else uiState.taskName,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 },
                 actions = {
                     val context = LocalContext.current

@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mfurmanczyk.toodoo.data.model.Step
@@ -59,11 +60,18 @@ fun TaskTile(
                     onCheckboxClick(task, it)
                 }
             )
-            Text(text = task.name)
-            Spacer(modifier = Modifier.weight(1F))
             Text(
+                modifier = Modifier.weight(3F),
+                text = task.name,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                modifier = Modifier.weight(1F),
                 text = task.dueDate.format(DateTimeFormatter.ofPattern("E, dd MMM yyyy")),
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelSmall,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -162,7 +170,12 @@ fun StepTile(
                     }
                 )
             }
-            Text(text = step.description, modifier.padding(start = if(editMode) MaterialTheme.spacing.small else MaterialTheme.spacing.default))
+            Text(
+                text = step.description,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = modifier.padding(start = if(editMode) MaterialTheme.spacing.small else MaterialTheme.spacing.default)
+            )
             if(editMode && step.isDone) Icon(imageVector = Icons.TwoTone.Check, contentDescription = null)
             Spacer(modifier = Modifier.weight(1F))
             if(editMode) {

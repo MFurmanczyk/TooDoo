@@ -46,7 +46,7 @@ class CategoryDisplayViewModel @Inject constructor(
             if (categoryId == 0L)
                 taskRepository.getAllUncategorizedTasks().map {
                     CategoryDisplayUiState(
-                        category = Category.Uncategorized,
+                        category = Category.uncategorizedCategory(),
                         taskList = it
                     )
                 } else

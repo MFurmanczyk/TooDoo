@@ -110,7 +110,6 @@ fun CategoryDisplayScreen(
             ) {
                 items(uiState.taskList) {
                     TaskTile(
-                        modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small),
                         onClick = { /*TODO*/ },
                         onCheckboxClick = viewModel::checkTask,
                         task = it

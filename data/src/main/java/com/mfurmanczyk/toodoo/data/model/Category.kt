@@ -14,8 +14,8 @@ data class Category(
     val color: ColorHolder
 ) {
     companion object {
-        fun uncategorized(context: Context) = Category(
-            name = context.getString(R.string.uncategorized),
+        fun uncategorizedCategory(context: Context? = null) = Category(
+            name = context?.getString(R.string.uncategorized) ?: "",
             color = ColorHolder(255, 88, 88, 88)
         )
     }
