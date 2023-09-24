@@ -10,6 +10,10 @@ import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,8 +35,10 @@ import com.mfurmanczyk.toodoo.data.model.Task
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.spacing
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -117,6 +124,63 @@ fun ConfirmationDialog(
             }
         }
     )
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+fun DatePicker(
+    onEntryValueChanged: (LocalDate) -> Unit,
+    onDismissRequest: () -> Unit,
+    title: String,
+    headline: String,
+    confirmEnabled: Boolean,
+    confirmButtonText: String,
+    dismissButtonText: String,
+    datePickerState: DatePickerState = rememberDatePickerState()
+) {
+    DatePickerDialog(
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onEntryValueChanged(
+                        Instant
+                            .ofEpochMilli(datePickerState.selectedDateMillis ?: 0L)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+                    )
+                    onDismissRequest()
+                },
+                enabled = confirmEnabled
+            ) {
+                Text(confirmButtonText.uppercase())
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismissRequest
+            ) {
+                Text(dismissButtonText.uppercase())
+            }
+        }
+    ) {
+        DatePicker(
+            title = {
+                Text(
+                    text = title,
+                    modifier = Modifier.padding(8.dp)
+                )
+            },
+            headline = {
+                Text(
+                    text = headline,
+                    modifier = Modifier.padding(8.dp)
+                )
+            },
+            state = datePickerState,
+            showModeToggle = false
+        )
+    }
 }
 
 @Composable

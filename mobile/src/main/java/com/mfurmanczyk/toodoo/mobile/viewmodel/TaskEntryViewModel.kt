@@ -170,6 +170,12 @@ class TaskEntryViewModel @Inject constructor(
         )
     }
 
+    fun updateDueDate(date: LocalDate) = _uiState.update {
+        it.copy(
+            dueDate = date
+        )
+    }
+
     fun deleteStep(step: Step) {
         val newStepList = _uiState.value.stepsList.toMutableList()
         newStepList.remove(step)

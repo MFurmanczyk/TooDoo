@@ -32,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -53,6 +54,7 @@ import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.view.component.ConfirmationDialog
+import com.mfurmanczyk.toodoo.mobile.view.component.DatePicker
 import com.mfurmanczyk.toodoo.mobile.view.component.InputField
 import com.mfurmanczyk.toodoo.mobile.view.component.StepTile
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
@@ -62,6 +64,7 @@ import com.mfurmanczyk.toodoo.mobile.viewmodel.TaskEntryViewModel
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidStepDescriptionException
 import com.mfurmanczyk.toodoo.mobile.viewmodel.exception.InvalidTaskNameException
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 object TaskEntryDestination : NavigationDestination(
@@ -169,6 +172,21 @@ fun TaskEntryScreen(
 
     if(datePickerDialogState.shouldDisplayDialog) {
 
+        val pickerState = rememberDatePickerState(
+            initialSelectedDateMillis = uiState.dueDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000L, //we need millis
+            initialDisplayedMonthMillis = uiState.dueDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000L //same here
+        )
+
+        DatePicker(
+            onEntryValueChanged = viewModel::updateDueDate,
+            onDismissRequest = viewModel::hideDatePickerDialog,
+            title = "",
+            headline = stringResource(id = R.string.due_date),
+            confirmEnabled = (pickerState.selectedDateMillis != null),
+            confirmButtonText = stringResource(id = R.string.confirm),
+            dismissButtonText = stringResource(id = R.string.cancel),
+            datePickerState = pickerState
+        )
     }
 }
 
