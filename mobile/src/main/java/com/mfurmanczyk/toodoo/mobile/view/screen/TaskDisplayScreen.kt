@@ -93,7 +93,7 @@ fun TaskDisplayScreen(
                 title = { Text(uiState.task.name, maxLines = 1, overflow = TextOverflow.Ellipsis) },
                 actions = {
                     //Edit
-                    if(uiState.task.id != 0L) {
+                    if (uiState.task.id != 0L) {
                         IconButton(
                             onClick = {
                                 navController.navigate(
@@ -133,7 +133,7 @@ fun TaskDisplayScreen(
             modifier = Modifier.padding(it),
         )
 
-        if(dialogState.shouldDisplayDialog) {
+        if (dialogState.shouldDisplayDialog) {
             ConfirmationDialog(
                 onDismissRequest = viewModel::hideDialog,
                 onConfirmation = {
@@ -163,14 +163,14 @@ private fun TaskDisplayScreenContent(
         Column(
             modifier = Modifier.padding(MaterialTheme.spacing.small),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-        ){
+        ) {
             var descriptionExpanded by rememberSaveable {
                 mutableStateOf(false)
             }
             Text(
                 text = "${stringResource(id = R.string.task_description)}:"
             )
-            AnimatedContent(targetState = descriptionExpanded, label = "Task description animation") {
+            if (uiState.task.description != null) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
@@ -178,12 +178,17 @@ private fun TaskDisplayScreenContent(
                     },
                     shape = MaterialTheme.shapes.medium
                 ) {
-                    Text(
-                        modifier = Modifier.padding(MaterialTheme.spacing.medium),
-                        text = uiState.task.description ?: "",
-                        maxLines = if(it) Int.MAX_VALUE else 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    AnimatedContent(
+                        targetState = descriptionExpanded,
+                        label = "Task description animation"
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(MaterialTheme.spacing.medium),
+                            text = uiState.task.description ?: "",
+                            maxLines = if (it) Int.MAX_VALUE else 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
             }
 
@@ -194,12 +199,14 @@ private fun TaskDisplayScreenContent(
 
             TaskFieldDisplay(
                 fieldName = stringResource(R.string.created_on),
-                fieldValue = uiState.task.createdOn.toLocalDate().format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy"))
+                fieldValue = uiState.task.createdOn.toLocalDate()
+                    .format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy"))
             )
 
             TaskFieldDisplay(
                 fieldName = stringResource(R.string.completed_on),
-                fieldValue =uiState.task.completedOn?.toLocalDate()?.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")) ?: ""
+                fieldValue = uiState.task.completedOn?.toLocalDate()
+                    ?.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")) ?: ""
             )
 
             TaskFieldDisplay(
@@ -220,18 +227,18 @@ private fun TaskDisplayScreenContent(
                     contentDescription = null
                 )
                 Text(
-                    text = (if(uiState.task.isDone) "Mark undone" else "Mark done").uppercase()
+                    text = (if (uiState.task.isDone) "Mark undone" else "Mark done").uppercase()
                 )
             }
 
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
             ) {
-                items(uiState.steps) {step ->
+                items(uiState.steps) { step ->
                     StepTile(
                         step = step,
                         onStepChecked = onStepChecked,
-                        onRemoveClick = {/*nothing to do here*/},
+                        onRemoveClick = {/*nothing to do here*/ },
                         editMode = false
                     )
                 }
@@ -255,7 +262,7 @@ fun TaskDisplayScreenPreview() {
                 ),
                 category = Category.uncategorizedCategory(),
                 steps = listOf()
-            ), onStepChecked = {_, _ ->}, onTaskChecked = {}
+            ), onStepChecked = { _, _ -> }, onTaskChecked = {}
         )
     }
 }
@@ -281,6 +288,9 @@ private fun TaskFieldDisplay(
 @Composable
 fun TaskFieldDisplayPreview() {
     TooDooTheme {
-        TaskFieldDisplay(fieldName = "Due date", fieldValue = LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")))
+        TaskFieldDisplay(
+            fieldName = "Due date",
+            fieldValue = LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy"))
+        )
     }
 }
