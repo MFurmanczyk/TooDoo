@@ -18,8 +18,8 @@
     <string name="tasks">Задания</string>
     <string name="category_name_warning">Название категории не может быть пустым!</string>
     <string name="username_empty_warning">Имя пользователя не должно быть пустым!</string>
-    <string name="confirm_deletion">Подтвердить удаление!</string>
-    <string name="confirm_deletion_message">Вы уверены, что хотите удалить эту категорию? Изменения будут постоянными!</string>
+    <string name="confirm_deletion_title">Подтвердить удаление!</string>
+    <string name="confirm_deletion_category">Вы уверены, что хотите удалить эту категорию? Изменения будут постоянными!</string>
     <string name="confirm">ОК</string>
     <string name="cancel">Отмена</string>
 </resources>

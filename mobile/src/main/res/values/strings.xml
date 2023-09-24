@@ -19,8 +19,8 @@
     <string name="tasks">Tasks</string>
     <string name="category_name_warning">Category name cannot be empty!</string>
     <string name="username_empty_warning">Username must not be empty!</string>
-    <string name="confirm_deletion">Confirm deletion!</string>
-    <string name="confirm_deletion_message">Are you sure you want to delete this Category? Change will be permanent!</string>
+    <string name="confirm_deletion_title">Confirm deletion!</string>
+    <string name="confirm_deletion_category">Are you sure you want to delete this Category? Change will be permanent!</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="task_name" translatable="false">Task name</string>
@@ -35,4 +35,5 @@
     <string name="task" translatable="false">Task</string>
     <string name="created_on" translatable="false">Created on</string>
     <string name="completed_on" translatable="false">Completed on</string>
+    <string name="confirm_deletion_task" translatable="false">Are you sure you want to delete this Task? Action will be permanent!</string>
 </resources>

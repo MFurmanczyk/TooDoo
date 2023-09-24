@@ -19,7 +19,7 @@
     <string name="category_name_warning">Category name cannot be empty!</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
-    <string name="confirm_deletion_message">Are you sure want to delete this Category? Change will be permanent!</string>
-    <string name="confirm_deletion">Confirm deletion!</string>
+    <string name="confirm_deletion_category">Are you sure want to delete this Category? Change will be permanent!</string>
+    <string name="confirm_deletion_title">Confirm deletion!</string>
     <string name="username_empty_warning">Username must not be empty!</string>
 </resources>

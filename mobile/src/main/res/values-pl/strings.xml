@@ -18,8 +18,8 @@
     <string name="tasks">Zadania</string>
     <string name="category_name_warning">Podaj nazwę kategorii!</string>
     <string name="username_empty_warning">Nazwa użytkownika musi być wypełniona!</string>
-    <string name="confirm_deletion">Potwierdź usunięcie!</string>
-    <string name="confirm_deletion_message">Jesteś pewien usuwając tą kategorię? Zmiana będzie niemożliwa do cofnięcia!</string>
+    <string name="confirm_deletion_title">Potwierdź usunięcie!</string>
+    <string name="confirm_deletion_category">Jesteś pewien usuwając tą kategorię? Zmiana będzie niemożliwa do cofnięcia!</string>
     <string name="confirm">Potwiedź</string>
     <string name="cancel">Anuluj</string>
 </resources>

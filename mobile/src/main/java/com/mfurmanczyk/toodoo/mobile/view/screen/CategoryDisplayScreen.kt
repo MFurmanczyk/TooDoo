@@ -1,6 +1,7 @@
 package com.mfurmanczyk.toodoo.mobile.view.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material.icons.twotone.Close
 import androidx.compose.material.icons.twotone.Delete
 import androidx.compose.material.icons.twotone.Edit
+import androidx.compose.material.icons.twotone.TaskAlt
 import androidx.compose.material.icons.twotone.Warning
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -103,24 +106,30 @@ fun CategoryDisplayScreen(
         Surface(
             modifier = Modifier.padding(it)
         ) {
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(MaterialTheme.spacing.small),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
-            ) {
-                items(uiState.taskList) { task ->
-                    TaskTile(
-                        onClick = {
-                            navController.navigate(
-                                TaskDisplayDestination.destinationWithParam(
-                                    it.id
+            if(uiState.taskList.isEmpty()) {
+                NoTasksTile(
+                    categoryName = uiState.category.name,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(MaterialTheme.spacing.small),
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                ) {
+                    items(uiState.taskList) { task ->
+                        TaskTile(
+                            onClick = {
+                                navController.navigate(
+                                    TaskDisplayDestination.destinationWithParam(
+                                        it.id
+                                    )
                                 )
-                            )
-                        },
-                        onCheckboxClick = viewModel::checkTask,
-                        task = task
-                    )
+                            },
+                            onCheckboxClick = viewModel::checkTask,
+                            task = task
+                        )
+                    }
                 }
             }
 
@@ -132,11 +141,39 @@ fun CategoryDisplayScreen(
                         viewModel.hideDialog()
                         navController.navigate(EntryDestination.route)
                     },
-                    dialogTitle = stringResource(R.string.confirm_deletion),
-                    dialogText = stringResource(R.string.confirm_deletion_message),
+                    dialogTitle = stringResource(R.string.confirm_deletion_title),
+                    dialogText = stringResource(R.string.confirm_deletion_category),
                     icon = Icons.TwoTone.Warning
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun NoTasksTile(
+    categoryName: String,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                MaterialTheme.spacing.small,
+                Alignment.CenterVertically
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                imageVector = Icons.TwoTone.TaskAlt,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.surfaceTint
+            )
+            Text(
+                text = "No tasks in ${categoryName}.",
+                color = MaterialTheme.colorScheme.surfaceTint
+            )
         }
     }
 }

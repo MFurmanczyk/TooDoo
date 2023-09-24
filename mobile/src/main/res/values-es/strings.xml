@@ -18,8 +18,8 @@
     <string name="tasks">Tareas</string>
     <string name="category_name_warning">¡El nombre de la categoría no puede estar vacío!</string>
     <string name="username_empty_warning">¡El nombre de usuario no debe estar vacío!</string>
-    <string name="confirm_deletion">¡Confirmar la eliminación!</string>
-    <string name="confirm_deletion_message">¿Estás seguro de que deseas eliminar esta categoría? ¡El cambio será permanente!</string>
+    <string name="confirm_deletion_title">¡Confirmar la eliminación!</string>
+    <string name="confirm_deletion_category">¿Estás seguro de que deseas eliminar esta categoría? ¡El cambio será permanente!</string>
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
 </resources>
