@@ -9,7 +9,7 @@ import com.mfurmanczyk.toodoo.mobile.view.screen.pagernavigation.SettingsScreen
 
 open class NavigationDestination(
     @StringRes val displayedTitle: Int,
-    val route: String,
+    open val route: String,
     val navigationIcon: ImageVector? = null
 )
 

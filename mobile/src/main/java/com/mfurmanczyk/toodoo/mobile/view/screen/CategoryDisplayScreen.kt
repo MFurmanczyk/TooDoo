@@ -41,6 +41,7 @@ object CategoryDisplayDestination : NavigationDestination(
     displayedTitle = R.string.category,
     route = "category"
 ) {
+    override val route: String = super.route
     const val parameterName = "categoryId"
 
     val parametrizedRoute = "$route/{$parameterName}"
