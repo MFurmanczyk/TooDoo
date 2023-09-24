@@ -69,7 +69,7 @@ object TaskEntryDestination : NavigationDestination(
     const val parameterName = "taskId"
     private const val editTaskRoute = "edit_task"
 
-    val parametrizedRoute = "$editTaskRoute/{$parameterName}"
+    const val parametrizedRoute = "$editTaskRoute/{$parameterName}"
     fun destinationWithParam(taskId: Long) = "$editTaskRoute/$taskId"
 }
 
@@ -515,7 +515,7 @@ fun TilesPreview() {
                     onCancelClick = { },
                 )
 
-                NewStepTile(text = "Add step".uppercase(), icon = Icons.TwoTone.Add, onClick = { /*TODO*/ })
+                NewStepTile(text = "Add step".uppercase(), icon = Icons.TwoTone.Add, onClick = {  })
             }
         }
     }
