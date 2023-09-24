@@ -100,7 +100,7 @@ fun TaskEntryScreen(
                     IconButton(
                         onClick = {
                             try {
-                                viewModel.addNewTaskWithSteps()
+                                if(uiState.newEntry) viewModel.addNewTaskWithSteps() else viewModel.updateTaskWithSteps()
                                 if(uiState.newEntry) navController.navigate(EntryDestination.route)
                                 else navController.navigateUp()
                             } catch (e: InvalidTaskNameException) {

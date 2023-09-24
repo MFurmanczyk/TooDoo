@@ -94,10 +94,12 @@ class TaskEntryViewModel @Inject constructor(
                     isDone = taskWithSteps.task.isDone,
                     createdOn = taskWithSteps.task.createdOn,
                     completedOn = taskWithSteps.task.completedOn,
-                    selectedCategoryName = if (it.categoryId == null) null else categoryList.first { category -> category.id == it.categoryId }.name,
+                    selectedCategoryName = if (taskWithSteps.task.categoryId == null)
+                        null
+                    else categoryList.first { category -> category.id == taskWithSteps.task.categoryId }.name,
                     isAddingNewStep = it.isAddingNewStep,
                     stepDescription = it.stepDescription,
-                    _stepsList = taskWithSteps.steps.toMutableList().intersect(it.stepsList.toSet()).toMutableList(),
+                    _stepsList = taskWithSteps.steps.toMutableList()/*.intersect(it.stepsList.toSet()).toMutableList()*/,
 
                 )
             }
@@ -120,12 +122,12 @@ class TaskEntryViewModel @Inject constructor(
                 )
             }
         }
-
     }
 
     fun switchStepEntryMode(isActive: Boolean) = _uiState.update {
         it.copy(
-            isAddingNewStep = isActive
+            isAddingNewStep = isActive,
+            stepDescription = null
         )
     }
 
@@ -189,7 +191,6 @@ class TaskEntryViewModel @Inject constructor(
                 )
             }
         }
-
     }
 
     @Throws(InvalidTaskNameException::class)
@@ -197,6 +198,16 @@ class TaskEntryViewModel @Inject constructor(
         if(_uiState.value.isValid()) {
             viewModelScope.launch {
                 val taskId = addNewTask()
+                addStepsForTask(taskId)
+            }
+        } else throw InvalidTaskNameException()
+    }
+
+    @Throws(InvalidTaskNameException::class)
+    fun updateTaskWithSteps() {
+        if(_uiState.value.isValid()) {
+            viewModelScope.launch {
+                taskRepository.updateTask(_uiState.value.toTaskWithSteps().task)
                 addStepsForTask(taskId)
             }
         } else throw InvalidTaskNameException()
