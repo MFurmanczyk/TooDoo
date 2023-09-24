@@ -234,6 +234,7 @@ class DashboardScreenTest {
                                 category = Category(name = CATEGORY_NAME, color = ColorHolder(1,1,1,1)), tasks = listOf()
                             )
                         ),
+                        listOf(),
                         listOf()
                     )
                 )
@@ -264,6 +265,7 @@ class DashboardScreenTest {
                                 category = Category(name = CATEGORY_NAME, color = ColorHolder(1,1,1,1)), tasks = listOf()
                             )
                         ),
+                        listOf(),
                         listOf()
                     )
                 )
@@ -294,6 +296,7 @@ class DashboardScreenTest {
                                 category = Category(name = CATEGORY_NAME, color = ColorHolder(1,1,1,1)), tasks = listOf()
                             )
                         ),
+                        listOf(),
                         listOf()
                     )
                 )
@@ -329,7 +332,8 @@ class DashboardScreenTest {
                                 dueDate = LocalDate.now(),
                                 isDone = true
                             )
-                        )
+                        ),
+                        listOf()
                     )
                 )
             }
