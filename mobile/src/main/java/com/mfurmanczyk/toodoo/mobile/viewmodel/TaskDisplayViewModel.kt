@@ -1,7 +1,6 @@
 package com.mfurmanczyk.toodoo.mobile.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mfurmanczyk.toodoo.data.di.annotation.RoomDataSource
 import com.mfurmanczyk.toodoo.data.model.Category
@@ -12,13 +11,10 @@ import com.mfurmanczyk.toodoo.data.repository.StepRepository
 import com.mfurmanczyk.toodoo.data.repository.TaskRepository
 import com.mfurmanczyk.toodoo.mobile.view.screen.TaskDisplayDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -30,17 +26,13 @@ data class TaskDisplayUiState(
     val steps: List<Step>
 )
 
-data class TaskDisplayDialogState(
-    val shouldDisplayDialog: Boolean
-)
-
 @HiltViewModel
 class TaskDisplayViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @RoomDataSource private val taskRepository: TaskRepository,
     @RoomDataSource private val categoryRepository: CategoryRepository,
     @RoomDataSource private val stepRepository: StepRepository
-) : ViewModel() {
+): DialogViewModel() {
 
     private val taskId = savedStateHandle[TaskDisplayDestination.parameterName] ?: 0L
 
@@ -65,21 +57,6 @@ class TaskDisplayViewModel @Inject constructor(
             steps = listOf()
         )
     )
-
-    private val _dialogState = MutableStateFlow(TaskDisplayDialogState(false))
-    val dialogState = _dialogState.asStateFlow()
-
-    fun displayDialog() {
-        _dialogState.update {
-            it.copy(shouldDisplayDialog = true)
-        }
-    }
-
-    fun hideDialog() {
-        _dialogState.update {
-            it.copy(shouldDisplayDialog = false)
-        }
-    }
 
     fun deleteTask() {
         viewModelScope.launch {

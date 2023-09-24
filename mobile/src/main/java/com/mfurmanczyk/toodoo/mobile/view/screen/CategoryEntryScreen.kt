@@ -69,11 +69,12 @@ fun CategoryEntryScreen(
 
     val viewModel = hiltViewModel<CategoryEntryViewModel>()
     val uiState by viewModel.uiState.collectAsState()
+    val dialogState by viewModel.dialogState.collectAsState()
     val focusManager = LocalFocusManager.current
 
-    val dialogState = rememberMaterialDialogState()
+    val colorDialogState = rememberMaterialDialogState()
 
-    ColorPickerDialog(dialogState) { viewModel.updateCategoryColor(it) }
+    ColorPickerDialog(colorDialogState) { viewModel.updateCategoryColor(it) }
 
     Scaffold(
         modifier = modifier,
@@ -100,7 +101,7 @@ fun CategoryEntryScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = { if(uiState.newEntry) navController.navigate(EntryDestination.route) else viewModel.showDialog() }
+                        onClick = { if(uiState.newEntry) navController.navigate(EntryDestination.route) else viewModel.displayDialog() }
                     ) {
                         Icon(
                             imageVector = if(uiState.newEntry) Icons.TwoTone.Close else Icons.TwoTone.ArrowBack,
@@ -117,20 +118,20 @@ fun CategoryEntryScreen(
             categoryColor = uiState.colorHolder.toComposeColor(),
             onColorClick = {
                 focusManager.clearFocus()
-                dialogState.show()
+                colorDialogState.show()
             },
             onCategoryNameChanged = viewModel::updateCategoryName
         )
     }
 
-    if(uiState.shouldDisplayDialog) {
+    if(dialogState.shouldDisplayDialog) {
         ConfirmationDialog(
             onDismissRequest = viewModel::hideDialog,
             onConfirmation = {
                 navController.navigateUp()
             },
-            dialogTitle = "Are you sure?",
-            dialogText = "Are you sure you want to stop editing this Category?",
+            dialogTitle = stringResource(R.string.unsaved_changes_title),
+            dialogText = stringResource(R.string.unsaved_category_changes),
             icon = Icons.TwoTone.Warning
         )
     }

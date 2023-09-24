@@ -132,20 +132,20 @@ fun CategoryDisplayScreen(
                     }
                 }
             }
+        }
 
-            if(dialogState.shouldDisplayDialog) {
-                ConfirmationDialog(
-                    onDismissRequest = viewModel::hideDialog,
-                    onConfirmation = {
-                        viewModel.deleteCategory()
-                        viewModel.hideDialog()
-                        navController.navigate(EntryDestination.route)
-                    },
-                    dialogTitle = stringResource(R.string.confirm_deletion_title),
-                    dialogText = stringResource(R.string.confirm_deletion_category),
-                    icon = Icons.TwoTone.Warning
-                )
-            }
+        if(dialogState.shouldDisplayDialog) {
+            ConfirmationDialog(
+                onDismissRequest = viewModel::hideDialog,
+                onConfirmation = {
+                    viewModel.deleteCategory()
+                    viewModel.hideDialog()
+                    navController.navigate(EntryDestination.route)
+                },
+                dialogTitle = stringResource(R.string.confirm_deletion_title),
+                dialogText = stringResource(R.string.confirm_deletion_category),
+                icon = Icons.TwoTone.Warning
+            )
         }
     }
 }

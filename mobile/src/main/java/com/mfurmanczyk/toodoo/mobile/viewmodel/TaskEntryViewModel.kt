@@ -2,7 +2,6 @@ package com.mfurmanczyk.toodoo.mobile.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mfurmanczyk.toodoo.data.di.annotation.RoomDataSource
 import com.mfurmanczyk.toodoo.data.model.Category
@@ -60,12 +59,15 @@ class TaskEntryViewModel @Inject constructor(
     @RoomDataSource private val taskRepository: TaskRepository,
     @RoomDataSource private val stepRepository: StepRepository,
     @RoomDataSource private val categoryRepository: CategoryRepository
-) : ViewModel() {
+) : DialogViewModel() {
 
     private val taskId = savedStateHandle[TaskEntryDestination.parameterName] ?: 0L
 
     private val _uiState = MutableStateFlow(TaskEntryUiState(newEntry = true, createdOn = LocalDateTime.now()))
     val uiState = _uiState.asStateFlow()
+
+    private val _datePickerDialogState = MutableStateFlow(DialogDisplayState(false))
+    val datePickerDialogState = _datePickerDialogState.asStateFlow()
 
     init {
         Log.w(TAG, "Hello world! $taskId")
@@ -121,6 +123,18 @@ class TaskEntryViewModel @Inject constructor(
                     _stepsList = it.stepsList.toMutableList()
                 )
             }
+        }
+    }
+
+    fun displayDatePickerDialog() {
+        _datePickerDialogState.update {
+            it.copy(shouldDisplayDialog = true)
+        }
+    }
+
+    fun hideDatePickerDialog() {
+        _datePickerDialogState.update {
+            it.copy(shouldDisplayDialog = false)
         }
     }
 

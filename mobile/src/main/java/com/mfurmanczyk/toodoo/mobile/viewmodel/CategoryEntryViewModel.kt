@@ -2,7 +2,6 @@ package com.mfurmanczyk.toodoo.mobile.viewmodel
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mfurmanczyk.toodoo.data.di.annotation.RoomDataSource
 import com.mfurmanczyk.toodoo.data.model.Category
@@ -24,14 +23,13 @@ data class CategoryEntryScreenUiState(
     val categoryName: String? = null,
     val colorHolder: ColorHolder,
     val newEntry: Boolean,
-    val shouldDisplayDialog: Boolean = false
 )
 
 @HiltViewModel
 class CategoryEntryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     @RoomDataSource private val categoryRepository: CategoryRepository
-) : ViewModel() {
+) : DialogViewModel() {
 
     private val categoryId: Long = savedStateHandle[CategoryEntryDestination.parameterName] ?: 0L
 
@@ -73,18 +71,6 @@ class CategoryEntryViewModel @Inject constructor(
             it.copy(
                 colorHolder = newColor.toColorHolder()
             )
-        }
-    }
-
-    fun showDialog() {
-        _uiState.update {
-            it.copy(shouldDisplayDialog = true)
-        }
-    }
-
-    fun hideDialog() {
-        _uiState.update {
-            it.copy(shouldDisplayDialog = false)
         }
     }
 

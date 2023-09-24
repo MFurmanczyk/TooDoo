@@ -18,6 +18,7 @@ import androidx.compose.material.icons.twotone.ArrowBack
 import androidx.compose.material.icons.twotone.CalendarMonth
 import androidx.compose.material.icons.twotone.Check
 import androidx.compose.material.icons.twotone.Close
+import androidx.compose.material.icons.twotone.Warning
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,6 +52,7 @@ import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
+import com.mfurmanczyk.toodoo.mobile.view.component.ConfirmationDialog
 import com.mfurmanczyk.toodoo.mobile.view.component.InputField
 import com.mfurmanczyk.toodoo.mobile.view.component.StepTile
 import com.mfurmanczyk.toodoo.mobile.view.screen.theme.TooDooTheme
@@ -83,6 +85,8 @@ fun TaskEntryScreen(
 ) {
     val viewModel = hiltViewModel<TaskEntryViewModel>()
     val uiState by viewModel.uiState.collectAsState()
+    val dialogState by viewModel.dialogState.collectAsState()
+    val datePickerDialogState by viewModel.datePickerDialogState.collectAsState()
 
     Scaffold(
         modifier = modifier,
@@ -111,17 +115,11 @@ fun TaskEntryScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
-                        if (uiState.newEntry) navController.navigate(
-                            EntryDestination.route
-                        ) else navController.navigateUp()
-                    }) {
+                    IconButton(
+                        onClick = { if(uiState.newEntry) navController.navigate(EntryDestination.route) else viewModel.displayDialog() }
+                    ) {
                         Icon(
-                            imageVector =
-                                if(uiState.newEntry)
-                                    Icons.TwoTone.Close
-                                else
-                                    Icons.TwoTone.ArrowBack,
+                            imageVector = if(uiState.newEntry) Icons.TwoTone.Close else Icons.TwoTone.ArrowBack,
                             contentDescription = null
                         )
                     }
@@ -137,7 +135,7 @@ fun TaskEntryScreen(
             onTaskDescriptionValueChanged = viewModel::updateTaskDescription,
             onCategorySelected = viewModel::updateSelectedCategory,
             onDateValueChanged = { /*TODO*/ },
-            onDatePickerClick = { /*TODO*/ },
+            onDatePickerClick = viewModel::displayDatePickerDialog,
             modifier = Modifier.padding(it),
             onStepChecked = { _, _ -> /* NOTHING TO DO */},
             onStepRemoveClick = viewModel::deleteStep,
@@ -157,6 +155,21 @@ fun TaskEntryScreen(
         )
     }
 
+    if(dialogState.shouldDisplayDialog) {
+        ConfirmationDialog(
+            onDismissRequest = viewModel::hideDialog,
+            onConfirmation = {
+                navController.navigateUp()
+            },
+            dialogTitle = stringResource(R.string.unsaved_changes_title),
+            dialogText = stringResource(R.string.unsaved_task_changes),
+            icon = Icons.TwoTone.Warning
+        )
+    }
+
+    if(datePickerDialogState.shouldDisplayDialog) {
+
+    }
 }
 
 @Composable
