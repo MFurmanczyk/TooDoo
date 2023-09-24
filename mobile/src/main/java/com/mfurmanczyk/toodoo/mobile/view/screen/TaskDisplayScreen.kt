@@ -191,22 +191,23 @@ private fun TaskDisplayScreenContent(
                     }
                 }
             }
+            val dateFormat = "EEEE, dd MMMM yyyy"
 
             TaskFieldDisplay(
                 fieldName = stringResource(id = R.string.due_date),
-                fieldValue = uiState.task.dueDate.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy"))
+                fieldValue = uiState.task.dueDate.format(DateTimeFormatter.ofPattern(dateFormat))
             )
 
             TaskFieldDisplay(
                 fieldName = stringResource(R.string.created_on),
                 fieldValue = uiState.task.createdOn.toLocalDate()
-                    .format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy"))
+                    .format(DateTimeFormatter.ofPattern(dateFormat))
             )
 
             TaskFieldDisplay(
                 fieldName = stringResource(R.string.completed_on),
                 fieldValue = uiState.task.completedOn?.toLocalDate()
-                    ?.format(DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy")) ?: ""
+                    ?.format(DateTimeFormatter.ofPattern(dateFormat)) ?: ""
             )
 
             TaskFieldDisplay(
