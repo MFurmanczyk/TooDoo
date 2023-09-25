@@ -41,11 +41,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.Step
 import com.mfurmanczyk.toodoo.data.model.Task
-import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
@@ -73,7 +71,9 @@ object TaskDisplayDestination : NavigationDestination(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskDisplayScreen(
-    navController: NavHostController,
+    onNavigateUp: () -> Unit,
+    onNavigateToRoot: () -> Unit,
+    onEditClick: (Long) -> Unit,
     navigationType: NavigationType,
     modifier: Modifier = Modifier
 ) {
@@ -82,8 +82,9 @@ fun TaskDisplayScreen(
     val dialogState by viewModel.dialogState.collectAsState()
 
     BackHandler {
-        if (navigationType != NavigationType.NAV_DRAWER) navController.navigateUp()
-        else navController.navigate(EntryDestination.route)
+        onNavigateUp()
+        if (navigationType != NavigationType.NAV_DRAWER) onNavigateUp()
+        else onNavigateToRoot()
     }
 
     Scaffold(
@@ -96,11 +97,12 @@ fun TaskDisplayScreen(
                     if (uiState.task.id != 0L) {
                         IconButton(
                             onClick = {
-                                navController.navigate(
+                                onEditClick(uiState.task.id)
+                                /*navController.navigate(
                                     TaskEntryDestination.destinationWithParam(
                                         uiState.task.id
                                     )
-                                )
+                                )*/
                             }
                         ) {
                             Icon(imageVector = Icons.TwoTone.Edit, contentDescription = null)
@@ -114,8 +116,8 @@ fun TaskDisplayScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (navigationType != NavigationType.NAV_DRAWER) navController.navigateUp()
-                            else navController.navigate(EntryDestination.route)
+                            if (navigationType != NavigationType.NAV_DRAWER) onNavigateUp()
+                            else onNavigateToRoot()
                         }
                     ) {
                         Icon(
@@ -139,7 +141,8 @@ fun TaskDisplayScreen(
                 onConfirmation = {
                     viewModel.deleteTask()
                     viewModel.hideDialog()
-                    navController.navigate(EntryDestination.route)
+                    onNavigateToRoot()
+                    /*navController.navigate(EntryDestination.route)*/
                 },
                 dialogTitle = stringResource(id = R.string.confirm_deletion_title),
                 dialogText = stringResource(R.string.confirm_deletion_task),

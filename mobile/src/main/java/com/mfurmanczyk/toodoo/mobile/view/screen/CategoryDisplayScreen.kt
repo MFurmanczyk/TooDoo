@@ -31,9 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.mfurmanczyk.toodoo.data.model.Task
-import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.NavigationType
@@ -57,8 +55,11 @@ object CategoryDisplayDestination : NavigationDestination(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryDisplayScreen(
-    navController: NavHostController,
     navigationType: NavigationType,
+    onEditClick: (Long) -> Unit,
+    onNavigateToRoot: () -> Unit,
+    onNavigateUp: () -> Unit,
+    onTaskClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -67,8 +68,8 @@ fun CategoryDisplayScreen(
     val dialogState by viewModel.dialogState.collectAsState()
 
     BackHandler {
-        if (navigationType != NavigationType.NAV_DRAWER) navController.navigateUp()
-        else navController.navigate(EntryDestination.route)
+        if (navigationType != NavigationType.NAV_DRAWER) onNavigateUp()
+        else onNavigateToRoot()
     }
 
     Scaffold(
@@ -81,11 +82,12 @@ fun CategoryDisplayScreen(
                     if(uiState.category.id != 0L) {
                         IconButton(
                             onClick = {
-                                navController.navigate(
+                                onEditClick(uiState.category.id)
+/*                                navController.navigate(
                                     CategoryEntryDestination.destinationWithParam(
                                         uiState.category.id
                                     )
-                                )
+                                )*/
                             }
                         ) {
                             Icon(imageVector = Icons.TwoTone.Edit, contentDescription = null)
@@ -99,8 +101,8 @@ fun CategoryDisplayScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (navigationType != NavigationType.NAV_DRAWER) navController.navigateUp()
-                            else navController.navigate(EntryDestination.route)
+                            if (navigationType != NavigationType.NAV_DRAWER) onNavigateUp()
+                            else onNavigateToRoot()
                         }
                     ) {
                         Icon(
@@ -114,11 +116,12 @@ fun CategoryDisplayScreen(
         CategoryDisplayScreenContent(
             uiState = uiState,
             onTaskClick = {
-                navController.navigate(
+                onTaskClick(it.id)
+/*                navController.navigate(
                     TaskDisplayDestination.destinationWithParam(
                         it.id
                     )
-                )
+                )*/
             },
             onTaskChecked = viewModel::checkTask,
             modifier = Modifier.padding(it),
@@ -130,7 +133,8 @@ fun CategoryDisplayScreen(
                 onConfirmation = {
                     viewModel.deleteCategory()
                     viewModel.hideDialog()
-                    navController.navigate(EntryDestination.route)
+                    onNavigateToRoot()
+                    /*navController.navigate(EntryDestination.route)*/
                 },
                 dialogTitle = stringResource(R.string.confirm_deletion_title),
                 dialogText = stringResource(R.string.confirm_deletion_category),

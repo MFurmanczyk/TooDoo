@@ -154,6 +154,21 @@ fun TooDooApp(
                         animationScope.launch {
                             pagerState.animateScrollToPage(it)
                         }
+                    },
+                    onNavigateUp = {
+                        navController.navigateUp()
+                    },
+                    onNavigateToRoot = {
+                        navController.navigate(EntryDestination.route)
+                    },
+                    taskEditClick = {
+                        navController.navigate(TaskEntryDestination.destinationWithParam(it))
+                    },
+                    onCategoryEditClick = {
+                        navController.navigate(CategoryEntryDestination.destinationWithParam(it))
+                    },
+                    onTaskClick = {
+                        navController.navigate(TaskDisplayDestination.destinationWithParam(it))
                     }
                 )
             }
@@ -172,6 +187,21 @@ fun TooDooApp(
                         animationScope.launch {
                             pagerState.animateScrollToPage(it)
                         }
+                    },
+                    onNavigateUp = {
+                        navController.navigateUp()
+                    },
+                    onNavigateToRoot = {
+                        navController.navigate(EntryDestination.route)
+                    },
+                    taskEditClick = {
+                        navController.navigate(TaskEntryDestination.destinationWithParam(it))
+                    },
+                    onCategoryEditClick = {
+                        navController.navigate(CategoryEntryDestination.destinationWithParam(it))
+                    },
+                    onTaskClick = {
+                        navController.navigate(TaskDisplayDestination.destinationWithParam(it))
                     }
                 )
             }
@@ -190,6 +220,21 @@ fun TooDooApp(
                         animationScope.launch {
                             pagerState.animateScrollToPage(it)
                         }
+                    },
+                    onNavigateUp = {
+                        navController.navigateUp()
+                    },
+                    onNavigateToRoot = {
+                        navController.navigate(EntryDestination.route)
+                    },
+                    taskEditClick = {
+                        navController.navigate(TaskEntryDestination.destinationWithParam(it))
+                    },
+                    onCategoryEditClick = {
+                        navController.navigate(CategoryEntryDestination.destinationWithParam(it))
+                    },
+                    onTaskClick = {
+                        navController.navigate(TaskDisplayDestination.destinationWithParam(it))
                     }
                 )
             }
@@ -207,7 +252,12 @@ private fun BottomNavigationScreen(
     pagerState: PagerState,
     modifier: Modifier = Modifier,
     actionButtonState: ExpandableFloatingActionButtonState = rememberExpandableFloatingActionButtonState(),
-    onNavigationItemClick: (Int) -> Unit = {}
+    onNavigationItemClick: (Int) -> Unit = {},
+    onNavigateUp: () -> Unit,
+    onNavigateToRoot: () -> Unit,
+    taskEditClick: (Long) -> Unit,
+    onCategoryEditClick: (Long) -> Unit,
+    onTaskClick: (Long) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -231,21 +281,30 @@ private fun BottomNavigationScreen(
             },
             categoryEntryContent = {
                 CategoryEntryScreen(
-                    navController = navController,
+                    onNavigateToRoot = onNavigateToRoot,
+                    onNavigateUp = onNavigateUp,
                 )
             },
             displayCategoryContent = {
                 CategoryDisplayScreen(
-                    navController = navController,
+                    onEditClick = onCategoryEditClick,
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToRoot = onNavigateToRoot,
+                    onTaskClick = onTaskClick,
                     navigationType = NavigationType.BOTTOM_NAV
                 )
             },
             taskEntryContent = {
-                TaskEntryScreen(navController = navController)
+                TaskEntryScreen(
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToRoot = onNavigateToRoot
+                )
             },
             displayTaskContent = {
                 TaskDisplayScreen(
-                    navController = navController,
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToRoot = onNavigateToRoot,
+                    onEditClick = taskEditClick,
                     navigationType = NavigationType.BOTTOM_NAV
                 )
             }
@@ -359,7 +418,12 @@ private fun NavigationRailScreen(
     navigationDestinations: List<NavigationDestination>,
     pagerState: PagerState,
     modifier: Modifier = Modifier,
-    onNavigationItemClick: (Int) -> Unit = {}
+    onNavigationItemClick: (Int) -> Unit = {},
+    onNavigateUp: () -> Unit,
+    onNavigateToRoot: () -> Unit,
+    taskEditClick: (Long) -> Unit,
+    onCategoryEditClick: (Long) -> Unit,
+    onTaskClick: (Long) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -381,21 +445,30 @@ private fun NavigationRailScreen(
             },
             categoryEntryContent = {
                 CategoryEntryScreen(
-                    navController = navController,
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToRoot = onNavigateToRoot
                 )
             },
             displayCategoryContent = {
                 CategoryDisplayScreen(
-                    navController = navController,
+                    onEditClick = onCategoryEditClick,
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToRoot = onNavigateToRoot,
+                    onTaskClick = onTaskClick,
                     navigationType = NavigationType.NAV_RAIL
                 )
             },
             taskEntryContent = {
-                TaskEntryScreen(navController = navController)
+                TaskEntryScreen(
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToRoot = onNavigateToRoot
+                )
             },
             displayTaskContent = {
                 TaskDisplayScreen(
-                    navController = navController,
+                    onNavigateUp = onNavigateUp,
+                    onNavigateToRoot = onNavigateToRoot,
+                    onEditClick = taskEditClick,
                     navigationType = NavigationType.NAV_RAIL
                 )
             }
@@ -504,7 +577,12 @@ private fun NavigationDrawerScreen(
     currentDestination: Int,
     pagerState: PagerState,
     modifier: Modifier,
-    onNavigationItemClick: (Int) -> Unit = {}
+    onNavigationItemClick: (Int) -> Unit = {},
+    onNavigateUp: () -> Unit,
+    onNavigateToRoot: () -> Unit,
+    taskEditClick: (Long) -> Unit,
+    onCategoryEditClick: (Long) -> Unit,
+    onTaskClick: (Long) -> Unit
 ) {
     PermanentNavigationDrawer(
         modifier = modifier,
@@ -623,27 +701,36 @@ private fun NavigationDrawerScreen(
                         categoryEntryContent = {
                             RightSideSheet {
                                 CategoryEntryScreen(
-                                    navController = navController,
+                                    onNavigateUp = onNavigateUp,
+                                    onNavigateToRoot = onNavigateToRoot
                                 )
                             }
                         },
                         displayCategoryContent = {
                             RightSideSheet {
                                 CategoryDisplayScreen(
-                                    navController = navController,
+                                    onEditClick = onCategoryEditClick,
+                                    onNavigateUp = onNavigateUp,
+                                    onNavigateToRoot = onNavigateToRoot,
+                                    onTaskClick = onTaskClick,
                                     navigationType = NavigationType.NAV_DRAWER
                                 )
                             }
                         },
                         taskEntryContent = {
                             RightSideSheet{
-                                TaskEntryScreen(navController = navController)
+                                TaskEntryScreen(
+                                    onNavigateUp = onNavigateUp,
+                                    onNavigateToRoot = onNavigateToRoot
+                                )
                             }
                         },
                         displayTaskContent =  {
                             RightSideSheet {
                                 TaskDisplayScreen(
-                                    navController = navController,
+                                    onNavigateUp = onNavigateUp,
+                                    onNavigateToRoot = onNavigateToRoot,
+                                    onEditClick = taskEditClick,
                                     navigationType = NavigationType.NAV_DRAWER
                                 )
                             }

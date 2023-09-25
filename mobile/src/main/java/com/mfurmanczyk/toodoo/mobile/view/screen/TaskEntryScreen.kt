@@ -48,10 +48,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.mfurmanczyk.toodoo.data.model.Category
 import com.mfurmanczyk.toodoo.data.model.Step
-import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.view.component.ConfirmationDialog
@@ -84,7 +82,8 @@ private const val TAG = "TaskEntryScreen"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskEntryScreen(
-    navController: NavHostController,
+    onNavigateToRoot: () -> Unit,
+    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel = hiltViewModel<TaskEntryViewModel>()
@@ -94,7 +93,8 @@ fun TaskEntryScreen(
 
     BackHandler {
         if(uiState.newEntry) {
-            navController.navigate(EntryDestination.route)
+            onNavigateToRoot()
+            /*navController.navigate(EntryDestination.route)*/
         } else viewModel.displayDialog()
     }
 
@@ -116,9 +116,10 @@ fun TaskEntryScreen(
                             try {
                                 if(uiState.newEntry) viewModel.addNewTaskWithSteps() else viewModel.updateTaskWithSteps()
                                 if(uiState.newEntry) {
-                                    navController.navigate(EntryDestination.route)
+                                    onNavigateToRoot()
+                                    /*navController.navigate(EntryDestination.route)*/
                                 }
-                                else navController.navigateUp()
+                                else /*navController.navigateUp()*/ onNavigateUp()
                             } catch (e: InvalidTaskNameException) {
                                 Toast.makeText(context, context.getText(e.displayMessage), Toast.LENGTH_SHORT).show()
                             }
@@ -130,7 +131,8 @@ fun TaskEntryScreen(
                     IconButton(
                         onClick = {
                             if(uiState.newEntry) {
-                                navController.navigate(EntryDestination.route)
+                                /*navController.navigate(EntryDestination.route)*/
+                                onNavigateToRoot()
                             } else viewModel.displayDialog()
                         }
                     ) {
@@ -175,7 +177,8 @@ fun TaskEntryScreen(
         ConfirmationDialog(
             onDismissRequest = viewModel::hideDialog,
             onConfirmation = {
-                navController.navigateUp()
+                onNavigateUp()
+                /*navController.navigateUp()*/
             },
             dialogTitle = stringResource(R.string.unsaved_changes_title),
             dialogText = stringResource(R.string.unsaved_task_changes),

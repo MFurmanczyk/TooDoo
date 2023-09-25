@@ -34,8 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import com.mfurmanczyk.toodoo.mobile.EntryDestination
 import com.mfurmanczyk.toodoo.mobile.R
 import com.mfurmanczyk.toodoo.mobile.util.NavigationDestination
 import com.mfurmanczyk.toodoo.mobile.util.toComposeColor
@@ -64,7 +62,8 @@ object CategoryEntryDestination : NavigationDestination(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryEntryScreen(
-    navController: NavHostController,
+    onNavigateToRoot: () -> Unit,
+    onNavigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -79,8 +78,9 @@ fun CategoryEntryScreen(
 
     BackHandler {
         if(uiState.newEntry)  {
-            navController.clearBackStack(CategoryEntryDestination.route)
-            navController.navigate(EntryDestination.route)
+            onNavigateToRoot()
+            /*navController.clearBackStack(CategoryEntryDestination.route)
+            navController.navigate(EntryDestination.route)*/
         } else viewModel.displayDialog()
     }
 
@@ -110,8 +110,9 @@ fun CategoryEntryScreen(
                     IconButton(
                         onClick = {
                             if(uiState.newEntry)  {
-                                navController.clearBackStack(CategoryEntryDestination.route)
-                                navController.navigate(EntryDestination.route)
+                                onNavigateToRoot()
+                                /*navController.clearBackStack(CategoryEntryDestination.route)
+                                navController.navigate(EntryDestination.route)*/
                             } else viewModel.displayDialog()
                         }
                     ) {
@@ -140,7 +141,8 @@ fun CategoryEntryScreen(
         ConfirmationDialog(
             onDismissRequest = viewModel::hideDialog,
             onConfirmation = {
-                navController.navigateUp()
+                onNavigateUp()
+                /*navController.navigateUp()*/
             },
             dialogTitle = stringResource(R.string.unsaved_changes_title),
             dialogText = stringResource(R.string.unsaved_category_changes),
