@@ -159,7 +159,7 @@ fun TooDooApp(
                         navController.navigateUp()
                     },
                     onNavigateToRoot = {
-                        navController.navigate(EntryDestination.route)
+                        navController.popBackStack(EntryDestination.route, false)
                     },
                     taskEditClick = {
                         navController.navigate(TaskEntryDestination.destinationWithParam(it))
