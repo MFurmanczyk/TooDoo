@@ -6,6 +6,36 @@ TooDoo is a personal tasks management app for Android. It aims to help users org
 (WIP) Created tasks (eg. shopping lists) can be sent to others via SMS. 
 
 ## Screenshots
+### Phone
+<p align="center">
+  <img src="./TooDooScrenshots/welcome_screen_phone.png" width="200" title="welcome">
+  <img src="./TooDooScrenshots/task_details_phone.png" width="200" title="task details">
+  <img src="./TooDooScrenshots/new_task_phone.png" width="200" title="new task">
+  <img src="./TooDooScrenshots/new_category_phone.png" width="200" title="new category">
+  <img src="./TooDooScrenshots/dialog_phone.png" width="200" title="dialog">
+  <img src="./TooDooScrenshots/dashboard_phone.png" width="200" title="dashboard">
+  <img src="./TooDooScrenshots/category_details_phone.png" width="200" title="category details">
+</p>
+
+### Foldable
+<p align="center">
+  <img src="./TooDooScrenshots/welcome_screen_foldable.png" width="200" title="welcome">
+  <img src="./TooDooScrenshots/task_details_foldable.png" width="200" title="task details">
+  <img src="./TooDooScrenshots/new_task_foldable.png" width="200" title="new task">
+  <img src="./TooDooScrenshots/new_category_foldable.png" width="200" title="new category">
+  <img src="./TooDooScrenshots/dialog_foldable.png" width="200" title="dialog">
+  <img src="./TooDooScrenshots/dashboard_foldable.png" width="200" title="dashboard">
+  <img src="./TooDooScrenshots/category_details_foldable.png" width="200" title="category details">
+</p>
+
+### Tablet
+<p align="center">
+  <img src="./TooDooScrenshots/welcome_screen_tablet.png" width="450" title="welcome">
+  <img src="./TooDooScrenshots/dashboard_task_preview_tablet.png" width="450" title="task details">
+  <img src="./TooDooScrenshots/new_task_tablet.png" width="450" title="new task">
+  <img src="./TooDooScrenshots/new_category_tablet.png" width="450" title="new category">
+  <img src="./TooDooScrenshots/dialog_tablet.png" width="450" title="dialog">
+</p>
 
 ## Features
 ### Done
