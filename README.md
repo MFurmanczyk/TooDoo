@@ -13,11 +13,11 @@ TooDoo is a personal tasks management app for Android. It aims to help users org
 * 📤 Custom categories - users can define their own categories
 * ✅ Tasks - users can create tasks with multiple steps, categories, and due date
 * 📋 Dashboard - display categories with their overall progress and undone tasks that are due for the current day
+* 📤 Categories - screen that displays all categories with information about current progress within a category
 
 ### Planned
 
 * 📆 Calendar - screen that displays all tasks (done and not done) for a selected day
-* 📤 Categories - screen that displays all categories with information about current progress within a category
 * ✉️ SMS - sending task via SMS
 * ❗Notifications - the app notifies the user about tasks that are planned to be done on that day
 
